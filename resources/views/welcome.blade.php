@@ -16,6 +16,6 @@
         </style>
     </head>
     <body
-    <p>Bonjour Burgi proute</p>
+    <p>Bonjour</p>
     </body>
 </html>
