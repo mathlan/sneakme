@@ -18,7 +18,6 @@
     </head>
     <body>
         <div class="message-container">
-
         </div>
         <form class="message-form-user" action="" method="post">
             <input class="input-message" type="text" name="message" placeholder="Message pour le bot">
