@@ -16,8 +16,11 @@ class DatabaseSeeder extends Seeder
         \App\Models\Category::factory(10)->create();
         \App\Models\Product::factory(30)->create();
 
+        // Questions de politesses
+
         \App\Models\Answer::factory()->create([
              'name' => 'Bonjour à vous',
+             'type' => 'answer',
          ]);
 
         \App\Models\Answer::factory()->create([
@@ -42,6 +45,94 @@ class DatabaseSeeder extends Seeder
             'name' => 'chaussures',
             'answer_id' => "3",
         ]);
+
+        // Questions de précision
+
+        \App\Models\Answer::factory()->create([
+            'id' => '4',
+            'name' => 'Voici les marques que nous possédons',
+        ]);
+
+        \App\Models\Keyword::factory()->create([
+            'name' => 'marques',
+            'answer_id' => "4",
+        ]);
+
+        \App\Models\Answer::factory()->create([
+            'id' => '5',
+            'name' => 'Voici notre catalogue',
+        ]);
+
+        \App\Models\Keyword::factory()->create([
+            'name' => 'catalogues',
+            'answer_id' => "5",
+        ]);
+
+        \App\Models\Answer::factory()->create([
+            'id' => '6',
+            'name' => 'Voici les catégories disponible',
+        ]);
+
+        \App\Models\Keyword::factory()->create([
+            'name' => 'catégories',
+            'answer_id' => "6",
+        ]);
+
+        // Questions Panier
+
+        \App\Models\Answer::factory()->create([
+            'id' => '9',
+            'name' => 'Votre article a été ajouté',
+        ]);
+
+        \App\Models\Keyword::factory()->create([
+            'name' => 'ajouter',
+            'answer_id' => "9",
+        ]);
+
+        \App\Models\Answer::factory()->create([
+            'id' => '10',
+            'name' => 'Voici votre panier',
+        ]);
+
+        \App\Models\Keyword::factory()->create([
+            'name' => 'panier',
+            'answer_id' => "10",
+        ]);
+
+        // Questions de login
+
+        \App\Models\Answer::factory()->create([
+            'id' => '7',
+            'name' => 'Vous Pouvez vous inscrire ici.',
+        ]);
+
+        \App\Models\Keyword::factory()->create([
+            'name' => 'inscrire',
+            'answer_id' => "7",
+        ]);
+
+        \App\Models\Keyword::factory()->create([
+            'name' => 'inscription',
+            'answer_id' => "7",
+        ]);
+
+        \App\Models\Answer::factory()->create([
+            'id' => '8',
+            'name' => 'Connectez vous maintenant',
+        ]);
+
+        \App\Models\Keyword::factory()->create([
+            'name' => 'connecter',
+            'answer_id' => "8",
+        ]);
+
+        \App\Models\Keyword::factory()->create([
+            'name' => 'connexion',
+            'answer_id' => "8",
+        ]);
+
+
 
         // \App\Models\User::factory()->create([
         //     'name' => 'Test User',
