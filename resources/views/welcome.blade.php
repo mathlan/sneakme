@@ -33,7 +33,7 @@
 
             </section>
             <form action="" method="post" class="message-taping-zone">
-                <input id="input" type="text" placeholder="Taper votre message">
+                <input type="text" placeholder="Taper votre message">
                 <button type="submit" class="send-message">
                     <i class="fa-solid fa-paper-plane"></i>
                 </button>
