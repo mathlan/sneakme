@@ -25,10 +25,12 @@ class DatabaseSeeder extends Seeder
 
         \App\Models\Answer::factory()->create([
             'name' => 'Voici notre catalogue',
+            'type' => 'multipleChoiceQuestion',
         ]);
 
         \App\Models\Answer::factory()->create([
             'name' => 'Voici notre gamme de chaussures',
+            'type' => 'multipleChoiceQuestion',
         ]);
 
         \App\Models\Keyword::factory()->create([
@@ -51,6 +53,7 @@ class DatabaseSeeder extends Seeder
         \App\Models\Answer::factory()->create([
             'id' => '4',
             'name' => 'Voici les marques que nous possédons',
+            'type' => 'multipleChoiceQuestion',
         ]);
 
         \App\Models\Keyword::factory()->create([
@@ -59,18 +62,9 @@ class DatabaseSeeder extends Seeder
         ]);
 
         \App\Models\Answer::factory()->create([
-            'id' => '5',
-            'name' => 'Voici notre catalogue',
-        ]);
-
-        \App\Models\Keyword::factory()->create([
-            'name' => 'catalogues',
-            'answer_id' => "5",
-        ]);
-
-        \App\Models\Answer::factory()->create([
             'id' => '6',
             'name' => 'Voici les catégories disponible',
+            'type' => 'multipleChoiceQuestion',
         ]);
 
         \App\Models\Keyword::factory()->create([
@@ -82,7 +76,8 @@ class DatabaseSeeder extends Seeder
 
         \App\Models\Answer::factory()->create([
             'id' => '9',
-            'name' => 'Votre article a été ajouté',
+            'name' => 'Voulez vous ajouter cet article ?',
+            'type' => 'PolarQuestion',
         ]);
 
         \App\Models\Keyword::factory()->create([
@@ -93,6 +88,7 @@ class DatabaseSeeder extends Seeder
         \App\Models\Answer::factory()->create([
             'id' => '10',
             'name' => 'Voici votre panier',
+            'type' => 'answer',
         ]);
 
         \App\Models\Keyword::factory()->create([
