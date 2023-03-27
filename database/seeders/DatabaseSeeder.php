@@ -139,6 +139,11 @@ class DatabaseSeeder extends Seeder
             'answer_id' => "10",
         ]);
 
+        \App\Models\Keyword::factory()->create([
+            'name' => 'compte',
+            'answer_id' => "8",
+        ]);
+
 
 
 
