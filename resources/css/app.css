@@ -1,34 +1,173 @@
-body{
+@import url("fonts/fontawesome-free-6.2.1-web/css/all.css");
+
+* {
+    margin: 0;
+    padding: 0;
+}
+/* BULLE DU CHATBOT*/
+.chatbot-bulle{
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: blue;
+    color: white;
+    transition: all 0.3s ease-in-out;
 }
 
-.message-container{
-    border: solid 1px black;
-    border-radius: 15px;
-    height: 30vh;
+.chatbot-bulle.up{
+    bottom: -50%;
+}
+
+/* CHATBOT PAGE*/
+.chatbot-page{
+    width: 0vw;
+    position: absolute;
+    right: 0;
+    overflow: hidden;
+    transition: all 0.3s ease-in-out;
     background: white;
-    width: 50%;
 }
 
-.message-form-user{
-    width: 50%;
-    margin-top: 20px;
+.chatbot-page.open {
+    width: 100vw;
+    height: 100vh;
+}
+
+.chatbot-page .chat-header{
     display: flex;
-    justify-content: space-evenly;
-}
-
-.message-form-user .input-message{
-    border: solid 1px black;
-    background: white;
-    border-radius: 5px;
-}
-
-.message-form-user .button-submit{
-    border: solid 1px blue;
+    align-items: center;
+    justify-content: space-around;
+    width: 100%;
+    height: 70px;
     background: blue;
     color: white;
-    border-radius: 5px;
+}
+.chatbot-page .chat-header i{
+    font-size: 20px;
+}
+
+
+/* MESSAGE TAPING ZONE */
+.message-taping-zone{
+    display: flex;
+    justify-content: space-evenly;
+    opacity: 0;
+}
+
+.message-taping-zone.on{
+    opacity: 1;
+}
+
+.message-taping-zone input{
+    width: 65%;
+    padding: 0 0 0 4%;
+}
+
+.message-taping-zone .send-message{
+    width: 40px;
+    height: 40px;
+    border: solid 1px black;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.message-taping-zone .send-message i{
+    position: absolute;
+    top: 32%;
+    right: 32%;
+    transition: all 1s ease-in-out;
+}
+
+.animation-send{
+    animation: 2s sendMessage;
+}
+
+@keyframes sendMessage {
+    0% {
+        top: 32%;
+        right: 32%;
+    }
+    25%   {
+        top: 50%;
+        right: 50%;
+    }
+    50% {
+        top: -250%;
+        right: -250%;
+    }
+    60% {
+        top: 250%;
+        right: -250%;
+    }
+    75% {
+        top: 250%;
+        right: 250%;
+    }
+    100% {
+        top: 32%;
+        right: 32%;
+    }
+}
+/* CHAT CONTAINER PAGE */
+.chat-container-page{
+    height: 80%;
+}
+
+/* MESSAGE BULLE */
+.message-bulle{
+    display: flex;
+    flex-wrap: wrap;
+    padding: 0 5%;
+    flex-direction: column;
+}
+.message-bulle .message-img-and-name{
+    display: flex;
+}
+.message-bulle img{
+    border: solid 1px black;
+    border-radius: 50%;
+    position: relative;
+    bottom: -20px;
+    background: white;
+}
+
+.message-bulle .massage-bulle-name{
+    align-self: end;
+    margin-left: 2%;
+    margin-bottom: 1%;
+}
+
+.message-bulle .message-bulle-text{
+    width: fit-content;
+    border: solid 1px black;
+    border-radius: 0 50px 50px 50px;
+    padding: 23px;
+    font-size: 14px;
+    white-space: pre-line;
+}
+
+/* USER MESSAGE */
+
+.user-message .message-img-and-name{
+    flex-direction: row-reverse;
+}
+
+.user-message .message-bulle-text{
+    align-self: end;
+    border-radius: 50px 0 50px 50px;
+}
+
+@media (min-width: 768px) {
+    .chatbot-page.open {
+        width: 50vw;
+    }
 }
