@@ -10,6 +10,7 @@ class Keyword extends Model
 {
     use HasFactory;
 
+
     public function answer(): BelongsTo
     {
         return $this->belongsTo(Answer::class);
