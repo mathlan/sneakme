@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Answer;
+use App\Models\Category;
 use App\Models\Keyword;
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class ChatController extends Controller
@@ -19,13 +21,25 @@ class ChatController extends Controller
         $results = [];
         foreach ($words as $word) {
             $keyword = Keyword::where('name', 'like', '%' . $word . '%')->first();
-            if($keyword) {
-            $results[] = $keyword->answer->name;
+            // Si on rencontre un mot clé -> Evite les erreurs s'il n'y a pas de résultat
+            if ($keyword) {
+                $results[] = $keyword->answer;
+                // Si le mot clé est de type "catalogue", on recherche les mots clés dans category
+                if ($keyword->type == "catalogue") {
+                    foreach ($words as $word) {
+                        $category = Category::where('name', 'like', $word)->first();
+                        if ($category) {
+                            $products = Product::where('category_id', 'like', $category->id)->get();
+                            $answerProduct = last($results)->toArray();
+                            $answerProduct['products'] = $products;
+                            return response()->json($answerProduct);
+                            // return response()->json($category);
+                        }
+                    }
+                }
             }
         }
-
-
-        return response()->json(['answer' => last($results)]);
+        return response()->json(last($results));
 
 
         // if (type egal catalogue)
@@ -49,7 +63,7 @@ class ChatController extends Controller
         //         $results[] = $keyword->answer->name;
         //     }
         // }
-        return response()->json(['answer' => last($results)]);
+        // return response()->json(['answer' => last($results)]);
 
     }
 
