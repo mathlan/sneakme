@@ -39,6 +39,10 @@ class DatabaseSeeder extends Seeder
         ]);
 
         \App\Models\Answer::factory()->create([
+            'name' => 'Shouaitez-vous ajouter cet article a votre panier ?',
+        ]);
+
+        \App\Models\Answer::factory()->create([
             'id' => '5',
             'name' => 'Votre article a été ajouté',
         ]);
