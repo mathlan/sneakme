@@ -58,6 +58,11 @@ class DatabaseSeeder extends Seeder
             'name' => 'Vous Pouvez vous connecter ici',
         ]);
 
+        \App\Models\Answer::factory()->create([
+            'id' => '9',
+            'name' => 'Shouaitez-vous supprimer cet article de votre panier ?',
+        ]);
+
         // Mot-clés
 
         \App\Models\Keyword::factory()->create([
@@ -108,6 +113,11 @@ class DatabaseSeeder extends Seeder
         \App\Models\Keyword::factory()->create([
             'name' => 'connexion',
             'answer_id' => "8",
+        ]);
+
+        \App\Models\Keyword::factory()->create([
+            'name' => 'supprimer',
+            'answer_id' => "1",
         ]);
 
 
