@@ -23,7 +23,15 @@ class ChatController extends Controller
             $results[] = $keyword->answer->name;
             }
         }
+
+
         return response()->json(['answer' => last($results)]);
+
+
+        // if (type egal catalogue)
+        //     rechercher en bdd  une categorie
+        //     if une categorie
+        //         return la liste des produits de la categorie;
 
         // Afficher la réponse à un seul mot clé
 
