@@ -67,6 +67,16 @@ class DatabaseSeeder extends Seeder
             'name' => 'Shouaitez-vous supprimer cet article de votre panier ?',
         ]);
 
+        \App\Models\Answer::factory()->create([
+            'id' => '10',
+            'name' => 'Comment shouaitez-vous regler ?',
+        ]);
+
+        \App\Models\Answer::factory()->create([
+            'id' => '11',
+            'name' => 'Votre commande a été validé',
+        ]);
+
         // Mot-clés
 
         \App\Models\Keyword::factory()->create([
@@ -122,6 +132,11 @@ class DatabaseSeeder extends Seeder
         \App\Models\Keyword::factory()->create([
             'name' => 'supprimer',
             'answer_id' => "9",
+        ]);
+
+        \App\Models\Keyword::factory()->create([
+            'name' => 'commander',
+            'answer_id' => "10",
         ]);
 
 
