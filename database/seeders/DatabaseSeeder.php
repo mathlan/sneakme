@@ -21,18 +21,26 @@ class DatabaseSeeder extends Seeder
          ]);
 
         \App\Models\Answer::factory()->create([
-            'id' => '3',
-            'name' => 'Je vais bien, merci',
+            'name' => 'Voici notre catalogue',
         ]);
 
         \App\Models\Answer::factory()->create([
-            'id' => '2',
-            'name' => 'Très bien',
+            'name' => 'Voici notre gamme de chaussures',
         ]);
 
         \App\Models\Keyword::factory()->create([
-            'name' => 'Bonjour',
+            'name' => 'bonjour',
             'answer_id' => "1",
+        ]);
+
+        \App\Models\Keyword::factory()->create([
+            'name' => 'catalogue',
+            'answer_id' => "2",
+        ]);
+
+        \App\Models\Keyword::factory()->create([
+            'name' => 'chaussures',
+            'answer_id' => "3",
         ]);
 
         // \App\Models\User::factory()->create([

@@ -25,7 +25,6 @@ class ChatController extends Controller
         }
         return response()->json(['answer' => last($results)]);
 
-
         // Afficher la réponse à un seul mot clé
 
         // $keyword = Keyword::where('name', 'like', '%' . $search . '%')->first();
