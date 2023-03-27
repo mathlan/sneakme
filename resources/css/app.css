@@ -166,6 +166,19 @@
     border-radius: 50px 0 50px 50px;
 }
 
+/* ADMIN PAGE */
+
+.list-item-product {
+    display: flex;
+    justify-content: space-between;
+}
+
+.list-item-product .product-crud{
+    width: 30%;
+    display: flex;
+    justify-content: space-around;
+}
+
 @media (min-width: 768px) {
     .chatbot-page.open {
         width: 50vw;

@@ -1,8 +1,6 @@
 <?php
 use App\Models\Category;
-use App\Models\Product;
 $categories = Category::all();
-$products = Product::all();
 ?>
 
 <!DOCTYPE html>
@@ -43,11 +41,17 @@ $products = Product::all();
             </div>
             <div class="update">
                 Modifier le produit
-                <select>
+                <ul>
                     @foreach ($products as $product)
-                        <option value="{{ $product-> id }}">{{ $product-> name }}</option>
+                        <li class="list-item-product" value="{{ $product-> id }}">{{ $product-> name }}
+                        <div class="product-crud">
+                            <a href="{{ route('product.show', $product) }}">Voir</a>
+                            <a href="{{ route('product.edit', $product) }}">Modifier</a>
+                            <a>Supprimer</a>
+                        </div>
+                        </li>
                     @endforeach
-                </select>
+                </ul>
             </div>
         </section>
     </body>

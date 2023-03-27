@@ -17,6 +17,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/chat-Admin', function () {
+Route::get('/Admin', function () {
     return view('admin');
 });
+Route::resource('/Admin/product', \App\Http\Controllers\ProductController::class);
