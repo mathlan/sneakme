@@ -16,3 +16,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/Admin', function () {
+    return view('admin');
+});
+Route::resource('/Admin/product', \App\Http\Controllers\ProductController::class);

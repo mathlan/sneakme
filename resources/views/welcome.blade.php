@@ -10,6 +10,7 @@
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet" />
         @vite(['resources/css/app.css', 'resources/js/app.js'])
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 
         <!-- Styles -->
         <style>
@@ -17,11 +18,27 @@
         </style>
     </head>
     <body>
-        <div class="message-container">
+    <section>
+        <div class="chatbot-bulle">
+            <i class="fa-solid fa-message"></i>
         </div>
-        <form class="message-form-user" action="" method="post">
-            <input class="input-message" type="text" name="message" placeholder="Message pour le bot">
-            <button class="button-submit" type="submit">Submit</button>
-        </form>
+        <div class="chatbot-page">
+            <div class="chat-header">
+                <h1>SneakMe</h1>
+                <i class="fa-solid fa-user"></i>
+                <i class="fa-solid fa-bag-shopping"></i>
+                <i class="fa-solid fa-xmark"></i>
+            </div>
+            <section class="chat-container-page">
+
+            </section>
+            <form action="" method="post" class="message-taping-zone">
+                <input type="text" placeholder="Taper votre message">
+                <button type="submit" class="send-message">
+                    <i class="fa-solid fa-paper-plane"></i>
+                </button>
+            </form>
+        </div>
+    </section>
     </body>
 </html>
