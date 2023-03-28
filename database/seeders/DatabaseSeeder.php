@@ -39,13 +39,10 @@ class DatabaseSeeder extends Seeder
         ]);
 
         \App\Models\Answer::factory()->create([
+            'id' => '5',
             'name' => 'Shouaitez-vous ajouter cet article a votre panier ?',
         ]);
 
-        \App\Models\Answer::factory()->create([
-            'id' => '5',
-            'name' => 'Votre article a été ajouté',
-        ]);
 
         \App\Models\Answer::factory()->create([
             'id' => '6',
@@ -77,71 +74,100 @@ class DatabaseSeeder extends Seeder
             'name' => 'Votre commande a été validé',
         ]);
 
+        \App\Models\Answer::factory()->create([
+            'id' => '12',
+            'name' => 'Votre article a été ajouté',
+        ]);
+
+        \App\Models\Answer::factory()->create([
+            'id' => '13',
+            'name' => 'Voila les categories disponible',
+        ]);
+
         // Mot-clés
 
         \App\Models\Keyword::factory()->create([
             'name' => 'bonjour',
             'answer_id' => "1",
+            'type' => 'default',
         ]);
 
         \App\Models\Keyword::factory()->create([
             'name' => 'catalogue',
             'answer_id' => "2",
+            'type' => 'catalogue',
         ]);
 
         \App\Models\Keyword::factory()->create([
             'name' => 'chaussures',
             'answer_id' => "3",
+            'type' => 'catalogue',
         ]);
 
         \App\Models\Keyword::factory()->create([
             'name' => 'marques',
             'answer_id' => "4",
+            'type' => 'catalogue',
         ]);
 
         \App\Models\Keyword::factory()->create([
             'name' => 'ajouter',
             'answer_id' => "5",
+            'type' => 'panier',
         ]);
 
         \App\Models\Keyword::factory()->create([
             'name' => 'panier',
             'answer_id' => "6",
+            'type' => 'panier',
         ]);
 
         \App\Models\Keyword::factory()->create([
             'name' => 'inscrire',
             'answer_id' => "7",
+            'type' => 'inscrire',
         ]);
 
         \App\Models\Keyword::factory()->create([
             'name' => 'inscription',
             'answer_id' => "7",
+            'type' => 'inscrire',
         ]);
 
         \App\Models\Keyword::factory()->create([
             'name' => 'connecter',
             'answer_id' => "8",
+            'type' => 'compte',
         ]);
 
         \App\Models\Keyword::factory()->create([
             'name' => 'connexion',
             'answer_id' => "8",
-        ]);
-
-        \App\Models\Keyword::factory()->create([
-            'name' => 'supprimer',
-            'answer_id' => "9",
-        ]);
-
-        \App\Models\Keyword::factory()->create([
-            'name' => 'commander',
-            'answer_id' => "10",
+            'type' => 'compte',
         ]);
 
         \App\Models\Keyword::factory()->create([
             'name' => 'compte',
             'answer_id' => "8",
+            'type' => 'compte',
+        ]);
+
+        \App\Models\Keyword::factory()->create([
+            'name' => 'supprimer',
+            'answer_id' => "9",
+            'type' => 'panier',
+        ]);
+
+        \App\Models\Keyword::factory()->create([
+            'name' => 'commander',
+            'answer_id' => "10",
+            'type' => 'panier',
+        ]);
+
+        \App\Models\Keyword::factory()->create([
+            'name' => 'categories',
+            'answer_id' => "13",
+            'type' => 'catalogue',
         ]);
 
 
