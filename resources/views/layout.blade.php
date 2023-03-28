@@ -1,8 +1,3 @@
-<?php
-use App\Models\Category;
-$categories = Category::all();
-?>
-
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>

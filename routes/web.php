@@ -21,5 +21,5 @@ Route::resource('/Admin/product', \App\Http\Controllers\ProductController::class
 Route::resource('/Admin/categories', \App\Http\Controllers\CategoryController::class);
 
 Route::get('/Admin', function () {
-    return view('admin');
+    return view('layout');
 });
