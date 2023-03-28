@@ -1,8 +1,3 @@
-<?php
-use App\Models\Category;
-$categories = Category::all();
-?>
-
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
@@ -24,10 +19,24 @@ $categories = Category::all();
 </head>
     <body>
     <h1>Dashboard</h1>
-        <ul>
-            <li><a href="Admin/product">Produits</a></li>
-            <li><a href="Admin/categories">Catergories</a></li>
-            <li>Mots Clés</li>
-        </ul>
+        <section>
+            <h2>Categories</h2>
+            <a href="{{ route('categories.create') }}">Ajouter un produit</a>
+            <ul>
+                @foreach ($categories as $category)
+                    <li class="list-item-product" value="{{ $category->id }}" {{ old('category_id') == $category->id ? 'selected' : '' }}>
+                        {{ $category->name }}
+                        <div class="product-crud">
+                            <a href="{{ route('categories.edit', $category) }}">Modifier</a>
+                            <form action="{{ route('categories.destroy', $category) }}" method="post" class="d-inline">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-danger">Supprimer</button>
+                            </form>
+                        </div>
+                    </li>
+                @endforeach
+            </ul>
+        </section>
     </body>
 </html>

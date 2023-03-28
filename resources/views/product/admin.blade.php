@@ -24,10 +24,27 @@ $categories = Category::all();
 </head>
     <body>
     <h1>Dashboard</h1>
-        <ul>
-            <li><a href="Admin/product">Produits</a></li>
-            <li><a href="Admin/categories">Catergories</a></li>
-            <li>Mots Clés</li>
-        </ul>
+        <section>
+            <h2>Produit</h2>
+            <a href="{{ route('product.create') }}">Ajouter un produit</a>
+            <div class="update">
+                Modifier le produit
+                <ul>
+                    @foreach ($products as $product)
+                        <li class="list-item-product" value="{{ $product-> id }}">{{ $product-> name }}
+                        <div class="product-crud">
+                            <a href="{{ route('product.show', $product) }}">Voir</a>
+                            <a href="{{ route('product.edit', $product) }}">Modifier</a>
+                            <form action="{{ route('product.destroy', $product) }}" method="post" class="d-inline">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-danger">Supprimer</button>
+                            </form>
+                        </div>
+                        </li>
+                    @endforeach
+                </ul>
+            </div>
+        </section>
     </body>
 </html>
