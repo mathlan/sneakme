@@ -21,21 +21,23 @@ class ChatController extends Controller
         $keywords = [];
         $results = [];
         $answer = [];
+        $types = [];
         $crudValues = ["ajouter", "modifier", "supprimer"];
 
         // Permet de fetch les infos du dernier mot clé trouvé dans la table answer
         foreach ($words as $word) {
-            $keyword = Keyword::where('name', 'like', '%' . $word . '%')->first();
+            $keyword = Keyword::where('name', 'like', '%' . $word . '%')
+                ->first();
 
             // Création de la réponse
-            // Si on rencontre un mot clé -> Evite les erreurs s'il n'y a pas de résultat
             if ($keyword) {
                 $answer = array_merge(last([$keyword->answer])->toArray(), $answer);
             }
         }
 
-// S'il y a au moins une réponse retournée par la recherche on continue de la traiter
+        // S'il y a au moins une réponse retournée par la recherche on continue de la traiter
         if ($answer != []) {
+
             // Si le mot clé est de type "catalogue", on recherche les mots clés dans category
             if (in_array("catalogue", $words)) {
                 $answer['products'] = [];
@@ -55,6 +57,7 @@ class ChatController extends Controller
                 }
             }
 
+            // Si le mot clé est de type "panier", on recherche ce que l'utilisateur veut faire avec le panier
             if (in_array("panier", $words)) {
                 $basket = [];
                 // Si l'utilisateur entre un mot clé lié au CRUD (array: $crudValues) on garde le dernier en mémoire
