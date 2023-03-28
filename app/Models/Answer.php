@@ -10,6 +10,9 @@ class Answer extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'name'
+    ];
     public function keywords(): HasMany
     {
         return $this->hasMany(Keyword::class);
