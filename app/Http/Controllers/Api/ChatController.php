@@ -20,7 +20,7 @@ class ChatController extends Controller
         $words = explode(" ", $search);
         $keywords = [];
         $results = [];
-        $answer = null;
+        $answer = [];
         $crudValues = ["ajouter", "modifier", "supprimer"];
 
         // Permet de fetch les infos du dernier mot clé trouvé dans la table answer
@@ -34,27 +34,25 @@ class ChatController extends Controller
             }
         }
 
-
-
-        if ($answer != null) {
+// S'il y a au moins une réponse retournée par la recherche on continue de la traiter
+        if ($answer != []) {
             // Si le mot clé est de type "catalogue", on recherche les mots clés dans category
             if (in_array("catalogue", $words)) {
                 $answer['products'] = [];
                 foreach ($words as $word) {
                     $category = Category::where('name', 'like', $word)->first();
                     if ($category) {
-                        $products = Product::where('category_id', 'like', $category->id)->get();
+                        // Si une catégorie est trouvée, on renvoie les produits de la catégories.
+                        $products[] = Product::where('category_id', 'like', $category->id)->get();
                         // Ajoute les objets "Produits" qui correspondent à la recherche
                         $answer['products'] = array_merge($products, $answer['products']);
+                    } else {
+                        // Si aucune catégorie n'est trouvée, on renvoie la totalité du catalogue.
+                        $catalogue = Category::all();
+                        // Ajoute les objets "Catégories" de tout le catalogue
+                        $answer['catalogue'] = $catalogue;
                     }
                 }
-                // Si aucune catégorie n'est trouvée, on renvoie la totalité du catalogue.
-                $catalogue = Category::all();
-                // Ajoute les objets "Catégories" de tout le catalogue
-                $answer['catalogue'] = $catalogue;
-            }
-
-            if (in_array("panier", $keywords)) {
             }
         }
 
