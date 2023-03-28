@@ -33,9 +33,9 @@ class ChatController extends Controller
                             $products = Product::where('category_id', 'like', $category->id)->get();
                             $answer['products'] = $products;
                             return response()->json($answer);
-                            // return response()->json($category);
                         }
                     }
+                    // Si aucune catégorie n'est trouvée, on renvoie la totalité du catalogue.
                     $catalogue = Category::all();
                     $answer['catalogue'] = $catalogue;
                     return response()->json($answer);
