@@ -51,6 +51,7 @@ class ChatController extends Controller
                         $catalogue = Category::all();
                         // Ajoute les objets "Catégories" de tout le catalogue
                         $answer['catalogue'] = $catalogue;
+
                     }
                 }
             }
