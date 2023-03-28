@@ -51,12 +51,22 @@ class ChatController extends Controller
                         $catalogue = Category::all();
                         // Ajoute les objets "Catégories" de tout le catalogue
                         $answer['catalogue'] = $catalogue;
-
                     }
                 }
             }
-        }
 
+            if (in_array("panier", $words)) {
+                $basket = [];
+                // Si l'utilisateur entre un mot clé lié au CRUD (array: $crudValues) on garde le dernier en mémoire
+                if(count(array_intersect($words, $crudValues)) > 0) {
+                    $basket[] = last(array_intersect($words, $crudValues));
+                }
+                if(count($basket) > 0) {
+                    $answer['panier'] = $basket[0];
+                }
+            }
+
+        }
         return response()->json($answer);
 
 
