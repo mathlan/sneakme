@@ -28,8 +28,8 @@
                 {{ $keyword->name }}
                 <div class="product-crud">
                     <a href="{{ route('keyword.show', $keyword) }}">Voir</a>
-                    <a href="">Modifier</a>
-                    <form action="" method="post" class="d-inline">
+                    <a href="{{ route('keyword.edit', $keyword) }}">Modifier</a>
+                    <form action="{{ route('keyword.destroy', $keyword) }}" method="post" class="d-inline">
                         @csrf
                         @method('DELETE')
                         <button type="submit" class="btn btn-danger">Supprimer</button>
