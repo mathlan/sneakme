@@ -31,6 +31,9 @@ class ChatController extends Controller
             // Si on rencontre un mot clé -> Evite les erreurs s'il n'y a pas de résultat
             if ($keyword) {
                 $answer = array_merge(last([$keyword->answer])->toArray(), $answer);
+
+                $type = $keyword->type;
+                $answer['type'] = $type;
             }
         }
 
