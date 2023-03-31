@@ -18,6 +18,3 @@ yarn-error.log
 /.idea
 /.vscode
 /resources/css/fonts
-.less
-.svg
-.scss
