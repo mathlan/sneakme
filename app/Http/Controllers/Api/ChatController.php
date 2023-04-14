@@ -35,7 +35,7 @@ class ChatController extends Controller
             }
         }
 
-        // S'il y a au moins une réponse retournée par la recherche on continue de la traiter
+        // S'il y a au moins une réponse retournée par la recherche (un mot clé trouvé) on continue de la traiter
         if ($answer != []) {
 
             // Si le mot clé est de type "catalogue", on recherche les mots clés dans category
