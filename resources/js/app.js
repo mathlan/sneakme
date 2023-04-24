@@ -1,28 +1,5 @@
 import './bootstrap';
 
-/*let answer
-let textbox = document.getElementById('testapi');
-async function chatBot(){
-    try {
-        const requestOptions = {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                "keyword" : document.getElementById('usernameGet').value
-            })
-        };
-        await fetch('URL', requestOptions)
-            .then(response => response.json())
-            .then(data => {
-                answer = data
-            });
-            textbox.innerHTML = answer
-    } catch (e) {
-        console.log('Erreur :' + e);
-    }
-
-}*/
-
 $(function(){// BTN BOT
     $('.chatbot-bulle').click(function() {
         $('.chatbot-page').toggleClass('open');
@@ -49,7 +26,6 @@ $(function(){// BTN BOT
 });
 
 /* API CHATBOT */
-
 $(document).ready(function() {
     // Gestionnaire d'évenements du form
     $('#chat-form').submit(function(event) {
@@ -80,9 +56,9 @@ $(document).ready(function() {
                         $('#chat-messages').append('<div>Merci de reformuler votre demande.</div>');
                     }
                 },
-                error: function(xhr, status, error) {
+/*                error: function(xhr, status, error) {
                     alert('Error: ' + error);
-                }
+                }*/
             });
             // On vide l'input pour la prochaine requête
             $('#chat-message').val('');

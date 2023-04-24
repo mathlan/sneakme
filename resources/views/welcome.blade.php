@@ -35,20 +35,3 @@
     </section>
     </body>
 </html>
-
-<!-- <fieldset>
-    <legend>Test API Image de chat</legend>
-    <input type="text" id="usernameGet" placeholder="Username">
-    <button type="button" id="btnGet">Test</button>
-</fieldset>
-
-<form action="chatBot()" method="post">
-    <legend>Test API</legend>
-    <input name="keyword" type="text" id="usernameGet" placeholder="Username">
-    <button type="submit" id="btnGet">Test</button>
-</form>
-
-<div class="testapibox">
-    <div id="testapi"></div>
-</div>  -->
-
