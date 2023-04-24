@@ -45,7 +45,7 @@ class DatabaseSeeder extends Seeder
 
         \App\Models\Answer::factory()->create([
             'id' => '5',
-            'name' => 'Shouaitez-vous ajouter cet article a votre panier ?',
+            'name' => 'Souhaitez-vous ajouter cet article a votre panier ?',
         ]);
 
         \App\Models\Answer::factory()->create([
@@ -65,12 +65,12 @@ class DatabaseSeeder extends Seeder
 
         \App\Models\Answer::factory()->create([
             'id' => '9',
-            'name' => 'Shouaitez-vous supprimer cet article de votre panier ?',
+            'name' => 'Souhaitez-vous supprimer cet article de votre panier ?',
         ]);
 
         \App\Models\Answer::factory()->create([
             'id' => '10',
-            'name' => 'Comment shouaitez-vous regler ?',
+            'name' => 'Comment souhaitez-vous regler ?',
         ]);
 
         \App\Models\Answer::factory()->create([

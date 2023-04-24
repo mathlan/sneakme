@@ -7,6 +7,8 @@ use App\Models\Answer;
 use App\Models\Category;
 use App\Models\Keyword;
 use App\Models\Product;
+use App\Service\Color;
+use App\Service\Size;
 use Illuminate\Http\Request;
 
 class ChatController extends Controller
@@ -75,9 +77,13 @@ class ChatController extends Controller
                 $answer['name'] = $keyword->answer['name'];
             }
 
-            // Si le client a demandé une couleur
-            if ($keywordType == "couleur") {
-                $answer['color'] = "default";
+            // Si le client a demandé une couleur on la capte et on la stock dans le json
+            if (Color::tryFrom($word)) {
+                $answer['color'] = Color::tryFrom($word)->value;
+            }
+            // Si le client a demandé une pointure on la capte et on la stock dans le json
+            if (Size::tryFrom((int)$word)) {
+                $answer['size'] = Size::tryFrom($word)->value;
             }
         }
 
