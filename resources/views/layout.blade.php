@@ -1,10 +1,3 @@
-<?php
-use App\Models\Category;
-use App\Models\Product;
-$categories = Category::all();
-$products = Product::all();
-?>
-
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
@@ -26,29 +19,10 @@ $products = Product::all();
 </head>
     <body>
     <h1>Dashboard</h1>
-        <section>
-            <h2>Produit</h2>
-            <div class="add">
-                Ajout Produit
-                <form>
-                    <input type="text" name="name" placeholder="Nom du produit">
-                    <textarea placeholder="Description"></textarea>
-                    <input type="number" placeholder="Prix">
-                    <select name="category_id" id="category_id" class="form-control">
-                        @foreach ($categories as $category)
-                            <option value="{{ $category->id }}" {{ old('category_id') == $category->id ? 'selected' : '' }}>{{ $category->name }}</option>
-                        @endforeach
-                    </select>
-                </form>
-            </div>
-            <div class="update">
-                Modifier le produit
-                <select>
-                    @foreach ($products as $product)
-                        <option value="{{ $product-> id }}">{{ $product-> name }}</option>
-                    @endforeach
-                </select>
-            </div>
-        </section>
+        <ul>
+            <li><a href="Admin/product">Produits</a></li>
+            <li><a href="Admin/categories">Catergories</a></li>
+            <li>Mots Clés</li>
+        </ul>
     </body>
 </html>

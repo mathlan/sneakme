@@ -12,6 +12,11 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        \App\Models\Category::factory()->create([
+            'id' => '1',
+            'name' => 'Nike',
+        ]);
+
         \App\Models\User::factory(10)->create();
         \App\Models\Category::factory(10)->create();
         \App\Models\Product::factory(30)->create();
@@ -42,7 +47,6 @@ class DatabaseSeeder extends Seeder
             'id' => '5',
             'name' => 'Shouaitez-vous ajouter cet article a votre panier ?',
         ]);
-
 
         \App\Models\Answer::factory()->create([
             'id' => '6',
