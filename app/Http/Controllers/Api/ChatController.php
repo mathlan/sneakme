@@ -20,7 +20,8 @@ class ChatController extends Controller
         $words = explode(" ", $search);
         $keywordType = "";
         $answer = [];
-        $crudValues = ["ajouter", "modifier", "supprimer"];
+        $crudValues = ["ajouter", "modifier", "supprimer", "connecter", "connexion", "compte"];
+        $lastAnswer = [];
 
         // Permet de fetch les infos du dernier mot clé trouvé dans la table answer
         foreach ($words as $word) {
@@ -73,11 +74,14 @@ class ChatController extends Controller
                 // On redéfini la réponse pour qu'elle corresponde à une demande de panier
                 $answer['name'] = $keyword->answer['name'];
             }
+
+            // Si le client a demandé une couleur
+            if ($keywordType == "couleur") {
+                $answer['color'] = "default";
+            }
         }
 
-/*        // S'il y a au moins une réponse retournée par la recherche (un mot clé trouvé) on continue de la traiter
-        if ($answer != []) {
-        }*/
+        $lastAnswer = $answer;
         return response()->json($answer);
 
 
