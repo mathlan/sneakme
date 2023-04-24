@@ -22,7 +22,8 @@
         <ul>
             <li><a href="Admin/product">Produits</a></li>
             <li><a href="Admin/categories">Catergories</a></li>
-            <li>Mots Clés</li>
+            <li><a href="Admin/keyword">Mots Clés</a></li>
+            <li><a href="Admin/answer">Réponse</a></li>
         </ul>
     </body>
 </html>
