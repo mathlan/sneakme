@@ -24,17 +24,27 @@ $categories = Category::all();
 </head>
     <body>
     <h1><a href="/Admin">Dashboard</a></h1>
-        <section>
+        <section class="child-dash-menu">
             <h2>Produit</h2>
-            <a href="{{ route('product.create') }}">Ajouter un produit</a>
             <div class="update">
-                Modifier le produit
-                <ul>
+                <div class="update-box">
+                    <p>Modifier le produit</p>
+                    <a href="{{ route('product.create') }}"><i class="fa-solid fa-plus"></i> Ajouter un produit</a>
+                </div>
+                <div class="all-box">
+                    <p>Nombre de produits :</p>
+                    <?php
+                    $all = count($products);
+                    echo '<p class="nbr-all">' . $all . '</p>';
+                    ?>
+                </div>
+                <ul class="list-all">
                     @foreach ($products as $product)
-                        <li class="list-item-product" value="{{ $product-> id }}">{{ $product-> name }}
+                        <hr>
+                        <li class="list-item-product" value="{{ $product-> id }}"><a class="name-list-item" href="{{ route('product.show', $product) }}">{{ $product-> name }}</a>
                         <div class="product-crud">
                             <a href="{{ route('product.show', $product) }}">Voir</a>
-                            <a href="{{ route('product.edit', $product) }}">Modifier</a>
+                            <a class="btn-update" href="{{ route('product.edit', $product) }}">Modifier</a>
                             <form action="{{ route('product.destroy', $product) }}" method="post" class="d-inline">
                                 @csrf
                                 @method('DELETE')
@@ -42,6 +52,7 @@ $categories = Category::all();
                             </form>
                         </div>
                         </li>
+                        <hr>
                     @endforeach
                 </ul>
             </div>

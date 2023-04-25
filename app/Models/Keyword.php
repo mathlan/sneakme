@@ -12,7 +12,8 @@ class Keyword extends Model
 
     protected $fillable = [
         'name',
-        'answer_id'
+        'answer_id',
+        'type'
     ];
     public function answer(): BelongsTo
     {

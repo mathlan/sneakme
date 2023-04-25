@@ -18,12 +18,37 @@
     </style>
 </head>
     <body>
-    <h1>Dashboard</h1>
-        <ul>
-            <li><a href="Admin/product">Produits</a></li>
-            <li><a href="Admin/categories">Catergories</a></li>
-            <li><a href="Admin/keyword">Mots Clés</a></li>
-            <li><a href="Admin/answer">Réponse</a></li>
-        </ul>
+    <div class="dashboard-menu">
+        <h1 class="dash-site-name">Sneack Me</h1>
+        <h2 class="dash-main-title"><a href="/Admin">Dashboard</a></h2>
+        <div class="menu-box">
+            <h3 class="menu-box-title"><i class="fa-solid fa-inbox"></i>Produits</h3>
+            <ul>
+                <li><a href="Admin/product">Voir tous les produits</a></li>
+                <li><a href="Admin/product/create">Ajouter un produit</a></li>
+            </ul>
+        </div>
+        <div class="menu-box">
+            <h3 class="menu-box-title"><i class="fa-solid fa-tags"></i>Catergories</h3>
+            <ul>
+                <li><a href="Admin/categories">Voir toutes les catérgories</a></li>
+                <li><a href="Admin/categories/create">Ajouter une catérgorie</a></li>
+            </ul>
+        </div>
+        <div class="menu-box">
+            <h3 class="menu-box-title"><i class="fa-solid fa-puzzle-piece"></i>Mots Clés</h3>
+            <ul>
+                <li><a href="Admin/keyword">Voir tous les mots clés</a></li>
+                <li><a href="Admin/keyword/create">Ajouter un mot clé</a></li>
+            </ul>
+        </div>
+        <div class="menu-box">
+            <h3 class="menu-box-title"><i class="fa-solid fa-comments"></i>Réponses</h3>
+            <ul>
+                <li><a href="Admin/answer">Voir toutes les réponse</a></li>
+                <li><a href="Admin/answer/create">Ajouter une réponse</a></li>
+            </ul>
+        </div>
+    </div>
     </body>
 </html>
