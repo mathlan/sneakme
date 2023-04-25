@@ -88,6 +88,15 @@ class DatabaseSeeder extends Seeder
             'name' => 'Voila les categories disponible',
         ]);
 
+        \App\Models\Answer::factory()->create([
+            'id' => '14',
+            'name' => 'Si vous souhaitez valider votre panier, dites "valider", pour afficher le catalogue dites "catalogue"',
+        ]);
+        \App\Models\Answer::factory()->create([
+            'id' => '15',
+            'name' => 'Validation du panier',
+        ]);
+
         // Mot-clés
 
         \App\Models\Keyword::factory()->create([
@@ -172,6 +181,18 @@ class DatabaseSeeder extends Seeder
             'name' => 'categories',
             'answer_id' => "13",
             'type' => 'catalogue',
+        ]);
+
+        \App\Models\Keyword::factory()->create([
+            'name' => 'acheter',
+            'answer_id' => "14",
+            'type' => 'panier',
+        ]);
+
+        \App\Models\Keyword::factory()->create([
+            'name' => 'valider',
+            'answer_id' => "15",
+            'type' => 'panier',
         ]);
 
 

@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\Answer;
 use App\Models\Category;
 use App\Models\Keyword;
-use App\Models\Product;
 use App\Service\Color;
 use App\Service\Size;
 use Illuminate\Http\Request;
@@ -28,9 +27,11 @@ class ChatController extends Controller
         // Permet de fetch les infos du dernier mot clé trouvé dans la table answer
         foreach ($words as $word) {
             // Pour chaque mot, on récupère le premier mot clé en BDD qui ressemble le plus à celui de l'input
+            // /!\ On ne traite pas les mots inférieurs à 3 caractères
+            if (strlen($word) >= 3) {
             $keyword = Keyword::where('name', 'like', '%' . $word . '%')
                 ->first();
-
+            }
             // S'il y a un mot clé, on déclare:
             if ($keyword) {
                 // - La réponse: Qui est un array dans lequel on merge les données de la réponse en BDD avec celle déjà existante (s'il y en avait une)
@@ -49,11 +50,13 @@ class ChatController extends Controller
                         $products[] = Product::where('category_id', 'like', $category->id)->get();
                         // Ajoute les objets "Produits" qui correspondent à la recherche
                         $answer['products'] = array_merge($products, $answer['products']);
+                        $answer['test'] = $category;
                     } else {
                         // Si aucune catégorie n'est trouvée, on renvoie la totalité du catalogue.
                         $catalogue = Category::all();
                         // Ajoute les objets "Catégories" de tout le catalogue
                         $answer['catalogue'] = $catalogue;
+                        $answer['keywordType'] = $category;
                     }
                     // On clear la variable extérieure pour éviter de répéter l'opération
                     $keywordType = "";
@@ -78,6 +81,7 @@ class ChatController extends Controller
             }
 
             // Si le client a demandé une couleur on la capte et on la stock dans le json
+            // Tryfrom compare l'input avec tout son contenu
             if (Color::tryFrom($word)) {
                 $answer['color'] = Color::tryFrom($word)->value;
             }
