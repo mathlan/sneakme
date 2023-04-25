@@ -1,5 +1,10 @@
 @import url("fonts/fontawesome-free-6.2.1-web/css/all.css");
 
+:root{
+    --nightblue: #041737;
+    --lightblue: #3963ad;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -179,8 +184,9 @@
 
 /* ADMIN PAGE */
 
+/** menu */
 .dashboard-menu{
-    background: #041737;
+    background: var(--nightblue);
     color: white;
     height: 100vh;
     width: 20vw;
@@ -304,17 +310,94 @@
     margin-right: 20px;
 }
 
+/** page sous menu */
+.child-dash-menu {
+    display: flex;
+    flex-direction: column;
+    background: #eff1f3;
+}
+
+.child-dash-menu h2{
+    color: var(--nightblue);
+    font-size: 35px;
+    text-transform: uppercase;
+}
+
+.child-dash-menu .update{
+    background: white;
+    padding: 10px;
+    margin: 20px;
+    border-radius: 15px;
+}
+
+.child-dash-menu .update .all-box{
+    display: flex;
+    width: 12%;
+    justify-content: space-between;
+    margin-top: -30px;
+    opacity: 0.5;
+    color: var(--nightblue);
+}
+
+.child-dash-menu .update .list-all{
+    margin-top: 30px;
+}
+
+.child-dash-menu .update .update-box{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 40px;
+    font-size: 22px;
+}
+
+.child-dash-menu .update .update-box a{
+    font-size: 18px;
+    color: var(--lightblue);
+}
 
 .list-item-product {
     display: flex;
     justify-content: space-between;
+    align-items: center;
+    /*border: solid 1px transparent;*/
+    padding: 2px 0px 2px 15px;
+    border-radius: 15px;
+    transition: all 0.5s ease-in-out;
+    margin: 5px 0px;
+}
+
+.list-item-product .name-list-item {
+    transition: all 0.5s ease-in-out;
+}
+
+.list-item-product:hover .name-list-item {
+    /*border: solid 1px black;*/
+    padding-left: 10px;
+
+}
+
+.list-item-product .btn-update{
+    background: rgba(144,238,144,0.5);
+    color: green;
+    padding: 8px;
+    border-radius: 5px;
+}
+
+.list-item-product .btn-danger{
+    background: rgba(240,128,128,0.5);
+    color: darkred;
+    padding: 8px;
+    border-radius: 5px;
 }
 
 .list-item-product .product-crud{
     width: 30%;
     display: flex;
+    align-items: center;
     justify-content: space-around;
 }
+
+
 
 @media (min-width: 768px) {
     .chatbot-page.open {
