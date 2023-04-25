@@ -9,6 +9,10 @@
     margin: 0;
     padding: 0;
 }
+
+.hidden {
+    display: none;
+}
 /* BULLE DU CHATBOT*/
 .chatbot-bulle{
     display: flex;
@@ -352,7 +356,7 @@
 
 .child-dash-menu .update .update-box a{
     font-size: 18px;
-    color: var(--lightblue);
+    color: var(--nightblue);
 }
 
 .list-item-product {
@@ -381,6 +385,24 @@
     color: green;
     padding: 8px;
     border-radius: 5px;
+    overflow: hidden;
+}
+
+.list-item-product .btn-update span, .list-item-product .btn-danger span{
+    display: block;
+    transition: all 0.5s ease-in-out;
+    position: relative;
+}
+
+.list-item-product .btn-update span i, .list-item-product .btn-danger span i{
+    position: absolute;
+    /*transform: translate(70px, 0px);*/
+    top: 15%;
+    right: -80%;
+}
+
+.list-item-product .btn-update:hover span{
+    transform: translate(-70px, 0px);
 }
 
 .list-item-product .btn-danger{
@@ -388,6 +410,11 @@
     color: darkred;
     padding: 8px;
     border-radius: 5px;
+    overflow: hidden;
+}
+
+.list-item-product .btn-danger:hover span{
+    transform: translate(-90px, 0px);
 }
 
 .list-item-product .product-crud{
@@ -397,7 +424,15 @@
     justify-content: space-around;
 }
 
+/* PAGINATION */
 
+.paginationjs-pages ul{
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    width: 35vw;
+    margin: auto;
+}
 
 @media (min-width: 768px) {
     .chatbot-page.open {
