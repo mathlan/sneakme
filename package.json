@@ -10,6 +10,7 @@
         "vite": "^4.0.0"
     },
     "dependencies": {
+        "breeze": "^1.2.2",
         "font-awesome": "^4.7.0"
     }
 }
