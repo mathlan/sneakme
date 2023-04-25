@@ -1,5 +1,11 @@
 import './bootstrap';
 
+import Alpine from 'alpinejs';
+
+window.Alpine = Alpine;
+
+Alpine.start();
+
 /*let answer
 let textbox = document.getElementById('testapi');
 async function chatBot(){
@@ -91,4 +97,3 @@ $(document).ready(function() {
 });
 
 /* PAGINATION */
-
