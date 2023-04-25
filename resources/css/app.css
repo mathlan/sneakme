@@ -397,7 +397,13 @@
     justify-content: space-around;
 }
 
+/* Mathieu */
 
+.showProduct {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 10px;
+}
 
 @media (min-width: 768px) {
     .chatbot-page.open {

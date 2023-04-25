@@ -50,7 +50,13 @@ $(document).ready(function() {
                         // Pour les tests en console
                         console.log(data);
                         console.log(typeof message + ' ' + message);
-                        $('#chat-messages').append('<div><strong>' + data.name + '</strong></div>');
+                        $('#chat-messages').append('<div class="showProduct">');
+                        if (data.catalogue) {
+                            for (let i = 0; i < Object.keys(data.catalogue).length; i++) {
+                                $('.showProduct').append('<div class="boxProduct">' + data.catalogue[i].name + '</div>');
+                            }
+                        }
+                        $('#chat-messages').append('</div>');
                     } else {
                         //Si aucun message n'a été trouvé
                         $('#chat-messages').append('<div>Merci de reformuler votre demande.</div>');
