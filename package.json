@@ -10,6 +10,7 @@
         "vite": "^4.0.0"
     },
     "dependencies": {
+        "@fortawesome/fontawesome-free": "^6.4.0",
         "breeze": "^1.2.2",
         "font-awesome": "^4.7.0"
     }
