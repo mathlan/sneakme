@@ -28,6 +28,7 @@ class UserFactory extends Factory
             'city' => fake()->city(),
             'role' => "user",
             'remember_token' => Str::random(10),
+            'api_token' => Str::random(60),
         ];
     }
 
