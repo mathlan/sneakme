@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Answer;
 use App\Models\Category;
 use App\Models\Keyword;
+use App\Models\Product;
 use App\Service\Color;
 use App\Service\Size;
 use Illuminate\Http\Request;
@@ -21,18 +22,43 @@ class ChatController extends Controller
         $search = $request->input('keyword');
         $words = explode(" ", $search);
         $keywordType = "";
-        $category = "";
+        $category = null;
         $answer = [];
         $crudValues = ["ajouter", "modifier", "supprimer", "connecter", "connexion", "compte"];
         $lastAnswer = [];
+
+        // FILTRAGE DES MOTS CLES
+        foreach ($words as $word) {
+            $wordsToRemove = [];
+            // MOTS COURTS // On filtrer d'abord les mots inférieurs à trois caractères pour épurer la recherche // Il faudrait éventuellement une liste d'exceptions
+            if (strlen($word) < 3) {
+                array_push($wordsToRemove, $word);
+            }
+            // PRODUIT // Permet de définir si le client recherche un produit ($category) et de supprimer le superflu (type: "catalogue", "default")
+            else if (strlen($word) >= 3) {
+                // Extraction de la marque
+                $category = Category::where('name', 'like', '%' . $word . '%')->first();
+                // Quand la boucle trouve en enfin une marque, elle affiche ses produits
+                if ($category) {
+                    $answer['products'] = $category->products;
+                    // On supprime ce mot de la liste de mots clés
+                    array_push($wordsToRemove, $word);
+                }
+            }
+            $words = array_filter($words, function($newWord) use ($wordsToRemove) {
+                return !in_array($newWord, $wordsToRemove);
+            });
+        }
 
         // Permet de fetch les infos du dernier mot clé trouvé dans la table answer
         foreach ($words as $word) {
             // Pour chaque mot, on récupère le premier mot clé en BDD qui ressemble le plus à celui de l'input
             // /!\ On ne traite pas les mots inférieurs à 3 caractères
             if (strlen($word) >= 3) {
+                // Extraction d'un mot clé
                 $keyword = Keyword::where('name', 'like', '%' . $word . '%')->first();
             }
+
             // S'il y a un mot clé, on déclare:
             if ($keyword) {
                 // - La réponse: Qui est un array dans lequel on merge les données de la réponse en BDD avec celle déjà existante (s'il y en avait une)
@@ -42,26 +68,18 @@ class ChatController extends Controller
                 $answer['type'] = $keywordType;
             }
 
-            // Si le mot clé est de type "catalogue", on recherche les mots clés dans category
-            if ($keywordType == "catalogue") {
-                $answer['products'] = [];
-/*              dump($category, $word);*/
-                    if ($category != "") {
-                        // Si une catégorie est trouvée, on renvoie les produits de la catégories.
-                        $products[] = $category->products;
-                        // Ajoute les objets "Produits" qui correspondent à la recherche
-                        $answer['products'] = array_merge($products, $answer['products']);
+            if ($category) {
+            dump($category);
+            }
 
-                    } else {
-                        // Si aucune catégorie n'est trouvée, on renvoie la totalité du catalogue.
-                        $catalogue = Category::all();
-                        // Ajoute les objets "Catégories" de tout le catalogue
-                        $answer['catalogue'] = $catalogue;
-                    }
-                    // On clear la variable extérieure pour éviter de répéter l'opération
-                    $keywordType = "";
-                    // On redéfini la réponse pour qu'elle corresponde à une demande de catalogue
-                    $answer['name'] = $keyword->answer['name'];
+            // Si le mot clé est de type "catalogue"
+            if ($keywordType == "catalogue") {
+                // Ajoute les objets "Catégories" de tout le catalogue
+                $answer['catalogue'] = Category::all();
+                if ($keyword) {
+                // On redéfini la réponse pour qu'elle corresponde à une demande de catalogue
+                $answer['name'] = $keyword->answer['name'];
+                }
             }
 
             // Si le mot clé est de type 'panier", on recherche ce que l'utilisateur veut faire avec le panier
