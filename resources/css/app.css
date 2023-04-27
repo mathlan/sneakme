@@ -1,8 +1,4 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-@import url("fonts/fontawesome-free-6.2.1-web/css/all.css");
+@import "@fortawesome/fontawesome-free/css/all.css";
 
 :root{
     --nightblue: #041737;
@@ -12,10 +8,6 @@
 * {
     margin: 0;
     padding: 0;
-}
-
-.hidden {
-    display: none;
 }
 /* BULLE DU CHATBOT*/
 .chatbot-bulle{
@@ -202,8 +194,6 @@
     flex-direction: column;
     justify-content: space-evenly;
     align-items: center;
-    position: sticky;
-    top: 0;
 }
 
 .dashboard-menu .dash-main-title{
@@ -325,7 +315,6 @@
     display: flex;
     flex-direction: column;
     background: #eff1f3;
-    width: 80vw;
 }
 
 .child-dash-menu h2{
@@ -392,24 +381,6 @@
     color: green;
     padding: 8px;
     border-radius: 5px;
-    overflow: hidden;
-}
-
-.list-item-product .btn-update span, .list-item-product .btn-danger span{
-    display: block;
-    transition: all 0.5s ease-in-out;
-    position: relative;
-}
-
-.list-item-product .btn-update span i, .list-item-product .btn-danger span i{
-    position: absolute;
-    /*transform: translate(70px, 0px);*/
-    top: 15%;
-    right: -80%;
-}
-
-.list-item-product .btn-update:hover span{
-    transform: translate(-70px, 0px);
 }
 
 .list-item-product .btn-danger{
@@ -417,11 +388,6 @@
     color: darkred;
     padding: 8px;
     border-radius: 5px;
-    overflow: hidden;
-}
-
-.list-item-product .btn-danger:hover span{
-    transform: translate(-90px, 0px);
 }
 
 .list-item-product .product-crud{
