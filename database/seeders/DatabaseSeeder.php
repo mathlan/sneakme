@@ -60,7 +60,7 @@ class DatabaseSeeder extends Seeder
 
         \App\Models\Answer::factory()->create([
             'id' => '8',
-            'name' => 'Vous Pouvez vous connecter ici',
+            'name' => 'Vous pouvez vous connecter ici',
         ]);
 
         \App\Models\Answer::factory()->create([

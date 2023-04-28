@@ -24,7 +24,7 @@ class ChatController extends Controller
         $keywordType = "";
         $category = null;
         $answer = [];
-        $crudValues = ["ajouter", "modifier", "supprimer", "connecter", "connexion", "compte"];
+        $crudValues = ["ajouter", "modifier", "supprimer", "connecter", "connexion"];
         $lastAnswer = [];
 
         // FILTRAGE DES MOTS CLES
@@ -34,8 +34,9 @@ class ChatController extends Controller
             if (strlen($word) < 3) {
                 array_push($wordsToRemove, $word);
             }
-            // PRODUIT // Permet de définir si le client recherche un produit ($category) et de supprimer le superflu (type: "catalogue", "default")
+            // Si le mot fait 3 cara ou +
             else if (strlen($word) >= 3) {
+                // PRODUIT // Permet de définir si le client recherche un produit ($category) et de supprimer le superflu (type: "catalogue", "default")
                 // Extraction de la marque
                 $category = Category::where('name', 'like', '%' . $word . '%')->first();
                 // Quand la boucle trouve en enfin une marque, elle affiche ses produits
@@ -43,12 +44,24 @@ class ChatController extends Controller
                     $answer['products'] = $category->products;
                     // On supprime ce mot de la liste de mots clés
                     array_push($wordsToRemove, $word);
+                    dump($answer['products']);
+                }
+
+                // CRUD KEYWORD // Si l'utilisateur entre un mot clé lié au CRUD (array: $crudValues) on garde le dernier en mémoire
+                if(count(array_intersect($words, $crudValues)) > 0) {
+                    $crud[] = last(array_intersect($words, $crudValues));
+                    if(count($crud) > 0) {
+                        $answer['crud'] = $crud[0];
+                        // Et on supprime le mot clé
+                        array_push($wordsToRemove, $crud[0]);
+                    }
                 }
             }
             $words = array_filter($words, function($newWord) use ($wordsToRemove) {
                 return !in_array($newWord, $wordsToRemove);
             });
         }
+
 
         // Permet de fetch les infos du dernier mot clé trouvé dans la table answer
         foreach ($words as $word) {
@@ -59,7 +72,7 @@ class ChatController extends Controller
                 $keyword = Keyword::where('name', 'like', '%' . $word . '%')->first();
             }
 
-            // S'il y a un mot clé, on déclare:
+            // KEYWORD & KEYWORD TYPE // S'il y a un mot clé, on déclare:
             if ($keyword) {
                 // - La réponse: Qui est un array dans lequel on merge les données de la réponse en BDD avec celle déjà existante (s'il y en avait une)
                 $answer = array_merge(last([$keyword->answer])->toArray(), $answer);
@@ -68,11 +81,7 @@ class ChatController extends Controller
                 $answer['type'] = $keywordType;
             }
 
-            if ($category) {
-            dump($category);
-            }
-
-            // Si le mot clé est de type "catalogue"
+            // TYPE CATALOGUE // Si le mot clé est de type "catalogue"
             if ($keywordType == "catalogue") {
                 // Ajoute les objets "Catégories" de tout le catalogue
                 $answer['catalogue'] = Category::all();
@@ -82,33 +91,24 @@ class ChatController extends Controller
                 }
             }
 
-            // Si le mot clé est de type 'panier", on recherche ce que l'utilisateur veut faire avec le panier
-            if ($keywordType == "panier") {
-                $basket = [];
-                // Si l'utilisateur entre un mot clé lié au CRUD (array: $crudValues) on garde le dernier en mémoire
-                if(count(array_intersect($words, $crudValues)) > 0) {
-                    $basket[] = last(array_intersect($words, $crudValues));
-                }
-                if(count($basket) > 0) {
-                    $answer['panier'] = $basket[0];
-                }
+            // TYPE PANIER & COMPTE // Si le mot clé est de type 'panier" ou "compte", on recherche ce que l'utilisateur veut faire avec ce dernier
+            if ($keywordType == "panier" || $keywordType == "compte") {
                 // On clear la variable extérieure pour éviter de répéter l'opération
                 $keywordType = "";
-                // On redéfini la réponse pour qu'elle corresponde à une demande de panier
+                // On redéfini la réponse pour qu'elle corresponde à une demande de panier/compte
                 $answer['name'] = $keyword->answer['name'];
             }
 
-            // Si le client a demandé une couleur on la capte et on la stock dans le json
+            // COULEUR // Si le client a demandé une couleur on la capte et on la stock dans le json
             // Tryfrom compare l'input avec tout son contenu
             if (Color::tryFrom($word)) {
                 $answer['color'] = Color::tryFrom($word)->value;
             }
-            // Si le client a demandé une pointure on la capte et on la stock dans le json
+            // POINTURE // Si le client a demandé une pointure on la capte et on la stock dans le json
             if (Size::tryFrom((int)$word)) {
                 $answer['size'] = Size::tryFrom($word)->value;
             }
         }
-
         $lastAnswer = $answer;
         return response()->json($answer);
 

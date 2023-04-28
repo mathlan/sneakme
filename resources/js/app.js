@@ -22,23 +22,26 @@ window.addEventListener('DOMContentLoaded', function() {
             document.querySelector(".send-message i").classList.remove('animation-send');
         }, 4000);
     });
-
-    document.querySelector('#btnGet').addEventListener('click', function () {
-        getUserCountry();
-    });
 });
 
 /* API CHATBOT */
+
+// ID de la réponse
+let answerNumber = 1;
 document.addEventListener('DOMContentLoaded', function() {
     // Gestionnaire d'évenements du form
     document.querySelector('#chat-form').addEventListener('submit', function(event) {
         event.preventDefault();
         // Récupération de l'input du form (keyword)
         var message = document.querySelector('#chat-message').value;
-        // console.log(message);
-        document.querySelector('#chat-messages').insertAdjacentHTML('beforeend', '<div><strong>' + message + '</strong></div>')
+
         // S'il y a un message -> Requête
         if (message) {
+            // Incrémentation de l'ID réponse (pour nouvelle réponse)
+            answerNumber++;
+            console.log(answerNumber);
+            // On retourne la demande de l'utilisateur
+            document.querySelector("#chat-messages").insertAdjacentHTML('beforeend', '<div><strong>' + message + '</strong></div>')
             // Envoi au serveur
             var xhr = new XMLHttpRequest();
             xhr.open('POST', 'api/chat');
@@ -51,21 +54,38 @@ document.addEventListener('DOMContentLoaded', function() {
                         // Pour les tests en console
                         console.log(data);
                         console.log(typeof message + ' ' + message);
-                        document.querySelector('#chat-messages').insertAdjacentHTML('beforeend', '<div>' + data.name + '</div>')
-                        var showProductDiv = document.createElement('div');
-                        showProductDiv.classList.add('showProduct');
-                        document.querySelector('#chat-messages').appendChild(showProductDiv);
-                        if (data.catalogue) {
+                        if (data) {
+                            document.querySelector("#chat-messages").insertAdjacentHTML('beforeend', '<div data-answer="' + answerNumber + '">' + data.name + '</div>')
+                        } else {
+                            //Si aucun message n'a été trouvé
+                            document.querySelector("#chat-messages").insertAdjacentHTML('beforeend', '<div data-answer="' + answerNumber + '">Merci de reformuler votre demande.</div>');
+                        }
+
+                        // Si le json retourne des produits on les affiche en front
+                        if (data.products) {
+                            document.querySelector('[data-answer="' + answerNumber + '"]').insertAdjacentHTML('beforeend', '<div class="showProduct"></div>');
+                            // On affiche chaque produit
+                            for (let i = 0; i < Object.keys(data.products).length; i++) {
+                                var boxProductDiv = document.createElement('div');
+                                boxProductDiv.classList.add('boxProduct');
+                                boxProductDiv.textContent = data.products[i].name;
+                                // Incrémente les données sur la dernière div showProduct
+                                document.querySelectorAll('.showProduct')[document.querySelectorAll('.showProduct').length - 1].appendChild(boxProductDiv);
+                            }
+                        }
+
+                        // Si le json retourne des résultat de catalogue on affiche le catalogue de marques en front
+                        if (data.catalogue && !data.products) {
+                            document.querySelector('[data-answer="' + answerNumber + '"]').insertAdjacentHTML('beforeend', '<div class="showProduct"></div>');
+                            // On affiche chaque produit
                             for (let i = 0; i < Object.keys(data.catalogue).length; i++) {
                                 var boxProductDiv = document.createElement('div');
                                 boxProductDiv.classList.add('boxProduct');
                                 boxProductDiv.textContent = data.catalogue[i].name;
-                                document.querySelector('.showProduct').appendChild(boxProductDiv);
+                                // Incrémente les données sur la dernière div showProduct
+                                document.querySelectorAll('.showProduct')[document.querySelectorAll('.showProduct').length - 1].appendChild(boxProductDiv);
                             }
                         }
-                    } else {
-                        //Si aucun message n'a été trouvé
-                        document.querySelector('#chat-messages').insertAdjacentHTML('beforeend', '<div>Merci de reformuler votre demande.</div>');
                     }
                 } else {
                     console.error('Request failed. Error: ' + xhr.status);
