@@ -1,17 +1,16 @@
 <x-app-layout>
         <section class="child-dash-menu">
-            <h2>Produit</h2>
+            <h2>Liste des produits</h2>
             <div class="update">
                 <div class="update-box">
-                    <p>Modifier le produit</p>
+                    <div class="all-box">
+                        <p>Nombre de produits :</p>
+                        <?php
+                        $all = count($products);
+                        echo '<p class="nbr-all">' . $all . '</p>';
+                        ?>
+                    </div>
                     <a href="{{ route('product.create') }}"><i class="fa-solid fa-plus"></i> Ajouter un produit</a>
-                </div>
-                <div class="all-box">
-                    <p>Nombre de produits :</p>
-                    <?php
-                    $all = count($products);
-                    echo '<p class="nbr-all">' . $all . '</p>';
-                    ?>
                 </div>
                 <ul class="list-all" id="paginated-list" data-current-page="1">
                     @foreach ($products as $product)

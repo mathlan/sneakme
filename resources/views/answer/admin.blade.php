@@ -1,17 +1,16 @@
 <x-app-layout>
         <section class="child-dash-menu">
-            <h2>Réponse</h2>
+            <h2>Liste des réponse</h2>
             <div class="update">
                 <div class="update-box">
-                    <p>Modifier la réponse</p>
+                    <div class="all-box">
+                        <p>Nombre de réponse :</p>
+                        <?php
+                        $all = count($answers);
+                        echo '<p class="nbr-all">' . $all . '</p>';
+                        ?>
+                    </div>
                     <a href="{{ route('answer.create') }}"><i class="fa-solid fa-plus"></i> Ajouter une réponse</a>
-                </div>
-                <div class="all-box">
-                    <p>Nombre de produits :</p>
-                    <?php
-                    $all = count($answers);
-                    echo '<p class="nbr-all">' . $all . '</p>';
-                    ?>
                 </div>
                 <ul class="list-all">
                     @foreach ($answers as $answer)
