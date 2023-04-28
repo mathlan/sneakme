@@ -32,6 +32,7 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('/dashboard/keywords', \App\Http\Controllers\KeywordController::class);
     Route::resource('/dashboard/answers', \App\Http\Controllers\AnswerController::class);
+    Route::resource('/dashboard/users', \App\Http\Controllers\UserController::class);
 });
 
 require __DIR__.'/auth.php';

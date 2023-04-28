@@ -5,30 +5,6 @@ import Alpine from 'alpinejs';
 window.Alpine = Alpine;
 
 Alpine.start();
-
-/*let answer
-let textbox = document.getElementById('testapi');
-async function chatBot(){
-    try {
-        const requestOptions = {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                "keyword" : document.getElementById('usernameGet').value
-            })
-        };
-        await fetch('URL', requestOptions)
-            .then(response => response.json())
-            .then(data => {
-                answer = data
-            });
-            textbox.innerHTML = answer
-    } catch (e) {
-        console.log('Erreur :' + e);
-    }
-
-}*/
-
 $(function(){// BTN BOT
     $('.chatbot-bulle').click(function() {
         $('.chatbot-page').toggleClass('open');
@@ -47,10 +23,6 @@ $(function(){// BTN BOT
             $(".send-message i").removeClass('animation-send');
         }, 4000);
     });
-
-    $('#btnGet').click(function () {
-        getUserCountry()
-    })
 
 });
 
