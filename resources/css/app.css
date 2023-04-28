@@ -461,8 +461,18 @@
     border: solid 1px var(--nightblue);
 }
 
-.input-box{
-    width: 100%;
+.add .input-box textarea{
+    width: 75%;
+    height: 250px;
+    resize: none;
+}
+
+.add .input-box .product-price{
+    width: 15%;
+}
+
+.add .input-box input, .add .input-box select{
+    width: 50%;
 }
 
 .create-form {
@@ -475,22 +485,57 @@
 }
 
 .create-title-form{
-    background: linear-gradient(145deg, var(--nightblue) 0%, var(--lightblue) 100%);
+    background: linear-gradient(110deg, var(--nightblue) 0%, var(--lightblue) 50%, var(--nightblue) 100%);
     color: white;
     width: 100%;
     height: 50px;
     padding-left: 20px;
     display: flex;
     align-items: center;
+    animation: title-gradient 10s linear infinite;
+    font-size: 25px;
+    font-weight: 700;
+}
+
+@keyframes title-gradient {
+    0%{
+        background-position-x: 0pc;
+    }
+    100%{
+        background-position-x: 58pc;
+    }
 }
 
 .create-button-add{
     background: linear-gradient(145deg, var(--nightblue) 0%, var(--lightblue) 100%);
+    border: solid 1px transparent;
     border-radius: 15px;
     color: white;
     font-weight: 700;
     padding: 8px 20px;
     margin-left: auto;
+    position: relative;
+    overflow: hidden;
+}
+
+.create-button-add::after{
+    position: absolute;
+    content: 'Ajouter';
+    color: transparent;
+    background: transparent;
+    border-radius: 15px;
+    padding: 8px 20px;
+    height: 100%;
+    width: 0%;
+    top: 0;
+    left: 0;
+    transition: all 0.3s ease-in-out;
+}
+
+.create-button-add:hover::after{
+    background: white;
+    color: var(--nightblue);
+    width: 100%;
 }
 
 /* PAGINATION */

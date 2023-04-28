@@ -4,7 +4,7 @@
             <h2 class="create-title-form">Ajout Categorie</h2>
             <form class="create-form" action="{{ route('categories.store') }}" method="post">
                 @csrf
-                <div class="flex flex-col">
+                <div class="flex flex-col input-box">
                     <span>Nom de la categorie</span>
                     <input type="text" name="name">
                 </div>
