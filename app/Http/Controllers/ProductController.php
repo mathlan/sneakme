@@ -46,7 +46,7 @@ class ProductController extends Controller
     public function destroy(Product $product)
     {
         $product->delete();
-        return redirect()->route('product.index');
+        return redirect()->route('products.index');
     }
 
     public function create()
@@ -74,7 +74,7 @@ class ProductController extends Controller
 
         $product = Product::create($request->all());
 
-        return redirect()->route('product.index');
+        return redirect()->route('products.index');
 
     }
 }

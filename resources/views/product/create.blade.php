@@ -2,7 +2,7 @@
     <div class="create-main-box">
         <div class="add">
             <h2 class="create-title-form">Ajout Produit</h2>
-            <form class="create-form" action="{{ route('products.store') }}" method="post">
+            <form class="create-form" action="{{ route('products.store') }}" method="post" enctype='multipart/form-data'>
                 @csrf
                 <div class="w-full">
                     <div class="flex flex-col input-box">
