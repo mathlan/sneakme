@@ -51,6 +51,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         // Pour les tests en console
                         console.log(data);
                         console.log(typeof message + ' ' + message);
+                        document.querySelector('#chat-messages').insertAdjacentHTML('beforeend', '<div>' + data.name + '</div>')
                         var showProductDiv = document.createElement('div');
                         showProductDiv.classList.add('showProduct');
                         document.querySelector('#chat-messages').appendChild(showProductDiv);
