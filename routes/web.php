@@ -32,12 +32,8 @@ require __DIR__.'/auth.php';
 
 // ANCIEN ROOT
 
-Route::resource('/Admin/product', \App\Http\Controllers\ProductController::class);
-Route::resource('/Admin/categories', \App\Http\Controllers\CategoryController::class);
+Route::resource('/dashboard/product', \App\Http\Controllers\ProductController::class);
+Route::resource('/dashboard/categories', \App\Http\Controllers\CategoryController::class);
 
-Route::resource('/Admin/keyword', \App\Http\Controllers\KeywordController::class);
-Route::resource('/Admin/answer', \App\Http\Controllers\AnswerController::class);
-
-Route::get('/Admin', function () {
-    return view('layout');
-});
+Route::resource('/dashboard/keyword', \App\Http\Controllers\KeywordController::class);
+Route::resource('/dashboard/answer', \App\Http\Controllers\AnswerController::class);
