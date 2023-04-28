@@ -1,6 +1,6 @@
 <div class="add">
     Ajout Produit
-    <form action="{{ route('product.store') }}" method="post">
+    <form action="{{ route('products.store') }}" method="post">
         @csrf
         <input type="text" name="name" placeholder="Nom du produit">
         <textarea name="description" placeholder="Description"></textarea>

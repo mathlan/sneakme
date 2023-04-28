@@ -14,7 +14,7 @@ $tests = KeywordTypes::cases();
 
 <div class="add">
     Ajout Mot Clé
-    <form action="{{ route('keyword.store') }}" method="post">
+    <form action="{{ route('keywords.store') }}" method="post">
         @csrf
         <input type="text" name="name" placeholder="Nom de la categorie">
         <select name="answer_id" id="answer_id" class="form-control">

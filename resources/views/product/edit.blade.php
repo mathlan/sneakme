@@ -1,4 +1,4 @@
-<form action="{{ route('product.update',$product) }}" method="post">
+<form action="{{ route('products.update',$product) }}" method="post">
     @csrf
     @method('PUT')
     <input type="text" name="name" id="name" class="form-control" value="{{ $product->name}}">

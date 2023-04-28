@@ -1,4 +1,4 @@
-<form action="{{ route('keyword.update',$keyword) }}" method="post">
+<form action="{{ route('keywords.update',$keyword) }}" method="post">
     @csrf
     @method('PUT')
     <input type="text" name="name"  value="{{ $keyword->name}}">
