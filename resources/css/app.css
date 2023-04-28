@@ -471,6 +471,10 @@
     width: 15%;
 }
 
+.add .input-box .answer-box{
+    width: 75%;
+}
+
 .add .input-box input, .add .input-box select{
     width: 50%;
 }

@@ -10,6 +10,10 @@
                         <input type="text" name="name">
                     </div>
                     <div class="flex flex-col input-box">
+                        <span>Image du produit</span>
+                        <input type="file" accept="image/*" name="image-file">
+                    </div>
+                    <div class="flex flex-col input-box">
                         <span>Description du produit</span>
                         <textarea name="description"></textarea>
                     </div>

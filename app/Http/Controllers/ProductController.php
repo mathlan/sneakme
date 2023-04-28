@@ -65,8 +65,12 @@ class ProductController extends Controller
             'description' => 'required',
             'price' => 'required|numeric',
             'category_id' => 'required|exists:categories,id',
+            'image-file' => 'required|file',
         ]);
 
+        $path = $request->file('image-file')->store('product');
+
+        $request->merge(['image' => $path]);
 
         $product = Product::create($request->all());
 
