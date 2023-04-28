@@ -1,17 +1,16 @@
 <x-app-layout>
         <section class="child-dash-menu">
-            <h2>Mots Clés</h2>
+            <h2>Liste des mots Clés</h2>
             <div class="update">
                 <div class="update-box">
-                    <p>Modifier le mot clé</p>
+                    <div class="all-box">
+                        <p>Nombre de mots clés :</p>
+                        <?php
+                        $all = count($keywords);
+                        echo '<p class="nbr-all">' . $all . '</p>';
+                        ?>
+                    </div>
                     <a href="{{ route('keyword.create') }}"><i class="fa-solid fa-plus"></i> Ajouter un mot clé</a>
-                </div>
-                <div class="all-box">
-                    <p>Nombre de produits :</p>
-                    <?php
-                    $all = count($keywords);
-                    echo '<p class="nbr-all">' . $all . '</p>';
-                    ?>
                 </div>
                 <ul class="list-all">
                     @foreach ($keywords as $keyword)

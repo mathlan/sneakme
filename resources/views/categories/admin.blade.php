@@ -1,17 +1,16 @@
 <x-app-layout>
         <section class="child-dash-menu">
-            <h2>Categories</h2>
+            <h2>Liste des categories</h2>
             <div class="update">
                 <div class="update-box">
-                    <p>Modifier la catégorie</p>
+                    <div class="all-box">
+                        <p>Nombre de categories :</p>
+                        <?php
+                        $all = count($categories);
+                        echo '<p class="nbr-all">' . $all . '</p>';
+                        ?>
+                    </div>
                     <a href="{{ route('categories.create') }}"><i class="fa-solid fa-plus"></i> Ajouter une categorie</a>
-                </div>
-                <div class="all-box">
-                    <p>Nombre de produits :</p>
-                    <?php
-                    $all = count($categories);
-                    echo '<p class="nbr-all">' . $all . '</p>';
-                    ?>
                 </div>
                 <ul class="list-all">
                     @foreach ($categories as $category)
