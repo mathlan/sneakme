@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Category;
 
+use Illuminate\Support\Facades\Storage;
+
 class ProductController extends Controller
 {
     public function index()
@@ -20,9 +22,12 @@ class ProductController extends Controller
 
     public function show(Product $product)
     {
+        $storagePath  = Storage::disk('local')->getDriver();
         return view('product.show', [
             'product' => $product
         ]);
+
+
     }
 
     public function edit(Product $product)
