@@ -31,11 +31,11 @@ class ChatController extends Controller
         // FILTRAGE DES MOTS CLES
         foreach ($words as $word) {
             $wordsToRemove = [];
-            // MOTS COURTS // On filtrer d'abord les mots inférieurs à trois caractères et qui ne sont pas des INT pour épurer la recherche // Il faudrait éventuellement une liste d'exceptions
+            // MOTS COURTS // On filtre d'abord les mots inférieurs à trois caractères et qui ne sont pas des INT pour épurer la recherche // Il faudrait éventuellement une liste d'exceptions
             if (strlen($word) < 3 && !is_numeric($word)) {
                 array_push($wordsToRemove, $word);
             }
-            // Si le mot fait 3 cara ou +
+            // Si le mot fait 3 lettres ou +
             else if (strlen($word) >= 3) {
                 // PRODUIT // Permet de définir si le client recherche un produit ($category) et de supprimer le superflu (type: "catalogue", "default")
                 // Extraction de la marque
@@ -84,12 +84,12 @@ class ChatController extends Controller
 
             // TYPE CATALOGUE // Si le mot clé est de type "catalogue"
             if ($keywordType == "catalogue") {
-                // Ajoute les objets "Catégories" de tout le catalogue si il n'y a pas d'objet Products
+                // Ajoute les objets "Catégories" de tout le catalogue s'il n'y a pas d'objet Products
                 if ($answer['products'] == []) {
                 $answer['catalogue'] = Category::all();
                 }
                 if ($keyword) {
-                // On redéfini la réponse pour qu'elle corresponde à une demande de catalogue
+                // On redéfinit la réponse pour qu'elle corresponde à une demande de catalogue
                 $answer['name'] = $keyword->answer['name'];
                 }
             }
@@ -98,7 +98,7 @@ class ChatController extends Controller
             if ($keywordType == "panier" || $keywordType == "compte") {
                 // On clear la variable extérieure pour éviter de répéter l'opération
                 $keywordType = "";
-                // On redéfini la réponse pour qu'elle corresponde à une demande de panier/compte
+                // On redéfinit la réponse pour qu'elle corresponde à une demande de panier/compte
                 $answer['name'] = $keyword->answer['name'];
             }
 

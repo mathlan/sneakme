@@ -34,9 +34,9 @@ window.addEventListener('DOMContentLoaded', function() {
 /* API CHATBOT */
 
 // ID de la réponse
-let answerNumber = 1;
+let answerNumber = 0;
 document.addEventListener('DOMContentLoaded', function() {
-    // Gestionnaire d'évenements du form
+    // Gestionnaire d'évènements du form
     document.querySelector('#chat-form').addEventListener('submit', function(event) {
         event.preventDefault();
         // Récupération de l'input du form (keyword)
@@ -48,7 +48,7 @@ document.addEventListener('DOMContentLoaded', function() {
             answerNumber++;
             console.log(answerNumber);
             // On retourne la demande de l'utilisateur
-            document.querySelector("#chat-messages").insertAdjacentHTML('beforeend', '<div><strong>' + message + '</strong></div>')
+            document.querySelector("#chat-messages").insertAdjacentHTML('beforeend', '<div class="user-side"><div class="user-msg"><p>' + message + '</p></div></div>')
             // Envoi au serveur
             var xhr = new XMLHttpRequest();
             xhr.open('POST', 'api/chat');
@@ -62,14 +62,14 @@ document.addEventListener('DOMContentLoaded', function() {
                         console.log(data);
                         console.log(typeof message + ' ' + message);
                         if (data) {
-                            document.querySelector("#chat-messages").insertAdjacentHTML('beforeend', '<div data-answer="' + answerNumber + '">' + data.name + '</div>')
+                            document.querySelector("#chat-messages").insertAdjacentHTML('beforeend', '<div class="bot-side"><div class="bot-msg" data-answer="' + answerNumber + '"><p>' + data.name + '</p></div></div>')
                         } else {
                             //Si aucun message n'a été trouvé
-                            document.querySelector("#chat-messages").insertAdjacentHTML('beforeend', '<div data-answer="' + answerNumber + '">Merci de reformuler votre demande.</div>');
+                            document.querySelector("#chat-messages").insertAdjacentHTML('beforeend', '<div class="bot-side"><div class="bot-msg"' + answerNumber + '">Merci de reformuler votre demande.</p></div></div>');
                         }
 
-                        // Si le json retourne des produits on les affiche en front
-                        if (data.products) {
+                        // Si le json retourne une liste de produits on les affiche en front
+                        if (data.products.length != 0) {
                             document.querySelector('[data-answer="' + answerNumber + '"]').insertAdjacentHTML('beforeend', '<div class="showProduct"></div>');
                             // On affiche chaque produit
                             for (let i = 0; i < Object.keys(data.products).length; i++) {
@@ -81,8 +81,8 @@ document.addEventListener('DOMContentLoaded', function() {
                             }
                         }
 
-                        // Si le json retourne des résultat de catalogue on affiche le catalogue de marques en front
-                        if (data.catalogue && !data.products) {
+                        // Si le json retourne des résultats de catalogue, on affiche le catalogue de marques en front
+                        if (data.catalogue) {
                             document.querySelector('[data-answer="' + answerNumber + '"]').insertAdjacentHTML('beforeend', '<div class="showProduct"></div>');
                             // On affiche chaque produit
                             for (let i = 0; i < Object.keys(data.catalogue).length; i++) {
