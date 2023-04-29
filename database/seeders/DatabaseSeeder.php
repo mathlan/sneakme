@@ -40,7 +40,7 @@ class DatabaseSeeder extends Seeder
 
         \App\Models\Answer::factory()->create([
             'id' => '4',
-            'name' => 'Voici les marques que nous possédons',
+            'name' => 'Voici ce que nous proposons',
         ]);
 
         \App\Models\Answer::factory()->create([

@@ -1,19 +1,24 @@
 import './bootstrap';
 
+/* SON MESSAGE */
+const myAudio = document.querySelector('#song-msg');
+
+/* AFFICHAGE DU CHATBOT */
+
 window.addEventListener('DOMContentLoaded', function() {
     // BTN BOT
-    document.querySelectorAll('.chatbot-bulle').forEach(function(element) {
+    document.querySelectorAll('.chatbot-reduced').forEach(function(element) {
         element.addEventListener('click', function() {
             document.querySelector('.chatbot-page').classList.toggle('open');
-            document.querySelector('.chatbot-bulle').classList.toggle('up');
-            document.querySelector('.message-taping-zone').classList.toggle('on');
+            document.querySelector('.chatbot-reduced').classList.toggle('up');
+            document.querySelector('.message-typing-zone').classList.toggle('on');
         });
     });
 
     document.querySelector('.chat-header .fa-xmark').addEventListener('click', function() {
         document.querySelector('.chatbot-page').classList.toggle('open');
-        document.querySelector('.chatbot-bulle').classList.toggle('up');
-        document.querySelector('.message-taping-zone').classList.toggle('on');
+        document.querySelector('.chatbot-reduced').classList.toggle('up');
+        document.querySelector('.message-typing-zone').classList.toggle('on');
     });
 
     document.querySelector('.send-message').addEventListener('click', function() {
@@ -23,6 +28,8 @@ window.addEventListener('DOMContentLoaded', function() {
         }, 4000);
     });
 });
+
+
 
 /* API CHATBOT */
 
@@ -86,6 +93,8 @@ document.addEventListener('DOMContentLoaded', function() {
                                 document.querySelectorAll('.showProduct')[document.querySelectorAll('.showProduct').length - 1].appendChild(boxProductDiv);
                             }
                         }
+                        // Joue un petit son à chaque réponse
+                        myAudio.play();
                     }
                 } else {
                     console.error('Request failed. Error: ' + xhr.status);

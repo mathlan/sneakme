@@ -24,14 +24,15 @@ class ChatController extends Controller
         $keywordType = "";
         $category = null;
         $answer = [];
+        $answer['products'] = [];
         $crudValues = ["ajouter", "modifier", "supprimer", "connecter", "connexion"];
         $lastAnswer = [];
 
         // FILTRAGE DES MOTS CLES
         foreach ($words as $word) {
             $wordsToRemove = [];
-            // MOTS COURTS // On filtrer d'abord les mots inférieurs à trois caractères pour épurer la recherche // Il faudrait éventuellement une liste d'exceptions
-            if (strlen($word) < 3) {
+            // MOTS COURTS // On filtrer d'abord les mots inférieurs à trois caractères et qui ne sont pas des INT pour épurer la recherche // Il faudrait éventuellement une liste d'exceptions
+            if (strlen($word) < 3 && !is_numeric($word)) {
                 array_push($wordsToRemove, $word);
             }
             // Si le mot fait 3 cara ou +
@@ -44,7 +45,7 @@ class ChatController extends Controller
                     $answer['products'] = $category->products;
                     // On supprime ce mot de la liste de mots clés
                     array_push($wordsToRemove, $word);
-                    dump($answer['products']);
+/*                    dump($answer['products']);*/
                 }
 
                 // CRUD KEYWORD // Si l'utilisateur entre un mot clé lié au CRUD (array: $crudValues) on garde le dernier en mémoire
@@ -83,8 +84,10 @@ class ChatController extends Controller
 
             // TYPE CATALOGUE // Si le mot clé est de type "catalogue"
             if ($keywordType == "catalogue") {
-                // Ajoute les objets "Catégories" de tout le catalogue
+                // Ajoute les objets "Catégories" de tout le catalogue si il n'y a pas d'objet Products
+                if ($answer['products'] == []) {
                 $answer['catalogue'] = Category::all();
+                }
                 if ($keyword) {
                 // On redéfini la réponse pour qu'elle corresponde à une demande de catalogue
                 $answer['name'] = $keyword->answer['name'];
