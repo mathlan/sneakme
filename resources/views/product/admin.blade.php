@@ -15,7 +15,11 @@
                 <ul class="list-all" id="paginated-list" data-current-page="1">
                     @foreach ($products as $product)
                         <hr>
-                        <li class="list-item-product" value="{{ $product-> id }}"><a class="name-list-item" href="{{ route('products.show', $product) }}">{{ $product-> name }}</a>
+                        <li class="list-item-product" value="{{ $product-> id }}">
+                            <a class="name-list-item flex items-center justify-between w-1/4 product-name-image" href="{{ route('products.show', $product) }}">
+                                <img src="{{ asset( 'storage/product/' . $product->image) }}" width="50" height="50">
+                                <span>{{ $product-> name }}</span>
+                            </a>
                         <div class="product-crud">
                             <a href="{{ route('products.show', $product) }}">Voir</a>
                             <a class="btn-update" href="{{ route('products.edit', $product) }}"><span>Modifier <i class="fa-solid fa-wrench"></i></span></a>
