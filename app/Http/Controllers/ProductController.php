@@ -73,9 +73,13 @@ class ProductController extends Controller
             'image-file' => 'required|file',
         ]);
 
-        $path = $request->file('image-file')->store('product');
+        $image = $request->file('image-file');
+        $image_name = $image->getClientOriginalName();
+        $path = $request->file('image-file')->storeAs('public/product', $image_name);
+        //dd($path);
 
-        $request->merge(['image' => $path]);
+        $request->merge(['image' => $image_name]);
+
 
         $product = Product::create($request->all());
 
