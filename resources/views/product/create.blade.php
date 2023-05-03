@@ -19,7 +19,7 @@
                     </div>
                     <div class="flex flex-col input-box">
                         <span>Prix</span>
-                        <input class="product-price" name="price" type="number" min="1" max="200" placeholder="€">
+                        <input class="product-price" name="price" type="number" min="1" max="2000" placeholder="€">
                     </div>
                     <div class="flex flex-col input-box">
                         <span>Catégorie</span>

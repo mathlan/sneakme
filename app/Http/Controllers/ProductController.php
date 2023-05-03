@@ -12,7 +12,7 @@ class ProductController extends Controller
 {
     public function index()
     {
-        $products = Product::all();
+        $products = Product::orderBy('updated_at', 'DESC')->get();
         // dd($products); //develop and die, c pour faire un var_dump et un die
         return view('product.admin',[
                 'products' => $products
@@ -41,11 +41,22 @@ class ProductController extends Controller
     {
         $validatedData = $request->validate([
             'name' => 'required|min:3|max:255',
+            'description' => 'required',
+            'price' => 'required|numeric',
+            'category_id' => 'required|exists:categories,id',
+            'image-file' => 'required|file',
         ]);
+
+        $image = $request->file('image-file');
+        $image_name = $image->getClientOriginalName();
+        $path = $request->file('image-file')->storeAs('public/product', $image_name);
+        //dd($path);
+
+        $product->update(['image' => $image_name]);
 
         $product->update($validatedData);
 
-        return redirect()->route('product.index');
+        return redirect()->route('products.index');
     }
 
     public function destroy(Product $product)
