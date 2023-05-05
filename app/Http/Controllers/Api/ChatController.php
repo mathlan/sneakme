@@ -24,6 +24,7 @@ class ChatController extends Controller
         $keywordType = "";
         $category = null;
         $answer = [];
+        $answer['name'] = "";
         $answer['products'] = [];
         $crudValues = ["ajouter", "modifier", "supprimer", "connecter", "connexion"];
         $lastAnswer = [];
@@ -45,6 +46,7 @@ class ChatController extends Controller
                     $answer['products'] = $category->products;
                     // On supprime ce mot de la liste de mots clés
                     array_push($wordsToRemove, $word);
+                    // Dans le cas où l'utilisateur n'aurait mis que le nom de la marque, on retourne une réponse.
                     $answer['name'] = "Voici les produits de la marque "  . $category->name;
                 }
 
@@ -112,6 +114,11 @@ class ChatController extends Controller
                 $answer['size'] = Size::tryFrom($word)->value;
             }
         }
+        // S'il n'y a pas de réponse, on invite l'utilisateur à reformuler sa demande
+        if (!$answer['name']) {
+            $answer['name'] = "Merci de reformuler votre demande.";
+        }
+
         $lastAnswer = $answer;
         return response()->json($answer);
 
