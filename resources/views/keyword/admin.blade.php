@@ -10,17 +10,17 @@
                         echo '<p class="nbr-all">' . $all . '</p>';
                         ?>
                     </div>
-                    <a href="{{ route('keyword.create') }}"><i class="fa-solid fa-plus"></i> Ajouter un mot clé</a>
+                    <a href="{{ route('keywords.create') }}"><i class="fa-solid fa-plus"></i> Ajouter un mot clé</a>
                 </div>
                 <ul class="list-all">
                     @foreach ($keywords as $keyword)
                         <hr>
                         <li class="list-item-product" value="{{ $keyword->id }}" {{ old('category_id') == $keyword->id ? 'selected' : '' }}>
-                            <a class="name-list-item" href="{{ route('keyword.show', $keyword) }}">{{ $keyword->name }}</a>
+                            <a class="name-list-item" href="{{ route('keywords.show', $keyword) }}">{{ $keyword->name }}</a>
                             <div class="product-crud">
-                                <a href="{{ route('keyword.show', $keyword) }}">Voir</a>
-                                <a  class="btn-update" href="{{ route('keyword.edit', $keyword) }}"><span>Modifier <i class="fa-solid fa-wrench"></i></span></a>
-                                <form action="{{ route('keyword.destroy', $keyword) }}" method="post" class="d-inline">
+                                <a href="{{ route('keywords.show', $keyword) }}">Voir</a>
+                                <a  class="btn-update" href="{{ route('keywords.edit', $keyword) }}"><span>Modifier <i class="fa-solid fa-wrench"></i></span></a>
+                                <form action="{{ route('keywords.destroy', $keyword) }}" method="post" class="d-inline">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-danger"><span>Supprimer<i class="fa-solid fa-trash"></i></span></button>

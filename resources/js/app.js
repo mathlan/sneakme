@@ -3,6 +3,12 @@ import './bootstrap';
 /* SON MESSAGE */
 const myAudio = document.querySelector('#song-msg');
 
+/*import Alpine from 'alpinejs';
+
+window.Alpine = Alpine;
+
+Alpine.start();*/
+
 /* AFFICHAGE DU CHATBOT */
 
 window.addEventListener('DOMContentLoaded', function() {

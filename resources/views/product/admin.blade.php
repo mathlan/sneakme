@@ -10,16 +10,20 @@
                         echo '<p class="nbr-all">' . $all . '</p>';
                         ?>
                     </div>
-                    <a href="{{ route('product.create') }}"><i class="fa-solid fa-plus"></i> Ajouter un produit</a>
+                    <a href="{{ route('products.create') }}"><i class="fa-solid fa-plus"></i> Ajouter un produit</a>
                 </div>
                 <ul class="list-all" id="paginated-list" data-current-page="1">
                     @foreach ($products as $product)
                         <hr>
-                        <li class="list-item-product" value="{{ $product-> id }}"><a class="name-list-item" href="{{ route('product.show', $product) }}">{{ $product-> name }}</a>
+                        <li class="list-item-product" value="{{ $product-> id }}">
+                            <a class="name-list-item flex items-center justify-between w-1/4 product-name-image" href="{{ route('products.show', $product) }}">
+                                <img src="{{ asset( 'storage/product/' . $product->image) }}" width="50" height="50">
+                                <span>{{ $product-> name }}</span>
+                            </a>
                         <div class="product-crud">
-                            <a href="{{ route('product.show', $product) }}">Voir</a>
-                            <a class="btn-update" href="{{ route('product.edit', $product) }}"><span>Modifier <i class="fa-solid fa-wrench"></i></span></a>
-                            <form action="{{ route('product.destroy', $product) }}" method="post" class="d-inline">
+                            <a href="{{ route('products.show', $product) }}">Voir</a>
+                            <a class="btn-update" href="{{ route('products.edit', $product) }}"><span>Modifier <i class="fa-solid fa-wrench"></i></span></a>
+                            <form action="{{ route('products.destroy', $product) }}" method="post" class="d-inline">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-danger"><span>Supprimer<i class="fa-solid fa-trash"></i></span></button>

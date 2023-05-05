@@ -61,12 +61,12 @@ class AnswerController extends Controller
 
         $answer->update($validatedData);
 
-        return redirect()->route('answer.index');
+        return redirect()->route('answers.index');
     }
 
     public function destroy(Answer $answer)
     {
         $answer->delete();
-        return redirect()->route('answer.index');
+        return redirect()->route('answers.index');
     }
 }

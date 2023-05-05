@@ -360,7 +360,7 @@
     right: 20px;
 }
 
-.dashboard-menu .menu-box::before{
+.dashboard-menu .menu-box:not(.first-menu-box)::before{
     content: '';
     background: white;
     width: 80%;
@@ -455,6 +455,16 @@
 
 }
 
+.product-name-image img{
+    border-radius: 50px;
+    object-fit: cover;
+    max-height: 50px;
+    max-width: 50px;
+    min-height: 50px;
+    min-width: 50px;
+    border: solid 1px var(--nightblue);
+}
+
 .list-item-product .btn-update{
     background: rgba(144,238,144,0.5);
     color: green;
@@ -499,3 +509,126 @@
     justify-content: space-around;
 }
 
+.user-email{
+    opacity: 0.5;
+}
+
+/* ADMIN CREATE FORM */
+
+.create-main-box{
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.add{
+    background: linear-gradient(145deg, rgba(4,23,55,1) 0%, rgba(57,99,173,1) 100%);
+    padding: 1px;
+    border-radius: 15px;
+    overflow: hidden;
+    width: 75%;
+    margin: auto;
+}
+
+.add input, .add textarea, .add select{
+    border-radius: 15px;
+    border: solid 1px var(--nightblue);
+}
+
+.add .input-box textarea{
+    width: 75%;
+    height: 250px;
+    resize: none;
+}
+
+.add .input-box .product-price{
+    width: 15%;
+}
+
+.add .input-box .answer-box{
+    width: 75%;
+}
+
+.add .input-box input, .add .input-box select{
+    width: 50%;
+}
+
+.create-form {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    background: white;
+    padding: 10px;
+    border-radius: 0px 0px 15px 15px;
+}
+
+.create-title-form{
+    background: linear-gradient(110deg, var(--nightblue) 0%, var(--lightblue) 50%, var(--nightblue) 100%);
+    color: white;
+    width: 100%;
+    height: 50px;
+    padding-left: 20px;
+    display: flex;
+    align-items: center;
+    animation: title-gradient 10s linear infinite;
+    font-size: 25px;
+    font-weight: 700;
+}
+
+@keyframes title-gradient {
+    0%{
+        background-position-x: 0pc;
+    }
+    100%{
+        background-position-x: 58pc;
+    }
+}
+
+.create-button-add{
+    background: linear-gradient(145deg, var(--nightblue) 0%, var(--lightblue) 100%);
+    border: solid 1px transparent;
+    border-radius: 15px;
+    color: white;
+    font-weight: 700;
+    padding: 8px 20px;
+    margin-left: auto;
+    position: relative;
+    overflow: hidden;
+}
+
+.create-button-add::after{
+    position: absolute;
+    content: 'Ajouter';
+    color: transparent;
+    background: transparent;
+    border-radius: 15px;
+    padding: 8px 20px;
+    height: 100%;
+    width: 0%;
+    top: 0;
+    left: 0;
+    transition: all 0.3s ease-in-out;
+}
+
+.create-button-add:hover::after{
+    background: white;
+    color: var(--nightblue);
+    width: 100%;
+}
+
+/* PAGINATION */
+
+.paginationjs-pages ul{
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    width: 35vw;
+    margin: auto;
+}
+
+@media (min-width: 768px) {
+    .chatbot-page.open {
+        width: 50vw;
+    }
+}

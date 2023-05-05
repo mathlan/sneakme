@@ -26,14 +26,15 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    Route::resource('/dashboard/products', \App\Http\Controllers\ProductController::class);
+    Route::resource('/dashboard/categories', \App\Http\Controllers\CategoryController::class);
+
+    Route::resource('/dashboard/keywords', \App\Http\Controllers\KeywordController::class);
+    Route::resource('/dashboard/answers', \App\Http\Controllers\AnswerController::class);
+    Route::resource('/dashboard/users', \App\Http\Controllers\UserController::class);
 });
 
 require __DIR__.'/auth.php';
 
 // ANCIEN ROOT
-
-Route::resource('/dashboard/product', \App\Http\Controllers\ProductController::class);
-Route::resource('/dashboard/categories', \App\Http\Controllers\CategoryController::class);
-
-Route::resource('/dashboard/keyword', \App\Http\Controllers\KeywordController::class);
-Route::resource('/dashboard/answer', \App\Http\Controllers\AnswerController::class);
