@@ -82,10 +82,18 @@ document.addEventListener('DOMContentLoaded', function() {
                                 var boxProductDiv = document.createElement('div');
                                 boxProductDiv.classList.add('boxProduct');
                                 boxProductDiv.textContent = data.products[i].name;
+
+                                // Ajouter une image
+                                var img = document.createElement('img');
+                                img.src = data.products[i].image; // Définition de la source
+                                boxProductDiv.appendChild(img); // Ajout à la div
+
                                 // Incrémente les données sur la dernière div showProduct
                                 document.querySelectorAll('.showProduct')[document.querySelectorAll('.showProduct').length - 1].appendChild(boxProductDiv);
                             }
                         }
+
+                        /*<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/25/Chat_roux_%C3%A0_pelage_court..jpg/240px-Chat_roux_%C3%A0_pelage_court..jpg">*/
 
                         // Si le json retourne des résultats de catalogue, on affiche le catalogue de marques en front
                         if (data.catalogue) {

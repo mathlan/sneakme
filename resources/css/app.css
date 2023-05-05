@@ -213,9 +213,9 @@
 
 .boxProduct{
     display: flex;
-    height: 30px;
+/*    height: 30px;*/
     color: black;
-    border: 1px solid #5e94c624;
+/*    border: 1px solid #5e94c624;*/
     align-items: center;
     justify-content: center;
     border-radius: 6%;
@@ -629,6 +629,7 @@
 
 @media (min-width: 768px) {
     .chatbot-page.open {
-        width: 50vw;
+        width: 25vw;
+        /*width: 50vw;*/
     }
 }

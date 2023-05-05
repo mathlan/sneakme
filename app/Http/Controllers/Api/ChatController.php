@@ -45,7 +45,7 @@ class ChatController extends Controller
                     $answer['products'] = $category->products;
                     // On supprime ce mot de la liste de mots clés
                     array_push($wordsToRemove, $word);
-/*                    dump($answer['products']);*/
+                    $answer['name'] = "Voici les produits de la marque "  . $category->name;
                 }
 
                 // CRUD KEYWORD // Si l'utilisateur entre un mot clé lié au CRUD (array: $crudValues) on garde le dernier en mémoire
