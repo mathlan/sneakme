@@ -29,6 +29,12 @@ class ChatController extends Controller
         $crudValues = ["ajouter", "modifier", "supprimer", "connecter", "connexion"];
         $lastAnswer = [];
 
+/*        if (Auth::check()) {
+            if($search == "test") {
+                $answer['name'] = "Connecté";
+            }
+        }*/
+
         // FILTRAGE DES MOTS CLES
         foreach ($words as $word) {
             $wordsToRemove = [];

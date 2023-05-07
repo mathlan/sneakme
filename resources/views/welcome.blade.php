@@ -33,37 +33,43 @@
             </form>
         </div>
     </section>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            var currentIndex = 0;
-            var items = document.querySelectorAll('.image');
-            var itemAmount = items.length;
+{{--    <script>
+        const slidesContainer = document.querySelector('.slides-container');
+        const prevButton = document.createElement('button');
+        prevButton.classList.add('prev');
+        prevButton.textContent = '<';
 
-            function cycleItems() {
-                var item = items[currentIndex];
-                items.forEach(function(item) {
-                    item.style.display = 'none';
-                });
-                item.style.display = 'inline-block';
+        const nextButton = document.createElement('button');
+        nextButton.classList.add('next');
+        nextButton.textContent = '>';
+
+        carouselContainer.appendChild(prevButton);
+        carouselContainer.appendChild(nextButton);
+
+        let slideIndex = 0;
+        const slidesToShow = 3;
+        const slideWidth = carouselContainer.offsetWidth / slidesToShow;
+
+        slidesContainer.style.transform = `translateX(-${slideIndex * slideWidth}px)`;
+
+        function shiftSlides(n) {
+            slideIndex += n;
+            if (slideIndex > Object.keys(data.products).length - slidesToShow) {
+                slideIndex = 0;
+            } else if (slideIndex < 0) {
+                slideIndex = Object.keys(data.products).length - slidesToShow;
             }
+            slidesContainer.style.transform = `translateX(-${slideIndex * slideWidth}px)`;
+        }
 
-            document.getElementById('next').addEventListener('click', function() {
-                currentIndex += 1;
-                if (currentIndex > itemAmount - 1) {
-                    currentIndex = 0;
-                }
-                cycleItems();
-            });
-
-            document.getElementById('prev').addEventListener('click', function() {
-                currentIndex -= 1;
-                if (currentIndex < 0) {
-                    currentIndex = itemAmount - 1;
-                }
-                cycleItems();
-            });
+        prevButton.addEventListener('click', () => {
+            shiftSlides(-1);
         });
-    </script>
+
+        nextButton.addEventListener('click', () => {
+            shiftSlides(1);
+        });
+    </script>--}}
 {{--    <script>
         /* SON MESSAGE */
         const myAudio = document.querySelector('#song-msg');

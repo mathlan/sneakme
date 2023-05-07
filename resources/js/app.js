@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (message) {
             // Incrémentation de l'ID réponse (pour nouvelle réponse)
             answerNumber++;
-            console.log(answerNumber);
+            /*console.log(answerNumber);*/
             // On retourne la demande de l'utilisateur
             document.querySelector("#chat-messages").insertAdjacentHTML('beforeend', '<div class="user-side"><div class="user-msg"><p>' + message + '</p></div></div>')
             // Envoi au serveur
@@ -65,28 +65,43 @@ document.addEventListener('DOMContentLoaded', function() {
                     // Si un message a été trouvé
                     if (Object.keys(data).length != 0) {
                         // Pour les tests en console
-                        console.log(data);
-                        console.log(typeof message + ' ' + message);
+                        /*console.log(data);*/
+                        /*console.log(typeof message + ' ' + message);*/
                         if (data) {
-                            document.querySelector("#chat-messages").insertAdjacentHTML('beforeend', '<div class="bot-side"><div class="bot-msg" data-answer="' + answerNumber + '"><p>' + data.name + '</p></div></div>')
+                            document.querySelector("#chat-messages").insertAdjacentHTML('beforeend', '<div class="bot-side"><div class="bot-msg" data-answer="' + answerNumber + '"><p class="bot-answer">' + data.name + '</p></div></div>')
                         } else {
                             //Si aucun message n'a été trouvé
-                            document.querySelector("#chat-messages").insertAdjacentHTML('beforeend', '<div class="bot-side"><div class="bot-msg"' + answerNumber + '">Merci de reformuler votre demande.</p></div></div>');
+                            document.querySelector("#chat-messages").insertAdjacentHTML('beforeend', '<div class="bot-side"><div class="bot-msg"' + answerNumber + '"><p class="bot-answer">Merci de reformuler votre demande.</p></div></div>');
                         }
 
-                        // Si le json retourne une liste de produits on les affiche en front
+                        //? PRODUITS
+                        //* Si le json retourne une liste de produits on les affiche en front
                         if (data.products.length != 0) {
-                            document.querySelector('[data-answer="' + answerNumber + '"]').insertAdjacentHTML('beforeend', '<div class="showProduct"></div>');
+                            document.querySelector('[data-answer="' + answerNumber + '"]').insertAdjacentHTML('beforeend', '<div id="products" class="showProduct"></div>');
                             // On affiche chaque produit
                             for (let i = 0; i < Object.keys(data.products).length; i++) {
-                                var boxProductDiv = document.createElement('div');
-                                boxProductDiv.classList.add('boxProduct');
-                                boxProductDiv.textContent = data.products[i].name;
+                                let boxProductDiv = document.createElement('div'); // Rajoute une div
+                                boxProductDiv.classList.add('boxProduct'); // Rajoute une classe
+/*                                boxProductDiv.textContent = data.products[i].name;*/
 
                                 // Ajouter une image
-                                var img = document.createElement('img');
-                                img.src = "/storage/product/" + data.products[i].image; // Définition de la source
+                                let img = document.createElement('img'); // Création de l'image
+                                img.src = "/storage/product/" + data.products[i].image; // Définition de la source de l'image
                                 boxProductDiv.appendChild(img); // Ajout à la div
+
+                                // Ajout du texte
+                                let txt = document.createElement('p'); // Création de balise p
+                                txt.textContent = data.products[i].name; // Contenu de la balise texte
+                                txt.classList.add('textProduct'); // Rajoute une classe
+                                boxProductDiv.appendChild(txt); // Ajout à la div
+
+                                // Agrandissement de la bulle de chat
+                                let botMsg = document.querySelector('.bot-msg');
+                                botMsg.style.width = '100%';
+
+                                // Adaptation du grid selon le nombre de résultats
+                                let showProduct = document.querySelector('.showProduct');
+                                showProduct.style.gridTemplateRows = 'repeat(' + (data.products.length/3) +', 1fr)';
 
                                 // Incrémente les données sur la dernière div showProduct
                                 document.querySelectorAll('.showProduct')[document.querySelectorAll('.showProduct').length - 1].appendChild(boxProductDiv);
@@ -95,14 +110,21 @@ document.addEventListener('DOMContentLoaded', function() {
 
                         /*<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/25/Chat_roux_%C3%A0_pelage_court..jpg/240px-Chat_roux_%C3%A0_pelage_court..jpg">*/
 
-                        // Si le json retourne des résultats de catalogue, on affiche le catalogue de marques en front
+                        //? CATALOGUE
+                        //* Si le json retourne des résultats de catalogue, on affiche le catalogue de marques en front
                         if (data.catalogue) {
-                            document.querySelector('[data-answer="' + answerNumber + '"]').insertAdjacentHTML('beforeend', '<div class="showProduct"></div>');
+                            document.querySelector('[data-answer="' + answerNumber + '"]').insertAdjacentHTML('beforeend', '<div id="categories" class="showProduct"></div>');
                             // On affiche chaque produit
                             for (let i = 0; i < Object.keys(data.catalogue).length; i++) {
-                                var boxProductDiv = document.createElement('div');
+                                let boxProductDiv = document.createElement('div');
                                 boxProductDiv.classList.add('boxProduct');
-                                boxProductDiv.textContent = data.catalogue[i].name;
+                                // Ajout du texte
+                                let txt = document.createElement('a'); // Création de balise p
+                                txt.textContent = data.catalogue[i].name; // Contenu de la balise texte
+                                txt.classList.add('textProduct'); // Rajoute une classe
+                                txt.href = "#";
+                                txt.dataset.name = data.catalogue[i].name; //Rajoute un data-set avec le nom name
+                                boxProductDiv.appendChild(txt); // Ajout à la div
                                 // Incrémente les données sur la dernière div showProduct
                                 document.querySelectorAll('.showProduct')[document.querySelectorAll('.showProduct').length - 1].appendChild(boxProductDiv);
                             }
@@ -115,47 +137,22 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             };
             // Il faut bien envoyer les data formatées en json {keyword: data}
-            var jsonMessage = JSON.stringify({ keyword: message });
+            let jsonMessage = JSON.stringify({ keyword: message });
             xhr.send(jsonMessage);
             // On vide l'input pour la prochaine requête
             document.querySelector('#chat-message').value = '';
         }
     });
 });
-/*$(function(){// BTN BOT
-    $('.chatbot-bulle').click(function() {
-        $('.chatbot-page').toggleClass('open');
-        $('.chatbot-bulle').toggleClass('up');
-        $('.message-taping-zone').toggleClass('on');
 
-    });
-    $('.chat-header .fa-xmark').click(function() {
-        $('.chatbot-page').toggleClass('open');
-        $('.chatbot-bulle').toggleClass('up');
-        $('.message-taping-zone').toggleClass('on');
-    });
-    $('.send-message').click(function() {
-        $(".send-message i").addClass('animation-send');
-        setTimeout(function () {
-            $(".send-message i").removeClass('animation-send');
-        }, 4000);
-    });
-
-    $('#btnGet').click(function () {
-        getUserCountry()
-    })
-
-});*/
-
-/*<div id="carousel">
-    <div className="image"><img src="image1.jpg"></div>
-    <div className="image"><img src="image2.jpg"></div>
-    <div className="image"><img src="image3.jpg"></div>
-    <div className="image"><img src="image4.jpg"></div>
-</div>
-
-<button id="prev">Previous</button>
-<button id="next">Next</button>*/
-
-
-
+/*
+document.addEventListener('DOMContentLoaded', function() {
+    let categories = document.querySelector('#categories');
+    if (categories) {
+        categories.addEventListener('click', function(event) {
+            event.preventDefault();
+            console.log("Ok");
+        });
+    } else {console.log("Nok");}
+});
+*/
