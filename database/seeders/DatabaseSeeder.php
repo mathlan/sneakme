@@ -19,7 +19,7 @@ class DatabaseSeeder extends Seeder
 
         \App\Models\User::factory(10)->create();
         \App\Models\Category::factory(10)->create();
-        \App\Models\Product::factory(30)->create();
+        // \App\Models\Product::factory(30)->create();
 
         // Réponses
 
@@ -193,6 +193,60 @@ class DatabaseSeeder extends Seeder
             'name' => 'valider',
             'answer_id' => "15",
             'type' => 'panier',
+        ]);
+
+        \App\Models\Product::factory()->create([
+            'id' => '1',
+            'name' => 'Dunk High Panda',
+            'image' => 'Dunk High Panda (2021).jpg',
+            'description' => fake()->text(200),
+            'price' => '160',
+            'category_id' => '1',
+        ]);
+
+        \App\Models\Product::factory()->create([
+            'id' => '2',
+            'name' => 'Nike Air Trainer 1',
+            'image' => 'Nike Air Trainer 1.jpg',
+            'description' => fake()->text(200),
+            'price' => '130',
+            'category_id' => '1',
+        ]);
+
+        \App\Models\Product::factory()->create([
+            'id' => '3',
+            'name' => 'Air Jordan 1 Mid',
+            'image' => 'Air Jordan 1 Mid.jpg',
+            'description' => fake()->text(200),
+            'price' => '130',
+            'category_id' => '1',
+        ]);
+
+        \App\Models\Product::factory()->create([
+            'id' => '4',
+            'name' => 'Nike Dunk Low',
+            'image' => 'Nike Dunk Low.jpg',
+            'description' => fake()->text(200),
+            'price' => '110',
+            'category_id' => '1',
+        ]);
+
+        \App\Models\Product::factory()->create([
+            'id' => '5',
+            'name' => 'Nike Air Max Plus',
+            'image' => 'Nike Air Max Plus.jpg',
+            'description' => fake()->text(200),
+            'price' => '200',
+            'category_id' => '1',
+        ]);
+
+        \App\Models\Product::factory()->create([
+            'id' => '6',
+            'name' => 'Nike Air Max 90',
+            'image' => 'Nike Air Max 90.jpg',
+            'description' => fake()->text(200),
+            'price' => '150',
+            'category_id' => '1',
         ]);
 
 

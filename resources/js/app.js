@@ -85,7 +85,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
                                 // Ajouter une image
                                 var img = document.createElement('img');
-                                img.src = data.products[i].image; // Définition de la source
+                                img.src = "/storage/product/" + data.products[i].image; // Définition de la source
                                 boxProductDiv.appendChild(img); // Ajout à la div
 
                                 // Incrémente les données sur la dernière div showProduct
