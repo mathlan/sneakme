@@ -17,6 +17,15 @@ class DatabaseSeeder extends Seeder
             'name' => 'Nike',
         ]);
 
+        \App\Models\User::factory()->create([
+            'id' => '1',
+            'lastname' => 'Super',
+            'firstname' => 'Admin',
+            'email' => 'superadmin@example.com',
+            'role' => 'admin',
+
+        ]);
+
         \App\Models\User::factory(10)->create();
         \App\Models\Category::factory(10)->create();
         // \App\Models\Product::factory(30)->create();
@@ -249,12 +258,5 @@ class DatabaseSeeder extends Seeder
             'category_id' => '1',
         ]);
 
-
-
-
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
     }
 }
