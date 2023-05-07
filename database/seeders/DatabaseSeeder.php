@@ -19,7 +19,7 @@ class DatabaseSeeder extends Seeder
 
         \App\Models\User::factory(10)->create();
         \App\Models\Category::factory(10)->create();
-        // \App\Models\Product::factory(30)->create();
+        \App\Models\Product::factory(30)->create();
 
         // Réponses
 
@@ -40,12 +40,12 @@ class DatabaseSeeder extends Seeder
 
         \App\Models\Answer::factory()->create([
             'id' => '4',
-            'name' => 'Voici les marques que nous possédons',
+            'name' => 'Voici ce que nous proposons',
         ]);
 
         \App\Models\Answer::factory()->create([
             'id' => '5',
-            'name' => 'Shouaitez-vous ajouter cet article a votre panier ?',
+            'name' => 'Souhaitez-vous ajouter cet article a votre panier ?',
         ]);
 
         \App\Models\Answer::factory()->create([
@@ -60,17 +60,17 @@ class DatabaseSeeder extends Seeder
 
         \App\Models\Answer::factory()->create([
             'id' => '8',
-            'name' => 'Vous Pouvez vous connecter ici',
+            'name' => 'Vous pouvez vous connecter ici',
         ]);
 
         \App\Models\Answer::factory()->create([
             'id' => '9',
-            'name' => 'Shouaitez-vous supprimer cet article de votre panier ?',
+            'name' => 'Souhaitez-vous supprimer cet article de votre panier ?',
         ]);
 
         \App\Models\Answer::factory()->create([
             'id' => '10',
-            'name' => 'Comment shouaitez-vous regler ?',
+            'name' => 'Comment souhaitez-vous regler ?',
         ]);
 
         \App\Models\Answer::factory()->create([
@@ -86,6 +86,15 @@ class DatabaseSeeder extends Seeder
         \App\Models\Answer::factory()->create([
             'id' => '13',
             'name' => 'Voila les categories disponible',
+        ]);
+
+        \App\Models\Answer::factory()->create([
+            'id' => '14',
+            'name' => 'Si vous souhaitez valider votre panier, dites "valider", pour afficher le catalogue dites "catalogue"',
+        ]);
+        \App\Models\Answer::factory()->create([
+            'id' => '15',
+            'name' => 'Validation du panier',
         ]);
 
         // Mot-clés
@@ -172,6 +181,18 @@ class DatabaseSeeder extends Seeder
             'name' => 'categories',
             'answer_id' => "13",
             'type' => 'catalogue',
+        ]);
+
+        \App\Models\Keyword::factory()->create([
+            'name' => 'acheter',
+            'answer_id' => "14",
+            'type' => 'panier',
+        ]);
+
+        \App\Models\Keyword::factory()->create([
+            'name' => 'valider',
+            'answer_id' => "15",
+            'type' => 'panier',
         ]);
 
 

@@ -7,7 +7,10 @@ use App\Models\Answer;
 use App\Models\Category;
 use App\Models\Keyword;
 use App\Models\Product;
+use App\Service\Color;
+use App\Service\Size;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ChatController extends Controller
 {
@@ -18,171 +21,116 @@ class ChatController extends Controller
     {
         $search = $request->input('keyword');
         $words = explode(" ", $search);
-        $keywords = [];
-        $results = [];
+        $keywordType = "";
+        $category = null;
         $answer = [];
-        $types = [];
-        $crudValues = ["ajouter", "modifier", "supprimer"];
+        $answer['name'] = "";
+        $answer['products'] = [];
+        $crudValues = ["ajouter", "modifier", "supprimer", "connecter", "connexion"];
+        $lastAnswer = [];
+
+        // FILTRAGE DES MOTS CLES
+        foreach ($words as $word) {
+            $wordsToRemove = [];
+            // MOTS COURTS // On filtre d'abord les mots inférieurs à trois caractères et qui ne sont pas des INT pour épurer la recherche // Il faudrait éventuellement une liste d'exceptions
+            if (strlen($word) < 3 && !is_numeric($word)) {
+                array_push($wordsToRemove, $word);
+            }
+            // Si le mot fait 3 lettres ou +
+            else if (strlen($word) >= 3) {
+                // PRODUIT // Permet de définir si le client recherche un produit ($category) et de supprimer le superflu (type: "catalogue", "default")
+                // Extraction de la marque
+                $category = Category::where('name', 'like', '%' . $word . '%')->first();
+                // Quand la boucle trouve en enfin une marque, elle affiche ses produits
+                if ($category) {
+                    $answer['products'] = $category->products;
+                    // On supprime ce mot de la liste de mots clés
+                    array_push($wordsToRemove, $word);
+                    // Dans le cas où l'utilisateur n'aurait mis que le nom de la marque, on retourne une réponse.
+                    $answer['name'] = "Voici les produits de la marque "  . $category->name;
+                }
+
+                // CRUD KEYWORD // Si l'utilisateur entre un mot clé lié au CRUD (array: $crudValues) on garde le dernier en mémoire
+                if(count(array_intersect($words, $crudValues)) > 0) {
+                    $crud[] = last(array_intersect($words, $crudValues));
+                    if(count($crud) > 0) {
+                        $answer['crud'] = $crud[0];
+                        // Et on supprime le mot clé
+                        array_push($wordsToRemove, $crud[0]);
+                    }
+                }
+            }
+            $words = array_filter($words, function($newWord) use ($wordsToRemove) {
+                return !in_array($newWord, $wordsToRemove);
+            });
+        }
+
 
         // Permet de fetch les infos du dernier mot clé trouvé dans la table answer
         foreach ($words as $word) {
-            $keyword = Keyword::where('name', 'like', '%' . $word . '%')
-                ->first();
+            // Pour chaque mot, on récupère le premier mot clé en BDD qui ressemble le plus à celui de l'input
+            // /!\ On ne traite pas les mots inférieurs à 3 caractères
+            if (strlen($word) >= 3) {
+                // Extraction d'un mot clé
+                $keyword = Keyword::where('name', 'like', '%' . $word . '%')->first();
+                // Une première réponse est définie
+                if ($keyword) {
+                $answer['name'] = $keyword->answer['name'];
+                }
+            }
 
-            // Création de la réponse
+            // KEYWORD & KEYWORD TYPE // S'il y a un mot clé, on déclare:
             if ($keyword) {
+                // - La réponse: Qui est un array dans lequel on merge les données de la réponse en BDD avec celle déjà existante (s'il y en avait une)
                 $answer = array_merge(last([$keyword->answer])->toArray(), $answer);
+                // - Le type de réponse que l'on push dans la réponse (on stocke la variable type à l'extérieur de la boucle pour la réutiliser)
+                $keywordType = $keyword->type;
+                $answer['type'] = $keywordType;
+            }
 
-                $type = $keyword->type;
-                $answer['type'] = $type;
+            // TYPE CATALOGUE // Si le mot clé est de type "catalogue"
+            if ($keywordType == "catalogue") {
+                // Ajoute les objets "Catégories" de tout le catalogue s'il n'y a pas d'objet Products
+                if ($answer['products'] == []) {
+                $answer['catalogue'] = Category::all();
+                }
+                if ($keyword) {
+                // On redéfinit la réponse pour qu'elle corresponde à une demande de catalogue
+                $answer['name'] = $keyword->answer['name'];
+                }
+            }
+
+            // TYPE PANIER & COMPTE // Si le mot clé est de type 'panier" ou "compte", on recherche ce que l'utilisateur veut faire avec ce dernier
+            if ($keywordType == "panier" || $keywordType == "compte") {
+                // On clear la variable extérieure pour éviter de répéter l'opération
+                $keywordType = "";
+                // On redéfinit la réponse pour qu'elle corresponde à une demande de panier/compte
+                $answer['name'] = $keyword->answer['name'];
+            }
+
+            // COULEUR // Si le client a demandé une couleur on la capte et on la stock dans le json
+            // Tryfrom compare l'input avec tout son contenu
+            if (Color::tryFrom($word)) {
+                $answer['color'] = Color::tryFrom($word)->value;
+            }
+            // POINTURE // Si le client a demandé une pointure on la capte et on la stock dans le json
+            if (Size::tryFrom((int)$word)) {
+                $answer['size'] = Size::tryFrom($word)->value;
             }
         }
-
-        // S'il y a au moins une réponse retournée par la recherche (un mot clé trouvé) on continue de la traiter
-        if ($answer != []) {
-
-            // Si le mot clé est de type "catalogue", on recherche les mots clés dans category
-            if (in_array("catalogue", $words)) {
-                $answer['products'] = [];
-                foreach ($words as $word) {
-                    $category = Category::where('name', 'like', $word)->first();
-                    if ($category) {
-                        // Si une catégorie est trouvée, on renvoie les produits de la catégories.
-                        $products[] = Product::where('category_id', 'like', $category->id)->get();
-                        // Ajoute les objets "Produits" qui correspondent à la recherche
-                        $answer['products'] = array_merge($products, $answer['products']);
-                    } else {
-                        // Si aucune catégorie n'est trouvée, on renvoie la totalité du catalogue.
-                        $catalogue = Category::all();
-                        // Ajoute les objets "Catégories" de tout le catalogue
-                        $answer['catalogue'] = $catalogue;
-                    }
-                }
-            }
-
-            // Si le mot clé est de type "panier", on recherche ce que l'utilisateur veut faire avec le panier
-            if (in_array("panier", $words)) {
-                $basket = [];
-                // Si l'utilisateur entre un mot clé lié au CRUD (array: $crudValues) on garde le dernier en mémoire
-                if(count(array_intersect($words, $crudValues)) > 0) {
-                    $basket[] = last(array_intersect($words, $crudValues));
-                }
-                if(count($basket) > 0) {
-                    $answer['panier'] = $basket[0];
-                }
-            }
-
+        // S'il n'y a pas de réponse, on invite l'utilisateur à reformuler sa demande
+        if (!$answer['name']) {
+            $answer['name'] = "Merci de reformuler votre demande.";
         }
+
+        $lastAnswer = $answer;
         return response()->json($answer);
 
-
-        // if (type egal catalogue)
-        //     rechercher en bdd  une categorie
-        //     if une categorie
-        //         return la liste des produits de la categorie;
-
-        // Afficher la réponse à un seul mot clé
-
-        // $keyword = Keyword::where('name', 'like', '%' . $search . '%')->first();
-        // return response()->json(['answer' => $keyword->answer->name]);
-
-        // Découpe la phrase et sélectionne la réponse liée au dernier mot clé
-
-        // $search = $request->input('keyword');
-        // $words = explode(" ", $search);
-        // $results = [];
-        // foreach ($words as $word) {
-        //     $keyword = Keyword::where('name', 'like', '%' . $word . '%')->first();
-        //     if($keyword) {
-        //         $results[] = $keyword->answer->name;
-        //     }
-        // }
-        // return response()->json(['answer' => last($results)]);
-
-        // Affichae une réponse ou le catalogue demandé
-
-        // $search = $request->input('keyword');
-        // $words = explode(" ", $search);
-        // $results = [];
-        // foreach ($words as $word) {
-        //     $keyword = Keyword::where('name', 'like', '%' . $word . '%')->first();
-        //     // Si on rencontre un mot clé -> Evite les erreurs s'il n'y a pas de résultat
-        //     if ($keyword) {
-        //         $results[] = $keyword->answer;
-        //         // Si le mot clé est de type "catalogue", on recherche les mots clés dans category
-        //         if ($keyword->type == "catalogue") {
-        //             foreach ($words as $word) {
-        //                 $category = Category::where('name', 'like', $word)->first();
-        //                 if ($category) {
-        //                     $products = Product::where('category_id', 'like', $category->id)->get();
-        //                     $answerProduct = last($results)->toArray();
-        //                     $answerProduct['products'] = $products;
-        //                     return response()->json($answerProduct);
-        //                     // return response()->json($category);
-        //                 }
-        //             }
-        //         }
-        //     }
-        // }
-        // return response()->json(last($results));
-
-
-/*        $search = $request->input('keyword');
-        $words = explode(" ", $search);
-        $results = [];
-        $answer = [];
-        /*        $crudValues = [0 => "ajouter", 1 => "modifier", 2 =>"supprimer"];*/
-
-/*        foreach ($words as $word) {
-            $keyword = Keyword::where('name', 'like', '%' . $word . '%')->first();
-            // Si on rencontre un mot clé -> Evite les erreurs s'il n'y a pas de résultat
-            if ($keyword) {
-                $results[] = $keyword->answer;
-                $answer = array_merge(last($results)->toArray(), $answer);
-            }
-
-            if ($word == "modifier") {
-                $answer['request'] = $word;
-            }
+/*        if (Auth::check()) {
+            // Connecté
+        } else {
+            // Pas connecté return response()->json(["message" => "Il faut être connecté"]);
         }*/
-
-
-/*        foreach ($words as $word) {
-            $keyword = Keyword::where('name', 'like', '%' . $word . '%')->first();
-            // Si on rencontre un mot clé -> Evite les erreurs s'il n'y a pas de résultat
-            if ($keyword) {
-                // Si le mot clé est de type "catalogue", on recherche les mots clés dans category
-                if ($keyword->type == "catalogue") {
-                    foreach ($words as $word) {
-                        $category = Category::where('name', 'like', $word)->first();
-                        if ($category) {
-                            $products = Product::where('category_id', 'like', $category->id)->get();
-                            // Ajoute les objets "Produits" qui correspondent à la recherche
-                            $answer['products'] = $products;
-                            return response()->json($answer);
-                        }
-                    }
-                    // Si aucune catégorie n'est trouvée, on renvoie la totalité du catalogue.
-                    $catalogue = Category::all();
-                    // Ajoute les objets "Catégories" de tout le catalogue
-                    $answer['catalogue'] = $catalogue;
-                    return response()->json($answer);
-                }
-
-                // if ($keyword->type == "panier") {
-                //     $keyword = Keyword::where('name', 'like', '%' . $word . '%')->first();
-                // }
-            }
-        }*/
-        /*return response()->json($answer);*/
-
-
-        // TEST TEST TEST TEST TEST
-        // else {
-        //     $catalogue = Category::all();
-        //     $answerData['catalogue'] = $catalogue;
-        // }
-        //     return response()->json($answerData);
 
     }
 
