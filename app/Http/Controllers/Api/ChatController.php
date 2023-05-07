@@ -73,6 +73,10 @@ class ChatController extends Controller
             if (strlen($word) >= 3) {
                 // Extraction d'un mot clé
                 $keyword = Keyword::where('name', 'like', '%' . $word . '%')->first();
+                // Une première réponse est définie
+                if ($keyword) {
+                $answer['name'] = $keyword->answer['name'];
+                }
             }
 
             // KEYWORD & KEYWORD TYPE // S'il y a un mot clé, on déclare:

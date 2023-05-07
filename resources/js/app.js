@@ -147,5 +147,15 @@ document.addEventListener('DOMContentLoaded', function() {
 
 });*/
 
+/*<div id="carousel">
+    <div className="image"><img src="image1.jpg"></div>
+    <div className="image"><img src="image2.jpg"></div>
+    <div className="image"><img src="image3.jpg"></div>
+    <div className="image"><img src="image4.jpg"></div>
+</div>
+
+<button id="prev">Previous</button>
+<button id="next">Next</button>*/
+
 
 
