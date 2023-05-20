@@ -39,6 +39,14 @@ window.addEventListener('DOMContentLoaded', function() {
 
 /* API CHATBOT */
 
+function updateChatFeatures() { //? Fonctionnalités à appliquer à chaque réponse du bot
+    // Joue un petit son à chaque réponse
+    myAudio.play();
+    // Repositionnement automatique de la barre de défilement en bas
+    let chatContainer = document.getElementById("chat-container");
+    chatContainer.scrollTop = chatContainer.scrollHeight;
+}
+
 // ID de la réponse
 let answerNumber = 0;
 document.addEventListener('DOMContentLoaded', function() {
@@ -98,12 +106,15 @@ document.addEventListener('DOMContentLoaded', function() {
                                         '<div class="bot-msg">' +
                                         '<img src="' + img.src + '">' +
                                         '<p>' + data.products[i].name + '</p>' +
-                                        '<p>Taille / Couleur</p>' +
-                                        '<p>Quantité</p>' +
+                                        '<p>Taille </p><select name="size" id="size"></select>' +
+                                        //<option value="volvo">Volvo</option>
+                                        '<p>Couleur</p>' +
+                                        '<p>Quantité</p><input type="number" id="quantity" name="quantity" min="0" max="10"></br>' +
                                         '<button>Ajouter au panier</button>' +
                                         '</div>' +
                                         '</div>'
                                     );
+                                    updateChatFeatures()
                                 }
                                 // TODO end
 
@@ -154,11 +165,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                 document.querySelectorAll('.showProduct')[document.querySelectorAll('.showProduct').length - 1].appendChild(boxProductDiv);
                             }
                         }
-                        // Joue un petit son à chaque réponse
-                        myAudio.play();
-                        // Repositionnement automatique de la barre de défilement en bas
-                        let chatContainer = document.getElementById("chat-container");
-                        chatContainer.scrollTop = chatContainer.scrollHeight;
+                        updateChatFeatures()
                     }
                 } else {
                     console.error('Request failed. Error: ' + xhr.status);
@@ -172,15 +179,3 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 });
-
-/*
-document.addEventListener('DOMContentLoaded', function() {
-    let categories = document.querySelector('#categories');
-    if (categories) {
-        categories.addEventListener('click', function(event) {
-            event.preventDefault();
-            console.log("Ok");
-        });
-    } else {console.log("Nok");}
-});
-*/
