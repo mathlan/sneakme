@@ -7,8 +7,10 @@ use App\Models\Answer;
 use App\Models\Category;
 use App\Models\Keyword;
 use App\Models\Product;
-use App\Service\Color;
-use App\Service\Size;
+use App\Models\Color;
+use App\Models\Size;
+use App\Service\ColorSelected;
+use App\Service\SizeSelected;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -26,6 +28,8 @@ class ChatController extends Controller
         $answer = [];
         $answer['name'] = "";
         $answer['products'] = [];
+        $answer['colors'] = Color::pluck('color')->all();
+        $answer['sizes'] = Size::pluck('size')->all();
         $crudValues = ["ajouter", "modifier", "supprimer", "connecter", "connexion"];
         $lastAnswer = [];
 
@@ -116,12 +120,12 @@ class ChatController extends Controller
 
             // COULEUR // Si le client a demandé une couleur on la capte et on la stock dans le json
             // Tryfrom compare l'input avec tout son contenu
-            if (Color::tryFrom($word)) {
-                $answer['color'] = Color::tryFrom($word)->value;
+            if (ColorSelected::tryFrom($word)) {
+                $answer['color'] = ColorSelected::tryFrom($word)->value;
             }
             // POINTURE // Si le client a demandé une pointure on la capte et on la stock dans le json
-            if (Size::tryFrom((int)$word)) {
-                $answer['size'] = Size::tryFrom($word)->value;
+            if (SizeSelected::tryFrom((int)$word)) {
+                $answer['size'] = SizeSelected::tryFrom($word)->value;
             }
         }
         // S'il n'y a pas de réponse, on invite l'utilisateur à reformuler sa demande

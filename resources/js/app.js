@@ -100,15 +100,30 @@ document.addEventListener('DOMContentLoaded', function() {
 
                                 // TODO Rendre les images cliquables pour les afficher dans un nouveau message et pouvoir ajouter le produit au panier
                                 img.onclick= function () {
+
+                                    //Tailles possibles dans les choix de chaussures
+                                    let sizeOptions = '';
+                                    for (let i = 0; i < data.sizes.length; i++) {
+                                        sizeOptions += '<option value=' + data.sizes[i] + '>' + data.sizes[i] + '</option>';
+                                    }
+                                    //Couleurs possibles dans les choix de chaussures
+                                    let colorOptions = '';
+                                    for (let i = 0; i < data.colors.length; i++) {
+                                        colorOptions += '<option value=' + data.colors[i] + '>' + data.colors[i] + '</option>';
+                                    }
+
                                     // Affichage de l'image dans une nouvelle bulle du bot + Possibilité de l'ajouter au panier
                                     document.querySelector("#chat-messages").insertAdjacentHTML('beforeend', '' +
                                         '<div class="bot-side">' +
                                         '<div class="bot-msg">' +
                                         '<img src="' + img.src + '">' +
                                         '<p>' + data.products[i].name + '</p>' +
-                                        '<p>Taille </p><select name="size" id="size"></select>' +
-                                        //<option value="volvo">Volvo</option>
-                                        '<p>Couleur</p>' +
+                                        '<p>Taille </p><select name="size" id="size">' +
+                                        sizeOptions +
+                                        '</select>' +
+                                        '<p>Couleur </p><select name="color" id="color">' +
+                                        colorOptions +
+                                        '</select>' +
                                         '<p>Quantité</p><input type="number" id="quantity" name="quantity" min="0" max="10"></br>' +
                                         '<button>Ajouter au panier</button>' +
                                         '</div>' +

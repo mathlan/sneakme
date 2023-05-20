@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Service;
-enum Size:int {
+enum SizeSelected:int {
     case S35 = 35;
     case S36 = 36;
     case S37 = 37;
