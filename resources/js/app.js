@@ -122,6 +122,12 @@ document.addEventListener('DOMContentLoaded', function() {
                                 let txt = document.createElement('a'); // Création de balise p
                                 txt.textContent = data.catalogue[i].name; // Contenu de la balise texte
                                 txt.classList.add('textProduct'); // Rajoute une classe
+                                txt.onclick= function () {
+                                    // Remplit automatiquement l'input avec le choix cliqué
+                                    document.querySelector('#chat-message').value = data.catalogue[i].name;
+                                    // Auto-clique pour envoyer l'input
+                                    document.querySelector('.send-message').click();
+                                }
                                 txt.href = "#";
                                 txt.dataset.name = data.catalogue[i].name; //Rajoute un data-set avec le nom name
                                 boxProductDiv.appendChild(txt); // Ajout à la div
