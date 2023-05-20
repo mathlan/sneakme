@@ -90,9 +90,9 @@ document.addEventListener('DOMContentLoaded', function() {
                                 // img.dataset.img = data.products[i].image; // Nommage de l'élément
                                 img.style.cursor = 'pointer'; // Style du curseur
 
-                                // TODO Rendre les images cliquables pour les afficher dans un nouveau message
+                                // TODO Rendre les images cliquables pour les afficher dans un nouveau message et pouvoir ajouter le produit au panier
                                 img.onclick= function () {
-                                    // Affichage de l'image dans une nouvelle bulle du bot
+                                    // Affichage de l'image dans une nouvelle bulle du bot + Possibilité de l'ajouter au panier
                                     document.querySelector("#chat-messages").insertAdjacentHTML('beforeend', '' +
                                         '<div class="bot-side">' +
                                         '<div class="bot-msg">' +
@@ -156,6 +156,9 @@ document.addEventListener('DOMContentLoaded', function() {
                         }
                         // Joue un petit son à chaque réponse
                         myAudio.play();
+                        // Repositionnement automatique de la barre de défilement en bas
+                        let chatContainer = document.getElementById("chat-container");
+                        chatContainer.scrollTop = chatContainer.scrollHeight;
                     }
                 } else {
                     console.error('Request failed. Error: ' + xhr.status);

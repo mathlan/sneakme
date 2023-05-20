@@ -24,7 +24,7 @@
                 <i class="fa-solid fa-bag-shopping"></i>
                 <i class="fa-solid fa-xmark"></i>
             </div>
-            <section class="chat-container-page">
+            <section id="chat-container" class="chat-container-page">
                 <div id="chat-messages"></div>
             </section>
             <form id="chat-form" class="message-typing-zone">
