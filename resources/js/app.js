@@ -87,6 +87,26 @@ document.addEventListener('DOMContentLoaded', function() {
                                 // Ajouter une image
                                 let img = document.createElement('img'); // Création de l'image
                                 img.src = "/storage/product/" + data.products[i].image; // Définition de la source de l'image
+                                // img.dataset.img = data.products[i].image; // Nommage de l'élément
+                                img.style.cursor = 'pointer'; // Style du curseur
+
+                                // TODO Rendre les images cliquables pour les afficher dans un nouveau message
+                                img.onclick= function () {
+                                    // Affichage de l'image dans une nouvelle bulle du bot
+                                    document.querySelector("#chat-messages").insertAdjacentHTML('beforeend', '' +
+                                        '<div class="bot-side">' +
+                                        '<div class="bot-msg">' +
+                                        '<img src="' + img.src + '">' +
+                                        '<p>' + data.products[i].name + '</p>' +
+                                        '<p>Taille / Couleur</p>' +
+                                        '<p>Quantité</p>' +
+                                        '<button>Ajouter au panier</button>' +
+                                        '</div>' +
+                                        '</div>'
+                                    );
+                                }
+                                // TODO end
+
                                 boxProductDiv.appendChild(img); // Ajout à la div
 
                                 // Ajout du texte
@@ -95,20 +115,19 @@ document.addEventListener('DOMContentLoaded', function() {
                                 txt.classList.add('textProduct'); // Rajoute une classe
                                 boxProductDiv.appendChild(txt); // Ajout à la div
 
-                                // Agrandissement de la bulle de chat
-                                let botMsg = document.querySelector('.bot-msg');
-                                botMsg.style.width = '100%';
-
-                                // Adaptation du grid selon le nombre de résultats
-                                let showProduct = document.querySelector('.showProduct');
-                                showProduct.style.gridTemplateRows = 'repeat(' + (data.products.length/3) +', 1fr)';
-
                                 // Incrémente les données sur la dernière div showProduct
                                 document.querySelectorAll('.showProduct')[document.querySelectorAll('.showProduct').length - 1].appendChild(boxProductDiv);
                             }
-                        }
 
-                        /*<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/25/Chat_roux_%C3%A0_pelage_court..jpg/240px-Chat_roux_%C3%A0_pelage_court..jpg">*/
+                            // Agrandissement de la bulle de chat
+                            let botMsg = document.querySelector('.bot-msg');
+                            botMsg.style.width = '100%';
+
+                            // Adaptation du grid selon le nombre de résultats
+                            let showProduct = document.querySelector('.showProduct');
+                            //TODO Taille du grid adaptée au nombre de résultats
+                            showProduct.style.gridTemplateRows = 'repeat(' + data.products.length/3 +', 1fr)';
+                        }
 
                         //? CATALOGUE
                         //* Si le json retourne des résultats de catalogue, on affiche le catalogue de marques en front
