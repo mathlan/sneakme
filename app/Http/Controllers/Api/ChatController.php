@@ -142,6 +142,8 @@ class ChatController extends Controller
             // Pas connecté return response()->json(["message" => "Il faut être connecté"]);
         }*/
 
+        // up
+
     }
 
 }
