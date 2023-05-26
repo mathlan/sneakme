@@ -54,7 +54,7 @@ document.addEventListener('DOMContentLoaded', function() {
     document.querySelector('#chat-form').addEventListener('submit', function(event) {
         event.preventDefault();
         // Récupération de l'input du form (keyword)
-        var message = document.querySelector('#chat-message').value;
+        let message = document.querySelector('#chat-message').value;
 
         // S'il y a un message -> Requête
         if (message) {
@@ -98,7 +98,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                 // img.dataset.img = data.products[i].image; // Nommage de l'élément
                                 img.style.cursor = 'pointer'; // Style du curseur
 
-                                // TODO Rendre les images cliquables pour les afficher dans un nouveau message et pouvoir ajouter le produit au panier
+                                //feat Produits du catalogue cliquables (affichés dans une nouvelle bulle)
                                 img.onclick= function () {
 
                                     //Tailles possibles dans les choix de chaussures
@@ -115,7 +115,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                     // Affichage de l'image dans une nouvelle bulle du bot + Possibilité de l'ajouter au panier
                                     document.querySelector("#chat-messages").insertAdjacentHTML('beforeend', '' +
                                         '<div class="bot-side">' +
-                                        '<div class="bot-msg">' +
+                                        '<div id="chatMsgAdd" class="bot-msg">' +
                                         '<img src="' + img.src + '">' +
                                         '<p>' + data.products[i].name + '</p>' +
                                         '<p>Taille </p><select name="size" id="size">' +
@@ -125,10 +125,37 @@ document.addEventListener('DOMContentLoaded', function() {
                                         colorOptions +
                                         '</select>' +
                                         '<p>Quantité</p><input type="number" id="quantity" name="quantity" min="0" max="10"></br>' +
-                                        '<button>Ajouter au panier</button>' +
                                         '</div>' +
                                         '</div>'
                                     );
+
+                                    //feat Ajout au panier JS
+
+                                    //* Stockage des items en variable
+                                    let size = "";
+                                    let color = "";
+                                    let quantity = 0;
+                                    let newItem = [];
+                                    function updateNewItem () {
+                                        size = document.getElementById("size").value;
+                                        color = document.getElementById("color").value;
+                                        quantity = document.getElementById("quantity").value;
+                                        newItem = {size: size, color: color, quantity: quantity};
+
+                                        //mathieu J'EN SUIS A ICI
+                                        http://127.0.0.1:8000/api/chat retourne "ok" sur Insomnia ?? Il faut retrouver l'objet test "ok"
+
+                                        console.log(newItem);
+                                    };
+
+                                    //* Bouton ajout
+                                    const chatMsgAdd = document.getElementById("chatMsgAdd");
+                                    const addBasketBtn = document.createElement("button");
+                                    addBasketBtn.textContent = "Ajouter"; // Contenu de la balise texte
+                                    addBasketBtn.addEventListener('click', updateNewItem);
+                                    chatMsgAdd.appendChild(addBasketBtn);
+
+                                    //* Son "pop" & auto scroll
                                     updateChatFeatures()
                                 }
                                 // TODO end
@@ -194,3 +221,53 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 });
+
+/*//feat Ajout au panier JS
+
+//!* Stockage des items en variable
+let size = "";
+let color = "";
+let quantity = 0;
+let newItem = [];
+function updateNewItem () {
+    size = document.getElementById("size").value;
+    color = document.getElementById("color").value;
+    quantity = document.getElementById("quantity").value;
+    newItem = {size: size, color: color, quantity: quantity};
+
+    //mathieu J'EN SUIS A ICI
+    /!*                                        document.querySelector('#chat-form').addEventListener('submit', function(event) {
+                                                if (newItem != []) {
+                                                    let xhr = new XMLHttpRequest();
+                                                    xhr.open('POST', 'api/addNewItem');
+                                                    xhr.setRequestHeader('Content-Type', 'application/json');
+                                                    xhr.onload = function () {
+                                                        if (xhr.status === 200) {
+                                                            let data = JSON.parse(xhr.responseText);
+                                                            // Si un message a été trouvé
+                                                            if (Object.keys(data).length != 0) {
+                                                                // Pour les tests en console
+                                                                /!*console.log(data);*!/
+                                                                /!*console.log(typeof message + ' ' + message);*!/
+                                                                if (data) {
+                                                                    document.querySelector("#chat-messages").insertAdjacentHTML('beforeend', '<div class="bot-side"><div class="bot-msg" data-answer="' + answerNumber + '"><p class="bot-answer">Ok</p></div></div>')
+                                                                } else {
+                                                                    //Si aucun message n'a été trouvé
+                                                                    document.querySelector("#chat-messages").insertAdjacentHTML('beforeend', '<div class="bot-side"><div class="bot-msg"' + answerNumber + '"><p class="bot-answer">Merci de reformuler votre ajout.</p></div></div>');
+                                                                }
+                                                            }
+                                                        } else {
+                                                            console.error('Request failed. Error: ' + xhr.status);
+                                                        }
+                                                    };
+                                                    // Il faut bien envoyer les data formatées en json {keyword: data}
+                                                    let jsonMessage = JSON.stringify({keyword: message});
+                                                    xhr.send(jsonMessage);
+                                                }
+                                                console.log(newItem);
+                                            });
+                                        };*!/
+
+    //!* Son "pop" & auto scroll
+    updateChatFeatures()
+}*/

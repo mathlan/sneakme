@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\ChatController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,6 +23,7 @@ Route::group([
     'middleware' => 'auth.optional:api'
 ], function () {
     Route::post('/chat', \App\Http\Controllers\Api\ChatController::class);
+    Route::post('/addNewItem', [ChatController::class, 'addNewItem']);
 });
 
 /*Route::post('/chat', \App\Http\Controllers\Api\ChatController::class);*/

@@ -643,6 +643,7 @@
 @media (min-width: 768px) {
     .chatbot-page.open {
         width: 25vw;
+        min-width: 375px;
         /*width: 50vw;*/
     }
 }

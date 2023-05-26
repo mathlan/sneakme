@@ -28,10 +28,10 @@
             </ul>
         </div>
         <div class="menu-box">
-            <h3 class="menu-box-title"><i class="fa-solid fa-tags"></i>Catergories</h3>
+            <h3 class="menu-box-title"><i class="fa-solid fa-tags"></i>Catégories</h3>
             <ul>
-                <li><a href="Admin/categories">Voir toutes les catérgories</a></li>
-                <li><a href="Admin/categories/create">Ajouter une catérgorie</a></li>
+                <li><a href="Admin/categories">Voir toutes les catégories</a></li>
+                <li><a href="Admin/categories/create">Ajouter une catégorie</a></li>
             </ul>
         </div>
         <div class="menu-box">

@@ -146,4 +146,11 @@ class ChatController extends Controller
 
     }
 
+    public function addNewItem (Request $request)
+    {
+        $newItem = $request->input('keyword');
+        dd($newItem);
+        return response()->json(['ok']);
+    }
+
 }
