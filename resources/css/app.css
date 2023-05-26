@@ -1,4 +1,5 @@
 @import "@fortawesome/fontawesome-free/css/all.css";
+@import url('https://fonts.googleapis.com/css2?family=PT+Sans+Narrow&family=Yellowtail&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -17,6 +18,12 @@
 
 .hidden {
     display: none;
+}
+
+.centered {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
 }
 
 /* -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_- CHATBOT -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_- */
@@ -57,13 +64,13 @@
 
 /* Chatbot ouvert */
 .chatbot-page.open {
-    width: 372px;
-    height: 600px;
+    width: 400px;
+    height: 700px;
     bottom: 20px;
     background-image: url(https://cdn.wallpapersafari.com/74/61/nA6ZH9.jpg);
-    background-position-y: 192px;
+    background-position-y: 235px;
     background-size: contain;
-    background-position-y: inherit;
+/*    background-position-y: inherit;*/
     right: 48px;
     left: auto;
     border-radius: 16px;
@@ -99,7 +106,7 @@
 .message-typing-zone{
     display: flex;
     justify-content: space-evenly;
-    margin-top: 20px;
+    margin-top: 34px;
     opacity: 0;
 }
 
@@ -629,6 +636,70 @@
     color: var(--nightblue);
     width: 100%;
 }
+
+/* -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_- CHATBOT MSG -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_- */
+
+/* -_-_-_-_-_-_-_-_-_- Affichage du produit -_-_-_-_-_-_-_-_-_- */
+
+.productDiv {
+    background-color: #f6f6f6;
+    align-items: center;
+}
+
+.addProductTitle {
+    font-family: 'PT Sans Narrow', sans-serif;
+    font-size: 1.5rem;
+}
+.addProductTitle::first-letter {
+    color: #5187b9;
+}
+
+.addProductImg {
+    max-width: 60%;
+    object-position: 0 -25px;
+}
+
+.addProductDiv {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-evenly;
+    margin-bottom: 5px;
+}
+
+.addProductDiv select,
+.addProductDiv input {
+    height: 30px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    border: 1.8px solid #5991c0;
+}
+
+.addProductBtn {
+    text-decoration: none;
+    padding: 3px 15px;
+    font-family: arial;
+    font-size: 0.8em;
+    color: #FFFFFF;
+    background: linear-gradient(0deg, rgba(37,88,159,1) 0%, rgba(141,179,226,1) 100%);
+/*    border-radius: 24px;*/
+/*    -webkit-border-radius: 24px;*/
+    -moz-border-radius: 24px;
+    border: 3px solid #FFFFFF;
+    box-shadow: 4px 3px 12px #8db3e2;
+    -webkit-box-shadow: 4px 3px 12px #8db3e2;
+    -moz-box-shadow: 4px 3px 12px #8db3e2;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+.addProductBtn:hover {
+    padding: 3px 15px;
+    box-shadow: 1px 1px 4px #8db3e2;
+    -webkit-box-shadow: 1px 1px 4px #8db3e2;
+    -moz-box-shadow: 1px 1px 4px #8db3e2;
+}
+
 
 /* PAGINATION */
 

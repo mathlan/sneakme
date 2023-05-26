@@ -64,17 +64,14 @@ document.addEventListener('DOMContentLoaded', function() {
             // On retourne la demande de l'utilisateur
             document.querySelector("#chat-messages").insertAdjacentHTML('beforeend', '<div class="user-side"><div class="user-msg"><p>' + message + '</p></div></div>')
             // Envoi au serveur
-            var xhr = new XMLHttpRequest();
+            let xhr = new XMLHttpRequest();
             xhr.open('POST', 'api/chat');
             xhr.setRequestHeader('Content-Type', 'application/json');
             xhr.onload = function() {
                 if (xhr.status === 200) {
-                    var data = JSON.parse(xhr.responseText);
+                    let data = JSON.parse(xhr.responseText);
                     // Si un message a été trouvé
                     if (Object.keys(data).length != 0) {
-                        // Pour les tests en console
-                        /*console.log(data);*/
-                        /*console.log(typeof message + ' ' + message);*/
                         if (data) {
                             document.querySelector("#chat-messages").insertAdjacentHTML('beforeend', '<div class="bot-side"><div class="bot-msg" data-answer="' + answerNumber + '"><p class="bot-answer">' + data.name + '</p></div></div>')
                         } else {
@@ -101,30 +98,38 @@ document.addEventListener('DOMContentLoaded', function() {
                                 //feat Produits du catalogue cliquables (affichés dans une nouvelle bulle)
                                 img.onclick= function () {
 
-                                    //Tailles possibles dans les choix de chaussures
-                                    let sizeOptions = '';
-                                    for (let i = 0; i < data.sizes.length; i++) {
-                                        sizeOptions += '<option value=' + data.sizes[i] + '>' + data.sizes[i] + '</option>';
-                                    }
                                     //Couleurs possibles dans les choix de chaussures
                                     let colorOptions = '';
                                     for (let i = 0; i < data.colors.length; i++) {
                                         colorOptions += '<option value=' + data.colors[i] + '>' + data.colors[i] + '</option>';
                                     }
 
+                                    //Tailles possibles dans les choix de chaussures
+                                    let sizeOptions = '';
+                                    for (let i = 0; i < data.sizes.length; i++) {
+                                        sizeOptions += '<option value=' + data.sizes[i] + '>' + data.sizes[i] + '</option>';
+                                    }
+
+                                    // Il va y avoir un nouvel affichage donc on incrémente le compteur de réponses
+                                    answerNumber++;
+
                                     // Affichage de l'image dans une nouvelle bulle du bot + Possibilité de l'ajouter au panier
                                     document.querySelector("#chat-messages").insertAdjacentHTML('beforeend', '' +
                                         '<div class="bot-side">' +
-                                        '<div id="chatMsgAdd" class="bot-msg">' +
-                                        '<img src="' + img.src + '">' +
-                                        '<p>' + data.products[i].name + '</p>' +
-                                        '<p>Taille </p><select name="size" id="size">' +
-                                        sizeOptions +
-                                        '</select>' +
+                                        '<div id="chatMsgAdd" class="bot-msg productDiv centered" data-answer="' + answerNumber + '">' +
+                                        '<p class="addProductTitle">' + data.products[i].name + '</p>' +
+                                        '<img class="addProductImg" src="' + img.src + '">' +
+                                        '<div class="addProductDiv">' +
                                         '<p>Couleur </p><select name="color" id="color">' +
                                         colorOptions +
                                         '</select>' +
+                                        '</div>' +
+                                        '<div class="addProductDiv">' +
+                                        '<p>Taille </p><select name="size" id="size">' +
+                                        sizeOptions +
+                                        '</select>' +
                                         '<p>Quantité</p><input type="number" id="quantity" name="quantity" min="0" max="10"></br>' +
+                                        '</div>' +
                                         '</div>' +
                                         '</div>'
                                     );
@@ -132,26 +137,28 @@ document.addEventListener('DOMContentLoaded', function() {
                                     //feat Ajout au panier JS
 
                                     //* Stockage des items en variable
-                                    let size = "";
+                                    let newItem = {};
+                                    let size = 0;
                                     let color = "";
                                     let quantity = 0;
-                                    let newItem = [];
                                     function updateNewItem () {
-                                        size = document.getElementById("size").value;
+                                        size = parseInt(document.getElementById("size").value);
                                         color = document.getElementById("color").value;
-                                        quantity = document.getElementById("quantity").value;
-                                        newItem = {size: size, color: color, quantity: quantity};
+                                        quantity = parseInt(document.getElementById("quantity").value);
+                                        newItem = {'size': size, 'color': color, 'quantity': quantity};
 
                                         //mathieu J'EN SUIS A ICI
-                                        http://127.0.0.1:8000/api/chat retourne "ok" sur Insomnia ?? Il faut retrouver l'objet test "ok"
+                                        http://127.0.0.1:8000/api/addNewItem retourne "ok" sur Insomnia ?? Il faut retrouver l'objet test "ok"
 
                                         console.log(newItem);
                                     };
 
                                     //* Bouton ajout
-                                    const chatMsgAdd = document.getElementById("chatMsgAdd");
+                                    /*const chatMsgAdd = document.getElementById("chatMsgAdd");*/
+                                    const chatMsgAdd = document.querySelector('[data-answer="'+ answerNumber +'"]')
                                     const addBasketBtn = document.createElement("button");
-                                    addBasketBtn.textContent = "Ajouter"; // Contenu de la balise texte
+                                    addBasketBtn.textContent = "Ajouter au panier"; // Contenu de la balise texte
+                                    addBasketBtn.classList.add("addProductBtn");
                                     addBasketBtn.addEventListener('click', updateNewItem);
                                     chatMsgAdd.appendChild(addBasketBtn);
 
@@ -185,7 +192,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         //? CATALOGUE
                         //* Si le json retourne des résultats de catalogue, on affiche le catalogue de marques en front
                         if (data.catalogue) {
-                            document.querySelector('[data-answer="' + answerNumber + '"]').insertAdjacentHTML('beforeend', '<div id="categories" class="showProduct"></div>');
+                            document.querySelector('[data-answer="' + answerNumber + '"]').insertAdjacentHTML('beforeend', '<div id="categories" class="showProduct" data-answer="' + answerNumber + '"></div>');
                             // On affiche chaque produit
                             for (let i = 0; i < Object.keys(data.catalogue).length; i++) {
                                 let boxProductDiv = document.createElement('div');
