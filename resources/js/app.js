@@ -39,6 +39,14 @@ window.addEventListener('DOMContentLoaded', function() {
 
 /* API CHATBOT */
 
+function updateChatFeatures() { //? Fonctionnalités à appliquer à chaque réponse du bot
+    // Joue un petit son à chaque réponse
+    myAudio.play();
+    // Repositionnement automatique de la barre de défilement en bas
+    let chatContainer = document.getElementById("chat-container");
+    chatContainer.scrollTop = chatContainer.scrollHeight;
+}
+
 // ID de la réponse
 let answerNumber = 0;
 document.addEventListener('DOMContentLoaded', function() {
@@ -52,7 +60,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (message) {
             // Incrémentation de l'ID réponse (pour nouvelle réponse)
             answerNumber++;
-            console.log(answerNumber);
+            /*console.log(answerNumber);*/
             // On retourne la demande de l'utilisateur
             document.querySelector("#chat-messages").insertAdjacentHTML('beforeend', '<div class="user-side"><div class="user-msg"><p>' + message + '</p></div></div>')
             // Envoi au serveur
@@ -65,97 +73,124 @@ document.addEventListener('DOMContentLoaded', function() {
                     // Si un message a été trouvé
                     if (Object.keys(data).length != 0) {
                         // Pour les tests en console
-                        console.log(data);
-                        console.log(typeof message + ' ' + message);
+                        /*console.log(data);*/
+                        /*console.log(typeof message + ' ' + message);*/
                         if (data) {
-                            document.querySelector("#chat-messages").insertAdjacentHTML('beforeend', '<div class="bot-side"><div class="bot-msg" data-answer="' + answerNumber + '"><p>' + data.name + '</p></div></div>')
+                            document.querySelector("#chat-messages").insertAdjacentHTML('beforeend', '<div class="bot-side"><div class="bot-msg" data-answer="' + answerNumber + '"><p class="bot-answer">' + data.name + '</p></div></div>')
                         } else {
                             //Si aucun message n'a été trouvé
-                            document.querySelector("#chat-messages").insertAdjacentHTML('beforeend', '<div class="bot-side"><div class="bot-msg"' + answerNumber + '">Merci de reformuler votre demande.</p></div></div>');
+                            document.querySelector("#chat-messages").insertAdjacentHTML('beforeend', '<div class="bot-side"><div class="bot-msg"' + answerNumber + '"><p class="bot-answer">Merci de reformuler votre demande.</p></div></div>');
                         }
 
-                        // Si le json retourne une liste de produits on les affiche en front
+                        //? PRODUITS
+                        //* Si le json retourne une liste de produits on les affiche en front
                         if (data.products.length != 0) {
-                            document.querySelector('[data-answer="' + answerNumber + '"]').insertAdjacentHTML('beforeend', '<div class="showProduct"></div>');
+                            document.querySelector('[data-answer="' + answerNumber + '"]').insertAdjacentHTML('beforeend', '<div id="products" class="showProduct"></div>');
                             // On affiche chaque produit
                             for (let i = 0; i < Object.keys(data.products).length; i++) {
-                                var boxProductDiv = document.createElement('div');
-                                boxProductDiv.classList.add('boxProduct');
-                                boxProductDiv.textContent = data.products[i].name;
+                                let boxProductDiv = document.createElement('div'); // Rajoute une div
+                                boxProductDiv.classList.add('boxProduct'); // Rajoute une classe
+/*                                boxProductDiv.textContent = data.products[i].name;*/
 
                                 // Ajouter une image
-                                var img = document.createElement('img');
-                                img.src = "/storage/product/" + data.products[i].image; // Définition de la source
+                                let img = document.createElement('img'); // Création de l'image
+                                img.src = "/storage/product/" + data.products[i].image; // Définition de la source de l'image
+                                // img.dataset.img = data.products[i].image; // Nommage de l'élément
+                                img.style.cursor = 'pointer'; // Style du curseur
+
+                                // TODO Rendre les images cliquables pour les afficher dans un nouveau message et pouvoir ajouter le produit au panier
+                                img.onclick= function () {
+
+                                    //Tailles possibles dans les choix de chaussures
+                                    let sizeOptions = '';
+                                    for (let i = 0; i < data.sizes.length; i++) {
+                                        sizeOptions += '<option value=' + data.sizes[i] + '>' + data.sizes[i] + '</option>';
+                                    }
+                                    //Couleurs possibles dans les choix de chaussures
+                                    let colorOptions = '';
+                                    for (let i = 0; i < data.colors.length; i++) {
+                                        colorOptions += '<option value=' + data.colors[i] + '>' + data.colors[i] + '</option>';
+                                    }
+
+                                    // Affichage de l'image dans une nouvelle bulle du bot + Possibilité de l'ajouter au panier
+                                    document.querySelector("#chat-messages").insertAdjacentHTML('beforeend', '' +
+                                        '<div class="bot-side">' +
+                                        '<div class="bot-msg">' +
+                                        '<img src="' + img.src + '">' +
+                                        '<p>' + data.products[i].name + '</p>' +
+                                        '<p>Taille </p><select name="size" id="size">' +
+                                        sizeOptions +
+                                        '</select>' +
+                                        '<p>Couleur </p><select name="color" id="color">' +
+                                        colorOptions +
+                                        '</select>' +
+                                        '<p>Quantité</p><input type="number" id="quantity" name="quantity" min="0" max="10"></br>' +
+                                        '<button>Ajouter au panier</button>' +
+                                        '</div>' +
+                                        '</div>'
+                                    );
+                                    updateChatFeatures()
+                                }
+                                // TODO end
+
                                 boxProductDiv.appendChild(img); // Ajout à la div
 
+                                // Ajout du texte
+                                let txt = document.createElement('p'); // Création de balise p
+                                txt.textContent = data.products[i].name; // Contenu de la balise texte
+                                txt.classList.add('textProduct'); // Rajoute une classe
+                                boxProductDiv.appendChild(txt); // Ajout à la div
+
                                 // Incrémente les données sur la dernière div showProduct
                                 document.querySelectorAll('.showProduct')[document.querySelectorAll('.showProduct').length - 1].appendChild(boxProductDiv);
                             }
+
+                            // Agrandissement de la bulle de chat
+                            let botMsg = document.querySelector('.bot-msg');
+                            botMsg.style.width = '100%';
+
+                            // Adaptation du grid selon le nombre de résultats
+                            let showProduct = document.querySelector('.showProduct');
+                            //TODO Taille du grid adaptée au nombre de résultats
+                            showProduct.style.gridTemplateRows = 'repeat(' + data.products.length/3 +', 1fr)';
                         }
 
-                        /*<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/25/Chat_roux_%C3%A0_pelage_court..jpg/240px-Chat_roux_%C3%A0_pelage_court..jpg">*/
-
-                        // Si le json retourne des résultats de catalogue, on affiche le catalogue de marques en front
+                        //? CATALOGUE
+                        //* Si le json retourne des résultats de catalogue, on affiche le catalogue de marques en front
                         if (data.catalogue) {
-                            document.querySelector('[data-answer="' + answerNumber + '"]').insertAdjacentHTML('beforeend', '<div class="showProduct"></div>');
+                            document.querySelector('[data-answer="' + answerNumber + '"]').insertAdjacentHTML('beforeend', '<div id="categories" class="showProduct"></div>');
                             // On affiche chaque produit
                             for (let i = 0; i < Object.keys(data.catalogue).length; i++) {
-                                var boxProductDiv = document.createElement('div');
+                                let boxProductDiv = document.createElement('div');
                                 boxProductDiv.classList.add('boxProduct');
-                                boxProductDiv.textContent = data.catalogue[i].name;
+                                // Ajout du texte
+                                let txt = document.createElement('a'); // Création de balise p
+                                txt.textContent = data.catalogue[i].name; // Contenu de la balise texte
+                                txt.classList.add('textProduct'); // Rajoute une classe
+                                txt.onclick= function () {
+                                    // Remplit automatiquement l'input avec le choix cliqué
+                                    document.querySelector('#chat-message').value = data.catalogue[i].name;
+                                    // Auto-clique pour envoyer l'input
+                                    document.querySelector('.send-message').click();
+                                }
+                                txt.href = "#";
+                                txt.dataset.name = data.catalogue[i].name; //Rajoute un data-set avec le nom name
+                                boxProductDiv.appendChild(txt); // Ajout à la div
                                 // Incrémente les données sur la dernière div showProduct
                                 document.querySelectorAll('.showProduct')[document.querySelectorAll('.showProduct').length - 1].appendChild(boxProductDiv);
                             }
                         }
-                        // Joue un petit son à chaque réponse
-                        myAudio.play();
+                        updateChatFeatures()
                     }
                 } else {
                     console.error('Request failed. Error: ' + xhr.status);
                 }
             };
             // Il faut bien envoyer les data formatées en json {keyword: data}
-            var jsonMessage = JSON.stringify({ keyword: message });
+            let jsonMessage = JSON.stringify({ keyword: message });
             xhr.send(jsonMessage);
             // On vide l'input pour la prochaine requête
             document.querySelector('#chat-message').value = '';
         }
     });
 });
-/*$(function(){// BTN BOT
-    $('.chatbot-bulle').click(function() {
-        $('.chatbot-page').toggleClass('open');
-        $('.chatbot-bulle').toggleClass('up');
-        $('.message-taping-zone').toggleClass('on');
-
-    });
-    $('.chat-header .fa-xmark').click(function() {
-        $('.chatbot-page').toggleClass('open');
-        $('.chatbot-bulle').toggleClass('up');
-        $('.message-taping-zone').toggleClass('on');
-    });
-    $('.send-message').click(function() {
-        $(".send-message i").addClass('animation-send');
-        setTimeout(function () {
-            $(".send-message i").removeClass('animation-send');
-        }, 4000);
-    });
-
-    $('#btnGet').click(function () {
-        getUserCountry()
-    })
-
-});*/
-
-/*<div id="carousel">
-    <div className="image"><img src="image1.jpg"></div>
-    <div className="image"><img src="image2.jpg"></div>
-    <div className="image"><img src="image3.jpg"></div>
-    <div className="image"><img src="image4.jpg"></div>
-</div>
-
-<button id="prev">Previous</button>
-<button id="next">Next</button>*/
-
-
-

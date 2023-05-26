@@ -24,7 +24,7 @@
                 <i class="fa-solid fa-bag-shopping"></i>
                 <i class="fa-solid fa-xmark"></i>
             </div>
-            <section class="chat-container-page">
+            <section id="chat-container" class="chat-container-page">
                 <div id="chat-messages"></div>
             </section>
             <form id="chat-form" class="message-typing-zone">
@@ -33,43 +33,5 @@
             </form>
         </div>
     </section>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            var currentIndex = 0;
-            var items = document.querySelectorAll('.image');
-            var itemAmount = items.length;
-
-            function cycleItems() {
-                var item = items[currentIndex];
-                items.forEach(function(item) {
-                    item.style.display = 'none';
-                });
-                item.style.display = 'inline-block';
-            }
-
-            document.getElementById('next').addEventListener('click', function() {
-                currentIndex += 1;
-                if (currentIndex > itemAmount - 1) {
-                    currentIndex = 0;
-                }
-                cycleItems();
-            });
-
-            document.getElementById('prev').addEventListener('click', function() {
-                currentIndex -= 1;
-                if (currentIndex < 0) {
-                    currentIndex = itemAmount - 1;
-                }
-                cycleItems();
-            });
-        });
-    </script>
-{{--    <script>
-        /* SON MESSAGE */
-        const myAudio = document.querySelector('#song-msg');
-        document.querySelector('.send-message').addEventListener('click', () => {
-            myAudio.play();
-        });
-    </script>--}}
     </body>
 </html>

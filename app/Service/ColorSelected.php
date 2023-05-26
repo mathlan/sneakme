@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Service;
-enum Color:string {
+enum ColorSelected:string {
     case Blanc = "blanc";
     case Noir = "noir";
     case Bleu = "bleu";

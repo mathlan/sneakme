@@ -28,7 +28,16 @@ class DatabaseSeeder extends Seeder
 
         \App\Models\User::factory(10)->create();
         \App\Models\Category::factory(10)->create();
+        \App\Models\Color::factory(10)->create();
         // \App\Models\Product::factory(30)->create();
+
+        // Tailles disponibles
+        for ($size = 34; $size <= 49; $size++) {
+            \App\Models\Size::factory()->create([
+                'id' => $size - 33,
+                'size' => $size,
+            ]);
+        }
 
         // Réponses
 
