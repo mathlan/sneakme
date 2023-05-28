@@ -3,12 +3,15 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\OrderItemController;
 use App\Models\Answer;
 use App\Models\Category;
 use App\Models\Keyword;
+use App\Models\Order;
 use App\Models\Product;
 use App\Models\Color;
 use App\Models\Size;
+use App\Models\OrderItem;
 use App\Service\ColorSelected;
 use App\Service\SizeSelected;
 use Illuminate\Http\Request;
@@ -146,15 +149,32 @@ class ChatController extends Controller
 
     }
 
+/*    public function addNewItem (Request $request)
+    {
+        $newItem = $request->input('keyword');
+        // \App\Models\OrderItem::
+        /*        $orderItem = new OrderItem;
+                $orderItem->quantity = 2;
+                $orderItem->save();*/
+    /*}*/
     public function addNewItem (Request $request)
     {
         $newItem = $request->input('keyword');
-        if($newItem) {
-        return response()->json(['okidoki']);
-        } else {
-        return response()->json(['notokidoki']);
-        }
+        $date = date('Ymd');
+        $order = new Order();
+        $order->status = "En cours";
+        $order->total = 0;
+        $order->date = date('Ymd');
+        $order->user_id = 1;
+        $order->save();
+
+/*        $orderItem = new OrderItem();
+        $orderItem->quantity = 10;
+        $orderItem->size = 2;
+        $orderItem->order_id = 1;
+        $orderItem->product_id = 1;
+        $orderItem->save();*/
+
+        return (Order::all());
     }
-
-
 }
