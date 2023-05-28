@@ -98,9 +98,8 @@ document.addEventListener('DOMContentLoaded', function() {
                                 //feat Produits du catalogue cliquables (affichés dans une nouvelle bulle)
                                 img.onclick= function () {
 
+                                    //ID du produit
                                     let idProduct = data.products[i].id;
-
-                                    console.log(idProduct);
 
                                     //Couleurs possibles dans les choix de chaussures
                                     let colorOptions = '';
@@ -162,8 +161,9 @@ document.addEventListener('DOMContentLoaded', function() {
                                         xhrNewItem.setRequestHeader("Content-Type", "application/json");
                                         xhrNewItem.onload = function() {
                                             if (xhrNewItem.status >= 200 && xhrNewItem.status < 400) {
-                                                let response = JSON.parse(xhrNewItem.responseText);
-                                                document.querySelector("#chat-messages").insertAdjacentHTML('beforeend', '<div class="bot-side"><div class="bot-msg" data-answer="' + answerNumber + '"><p class="bot-answer">Hop ! Ajouté au panier !</p></div></div>')
+                                                let data = JSON.parse(xhrNewItem.responseText);
+                                                document.querySelector("#chat-messages").insertAdjacentHTML('beforeend', '<div class="bot-side"><div class="bot-msg" data-answer="' + answerNumber + '"><p class="bot-answer">' + data.name + '</p></div></div>')
+                                                console.log(data);
                                             } else {
                                                 // Handle error response
                                             }

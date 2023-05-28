@@ -148,20 +148,15 @@ class ChatController extends Controller
         // up
 
     }
-
-/*    public function addNewItem (Request $request)
-    {
-        $newItem = $request->input('keyword');
-        // \App\Models\OrderItem::
-        /*        $orderItem = new OrderItem;
-                $orderItem->quantity = 2;
-                $orderItem->save();*/
-    /*}*/
     public function addNewItem (Request $request)
     {
         $newItem = $request;
 
-        $userID = 1;
+        $userID = 4;
+/*        $userAuth = Auth::guard('api')->user();
+        $userAuthID = $userAuth->id;*/
+        // $userID = Auth::id();
+
         //? Fonction de récupération de l'ID de la commande en cours
         $orderID = null;
         function getOrderID ($userID) {
@@ -199,7 +194,9 @@ class ChatController extends Controller
             $orderItem->product_id = $newItem->product_id;
             $orderItem->save();
 
-            $answer['name'] = "ok";
+            $answer['name'] = "Hop! Ajouté au panier!";
+            /*$answer['id'] = $userAuthID;*/
+
         return (response()->json($answer));
     }
 }

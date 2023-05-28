@@ -14,10 +14,9 @@
     </head>
     <body>
     <section>
-        <p>Test</p>
-        <?php
-        var_dump(\Illuminate\Support\Facades\Auth::user()->firstname);
-        ?>
+{{--        <?php
+        var_dump(\Illuminate\Support\Facades\Auth::id());
+        ?>--}}
         <div class="chatbot-reduced">
             <i class="fa-solid fa-message"></i>
         </div>

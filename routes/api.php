@@ -24,6 +24,7 @@ Route::group([
 ], function () {
     Route::post('/chat', \App\Http\Controllers\Api\ChatController::class);
     Route::post('/addNewItem', [ChatController::class, 'addNewItem']);
+    // Route::middleware('auth:sanctum')->post('/addNewItem', [ChatController::class, 'addNewItem']);
 });
 
 /*Route::post('/chat', \App\Http\Controllers\Api\ChatController::class);*/
