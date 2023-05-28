@@ -168,7 +168,9 @@ class ChatController extends Controller
         $order->user_id = 1;
         $order->save();
 
-/*        $orderItem = new OrderItem();
+/*
+        // Il faut impérativement respecter le modèle et donc avoir un numéro de commande pour ajouter un item
+        $orderItem = new OrderItem();
         $orderItem->quantity = 10;
         $orderItem->size = 2;
         $orderItem->order_id = 1;
