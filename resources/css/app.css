@@ -317,6 +317,11 @@
     animation: rotate 2s linear both infinite;
 }
 
+.welcome-user {
+    display: flex;
+    flex-direction: row;
+}
+
 @keyframes rotate {
     0%{
         transform: rotate(0deg);

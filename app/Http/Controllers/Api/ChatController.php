@@ -159,14 +159,46 @@ class ChatController extends Controller
     /*}*/
     public function addNewItem (Request $request)
     {
-        $newItem = $request->input('keyword');
-        $date = date('Ymd');
-        $order = new Order();
-        $order->status = "En cours";
-        $order->total = 0;
-        $order->date = date('Ymd');
-        $order->user_id = 1;
-        $order->save();
+        $newItem = $request;
+
+        $userID = 1;
+
+        //? Fonction de récupération de l'ID de la commande en cours
+        $orderID = null;
+        function getOrderID ($userID) {
+            $orderID = Order::where('user_id', $userID)
+                ->where('status', 'En cours')
+                ->first()->id;
+            return $orderID;
+        }
+
+        // On vérifie si l'utilisateur à déjà une commande en cours
+        $orderExists = Order::where('user_id', $userID)
+            ->where('status', 'En cours')
+            ->exists();
+        // S'il en a déjà une on définit juste son ID pour lui rajouter des items par la suite
+        if ($orderExists) {
+            $orderID = getOrderID($userID);
+        }
+        // S'il n'en a pas déjà une on la crée selon le modèle et on récupère son ID
+        if (!$orderExists) {
+            $order = new Order();
+            $order->status = "En cours";
+            $order->total = 0;
+            $order->date = date('Ymd');
+            $order->user_id = $userID; // $order->user_id = Auth::id();
+            $order->save();
+            $orderID = getOrderID ($userID);
+        }
+        // S'il a une commande en cours, on lui ajoute le/les produit(s)
+        if ($orderExists) {
+            $orderItem = new OrderItem();
+            $orderItem->quantity = $newItem->quantity;
+            $orderItem->size = $newItem->size;
+            $orderItem->order_id = $orderID;
+            $orderItem->product_id = 1;
+            $orderItem->save();
+        }
 
 /*
         // Il faut impérativement respecter le modèle et donc avoir un numéro de commande pour ajouter un item
@@ -177,6 +209,6 @@ class ChatController extends Controller
         $orderItem->product_id = 1;
         $orderItem->save();*/
 
-        return (Order::all());
+        return (OrderItem::all());
     }
 }
