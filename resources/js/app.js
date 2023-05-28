@@ -98,6 +98,10 @@ document.addEventListener('DOMContentLoaded', function() {
                                 //feat Produits du catalogue cliquables (affichés dans une nouvelle bulle)
                                 img.onclick= function () {
 
+                                    let idProduct = data.products[i].id;
+
+                                    console.log(idProduct);
+
                                     //Couleurs possibles dans les choix de chaussures
                                     let colorOptions = '';
                                     for (let i = 0; i < data.colors.length; i++) {
@@ -113,7 +117,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                     // Il va y avoir un nouvel affichage donc on incrémente le compteur de réponses
                                     answerNumber++;
 
-                                    // Affichage de l'image dans une nouvelle bulle du bot + Possibilité de l'ajouter au panier
+                                    // Affichage du produit dans une nouvelle bulle du bot + Possibilité de l'ajouter au panier
                                     document.querySelector("#chat-messages").insertAdjacentHTML('beforeend', '' +
                                         '<div class="bot-side">' +
                                         '<div id="chatMsgAdd" class="bot-msg productDiv centered" data-answer="' + answerNumber + '">' +
@@ -145,11 +149,27 @@ document.addEventListener('DOMContentLoaded', function() {
                                         size = parseInt(document.getElementById("size").value);
                                         color = document.getElementById("color").value;
                                         quantity = parseInt(document.getElementById("quantity").value);
-                                        newItem = {'size': size, 'color': color, 'quantity': quantity};
+                                        newItem = {'size': size, 'color': color, 'quantity': quantity, 'product_id': 2};
+/*                                        let xhrNewItem = new XMLHttpRequest();
+                                        xhrNewItem.open('POST', 'api/addNewItem');
+                                        xhrNewItem.setRequestHeader('Content-Type', 'application/json');
+                                        xhrNewItem.send(newItem);*/
 
-                                        //mathieu J'EN SUIS A ICI
-                                        http://127.0.0.1:8000/api/addNewItem retourne "ok" sur Insomnia ?? Il faut retrouver l'objet test "ok"
-
+                                        let xhrNewItem = new XMLHttpRequest();
+                                        let method = "POST";
+                                        let url = "api/addNewItem";
+                                        xhrNewItem.open(method, url, true);
+                                        xhrNewItem.setRequestHeader("Content-Type", "application/json");
+                                        xhrNewItem.onload = function() {
+                                            if (xhrNewItem.status >= 200 && xhrNewItem.status < 400) {
+                                                let response = JSON.parse(xhrNewItem.responseText);
+                                                document.querySelector("#chat-messages").insertAdjacentHTML('beforeend', '<div class="bot-side"><div class="bot-msg" data-answer="' + answerNumber + '"><p class="bot-answer">Hop ! Ajouté au panier !</p></div></div>')
+                                            } else {
+                                                // Handle error response
+                                            }
+                                        };
+                                        let jsonData = JSON.stringify(newItem);
+                                        xhrNewItem.send(jsonData);
                                         console.log(newItem);
                                     };
 

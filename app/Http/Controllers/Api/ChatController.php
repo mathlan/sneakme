@@ -162,7 +162,6 @@ class ChatController extends Controller
         $newItem = $request;
 
         $userID = 1;
-
         //? Fonction de récupération de l'ID de la commande en cours
         $orderID = null;
         function getOrderID ($userID) {
@@ -190,25 +189,17 @@ class ChatController extends Controller
             $order->save();
             $orderID = getOrderID ($userID);
         }
+        // Il faut impérativement respecter le modèle et donc avoir un numéro de commande pour ajouter un item
         // S'il a une commande en cours, on lui ajoute le/les produit(s)
-        if ($orderExists) {
             $orderItem = new OrderItem();
             $orderItem->quantity = $newItem->quantity;
             $orderItem->size = $newItem->size;
+            $orderItem->color = $newItem->color;
             $orderItem->order_id = $orderID;
-            $orderItem->product_id = 1;
+            $orderItem->product_id = $newItem->product_id;
             $orderItem->save();
-        }
 
-/*
-        // Il faut impérativement respecter le modèle et donc avoir un numéro de commande pour ajouter un item
-        $orderItem = new OrderItem();
-        $orderItem->quantity = 10;
-        $orderItem->size = 2;
-        $orderItem->order_id = 1;
-        $orderItem->product_id = 1;
-        $orderItem->save();*/
-
-        return (OrderItem::all());
+            $answer['name'] = "ok";
+        return (response()->json($answer));
     }
 }
