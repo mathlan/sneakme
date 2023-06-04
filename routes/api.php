@@ -19,11 +19,18 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+// Route::post('/addNewItem', \App\Http\Controllers\Api\ChatOrderItemController::class)->middleware('auth.optional:api');
+/*Route::post('/tokens/create', function (Request $request) {
+    $token = $request->user()->createToken($request->token_name);
+    return ['token' => $token->plainTextToken];
+});*/
+
 Route::group([
     'middleware' => 'auth.optional:api'
 ], function () {
     Route::post('/chat', \App\Http\Controllers\Api\ChatController::class);
     Route::post('/addNewItem', [ChatController::class, 'addNewItem']);
+    Route::post('/displayCart', [ChatController::class, 'displayCart']);
     // Route::middleware('auth:sanctum')->post('/addNewItem', [ChatController::class, 'addNewItem']);
 });
 

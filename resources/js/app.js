@@ -38,6 +38,8 @@ window.addEventListener('DOMContentLoaded', function() {
 
 
 /* API CHATBOT */
+// ID de la réponse
+let answerNumber = 0;
 
 function updateChatFeatures() { //? Fonctionnalités à appliquer à chaque réponse du bot
     // Joue un petit son à chaque réponse
@@ -47,8 +49,51 @@ function updateChatFeatures() { //? Fonctionnalités à appliquer à chaque rép
     chatContainer.scrollTop = chatContainer.scrollHeight;
 }
 
-// ID de la réponse
-let answerNumber = 0;
+function displayCart() {
+    let xhr = new XMLHttpRequest();
+    let method = "POST";
+    let url = "api/displayCart";
+    xhr.open(method, url, true);
+    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.onload = function() {
+        if (xhr.status >= 200 && xhr.status < 400) {
+            let dataCart = JSON.parse(xhr.responseText);
+
+            // Il va y avoir un nouvel affichage donc on incrémente le compteur de réponses
+            answerNumber++;
+
+            document.querySelector("#chat-messages").insertAdjacentHTML('beforeend', '<div class="bot-side"><div class="bot-msg" data-answer="' + answerNumber + '"><p class="bot-answer">app.js displayCart()</p></div></div>')
+            document.querySelector('[data-answer="' + answerNumber + '"]').insertAdjacentHTML('beforeend', '<div id="panier" class="showCart" data-answer="' + answerNumber + '"></div>');
+            // document.querySelector('[data-answer="' + answerNumber + '"]').insertAdjacentHTML('beforeend', '<div id="products" class="showProduct"></div>');
+
+            // On affiche chaque produit
+            for (let i = 0; i < Object.keys(dataCart.cart).length; i++) {
+                console.log(dataCart.cart[i].id);
+                let boxCartDiv = document.createElement('div');
+                boxCartDiv.classList.add('boxCart');
+                 // Ajout du texte
+                 let txt = document.createElement('a'); // Création de balise p
+                 txt.textContent = dataCart.cart[i].id; // Contenu de la balise texte
+                 /*txt.classList.add('textProduct'); // Rajoute une classe
+                 txt.onclick= function () {
+                     // Remplit automatiquement l'input avec le choix cliqué
+                     document.querySelector('#chat-message').value = data.catalogue[i].name;
+                     // Auto-clique pour envoyer l'input
+                     document.querySelector('.send-message').click();
+                 }
+                 txt.href = "#";
+                 txt.dataset.name = data.catalogue[i].name; //Rajoute un data-set avec le nom name*/
+                 boxCartDiv.appendChild(txt); // Ajout à la div
+                // Incrémente les données sur la dernière div showProduct
+                document.querySelectorAll('.showCart')[document.querySelectorAll('.showCart').length - 1].appendChild(boxCartDiv);
+            }
+            console.log(dataCart);
+        } else {
+            // console.log(xhrNewItem.responseText);
+        }
+    };
+    xhr.send();
+}
 document.addEventListener('DOMContentLoaded', function() {
     // Gestionnaire d'évènements du form
     document.querySelector('#chat-form').addEventListener('submit', function(event) {
@@ -149,14 +194,11 @@ document.addEventListener('DOMContentLoaded', function() {
                                         color = document.getElementById("color").value;
                                         quantity = parseInt(document.getElementById("quantity").value);
                                         newItem = {'size': size, 'color': color, 'quantity': quantity, 'product_id': 2};
-/*                                        let xhrNewItem = new XMLHttpRequest();
-                                        xhrNewItem.open('POST', 'api/addNewItem');
-                                        xhrNewItem.setRequestHeader('Content-Type', 'application/json');
-                                        xhrNewItem.send(newItem);*/
-
                                         let xhrNewItem = new XMLHttpRequest();
                                         let method = "POST";
                                         let url = "api/addNewItem";
+                                        // let csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+                                        // xhrNewItem.setRequestHeader('X-CSRF-TOKEN', csrfToken);
                                         xhrNewItem.open(method, url, true);
                                         xhrNewItem.setRequestHeader("Content-Type", "application/json");
                                         xhrNewItem.onload = function() {
@@ -165,11 +207,12 @@ document.addEventListener('DOMContentLoaded', function() {
                                                 document.querySelector("#chat-messages").insertAdjacentHTML('beforeend', '<div class="bot-side"><div class="bot-msg" data-answer="' + answerNumber + '"><p class="bot-answer">' + data.name + '</p></div></div>')
                                                 console.log(data);
                                             } else {
-                                                // Handle error response
+                                                // console.log(xhrNewItem.responseText);
                                             }
                                         };
                                         let jsonData = JSON.stringify(newItem);
                                         xhrNewItem.send(jsonData);
+                                        displayCart();
                                         console.log(newItem);
                                     };
 
@@ -248,53 +291,3 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 });
-
-/*//feat Ajout au panier JS
-
-//!* Stockage des items en variable
-let size = "";
-let color = "";
-let quantity = 0;
-let newItem = [];
-function updateNewItem () {
-    size = document.getElementById("size").value;
-    color = document.getElementById("color").value;
-    quantity = document.getElementById("quantity").value;
-    newItem = {size: size, color: color, quantity: quantity};
-
-    //mathieu J'EN SUIS A ICI
-    /!*                                        document.querySelector('#chat-form').addEventListener('submit', function(event) {
-                                                if (newItem != []) {
-                                                    let xhr = new XMLHttpRequest();
-                                                    xhr.open('POST', 'api/addNewItem');
-                                                    xhr.setRequestHeader('Content-Type', 'application/json');
-                                                    xhr.onload = function () {
-                                                        if (xhr.status === 200) {
-                                                            let data = JSON.parse(xhr.responseText);
-                                                            // Si un message a été trouvé
-                                                            if (Object.keys(data).length != 0) {
-                                                                // Pour les tests en console
-                                                                /!*console.log(data);*!/
-                                                                /!*console.log(typeof message + ' ' + message);*!/
-                                                                if (data) {
-                                                                    document.querySelector("#chat-messages").insertAdjacentHTML('beforeend', '<div class="bot-side"><div class="bot-msg" data-answer="' + answerNumber + '"><p class="bot-answer">Ok</p></div></div>')
-                                                                } else {
-                                                                    //Si aucun message n'a été trouvé
-                                                                    document.querySelector("#chat-messages").insertAdjacentHTML('beforeend', '<div class="bot-side"><div class="bot-msg"' + answerNumber + '"><p class="bot-answer">Merci de reformuler votre ajout.</p></div></div>');
-                                                                }
-                                                            }
-                                                        } else {
-                                                            console.error('Request failed. Error: ' + xhr.status);
-                                                        }
-                                                    };
-                                                    // Il faut bien envoyer les data formatées en json {keyword: data}
-                                                    let jsonMessage = JSON.stringify({keyword: message});
-                                                    xhr.send(jsonMessage);
-                                                }
-                                                console.log(newItem);
-                                            });
-                                        };*!/
-
-    //!* Son "pop" & auto scroll
-    updateChatFeatures()
-}*/

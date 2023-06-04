@@ -203,6 +203,7 @@
     margin: 15px;
 }
 
+/* PRODUITS Chatbot */
 .showProduct{
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -238,6 +239,27 @@
     margin-left: 0;
     margin-right: 0;
     font-size: 0.70em;
+}
+
+/* PANIER Chatbot */
+.showCart{
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    justify-content: space-around;
+    grid-template-rows: repeat(2, 1fr);
+    grid-column-gap: 6px;
+    grid-row-gap: 15px;
+    padding: 0.75em;
+}
+.boxCart{
+    display: flex;
+    flex-direction: column;
+    color: black;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6%;
+    background: white;
+    justify-content: space-between;
 }
 
 @keyframes sendMessage {

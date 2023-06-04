@@ -119,6 +119,9 @@ class ChatController extends Controller
                 $keywordType = "";
                 // On redéfinit la réponse pour qu'elle corresponde à une demande de panier/compte
                 $answer['name'] = $keyword->answer['name'];
+/*                if($answer['crud'] == "modifier") {
+                    $this->displayCart();
+                }*/
             }
 
             // COULEUR // Si le client a demandé une couleur on la capte et on la stock dans le json
@@ -148,13 +151,15 @@ class ChatController extends Controller
         // up
 
     }
-    public function addNewItem (Request $request)
+
+    public function addNewItem(Request $request): \Illuminate\Http\JsonResponse
     {
         $newItem = $request;
 
-        $userID = 4;
-/*        $userAuth = Auth::guard('api')->user();
-        $userAuthID = $userAuth->id;*/
+        //! Valeur à remplacer par Auth::id()
+        $userID = 1;
+        /*        $userAuth = Auth::guard('api')->user();
+                $userAuthID = $userAuth->id;*/
         // $userID = Auth::id();
 
         //? Fonction de récupération de l'ID de la commande en cours
@@ -186,17 +191,56 @@ class ChatController extends Controller
         }
         // Il faut impérativement respecter le modèle et donc avoir un numéro de commande pour ajouter un item
         // S'il a une commande en cours, on lui ajoute le/les produit(s)
-            $orderItem = new OrderItem();
-            $orderItem->quantity = $newItem->quantity;
-            $orderItem->size = $newItem->size;
-            $orderItem->color = $newItem->color;
-            $orderItem->order_id = $orderID;
-            $orderItem->product_id = $newItem->product_id;
-            $orderItem->save();
+        $orderItem = new OrderItem();
+        $orderItem->quantity = $newItem->quantity;
+        $orderItem->size = $newItem->size;
+        $orderItem->color = $newItem->color;
+        $orderItem->order_id = $orderID;
+        $orderItem->product_id = $newItem->product_id;
+        $orderItem->save();
 
-            $answer['name'] = "Hop! Ajouté au panier!";
-            /*$answer['id'] = $userAuthID;*/
+        $answer['name'] = "Hop! Ajouté au panier!";
+        $answer['id'] = Auth::id();
+        // $answer['check'] = Auth::check();
 
+        return (response()->json($answer));
+    }
+
+    public function displayCart(): \Illuminate\Http\JsonResponse
+    {
+        //! Valeur à remplacer par Auth::id()
+        $userID = 1;
+
+        //? Fonction de récupération de l'ID de la commande en cours
+        $orderID = null;
+        function getOrderID ($userID) {
+            $orderID = Order::where('user_id', $userID)
+                ->where('status', 'En cours')
+                ->first()->id;
+            return $orderID;
+        }
+
+        // On vérifie si l'utilisateur à déjà une commande en cours
+        $orderExists = Order::where('user_id', $userID)
+            ->where('status', 'En cours')
+            ->exists();
+        // S'il en a déjà une on définit juste son ID pour lui rajouter des items par la suite
+        if ($orderExists) {
+            $orderID = getOrderID($userID);
+        }
+
+        //? Fonction de récupération des items du panier
+        function getOrderItems ($orderID) {
+            $cart = OrderItem::where('order_id', $orderID)
+                ->get();
+            return $cart;
+        }
+
+        $items = getOrderItems ($orderID);
+
+        $answer['name'] = "Voici votre panier";
+        $answer['id'] = $orderID;
+        $answer['cart'] = $items;
         return (response()->json($answer));
     }
 }
