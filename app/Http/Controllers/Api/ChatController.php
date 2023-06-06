@@ -238,9 +238,19 @@ class ChatController extends Controller
 
         $items = getOrderItems ($orderID);
 
+        // Map des photos correspondantes aux produits dans l'objet à retourner au front
+        $itemsAndPics = $items->map(function ($item) {
+            // Trouver le produit
+            $product = Product::find($item->product_id);
+            // Ajouter sa photo
+            $item->picture = $product->image;
+            $item->name = $product->name;
+            return $item;
+        });
+
         $answer['name'] = "Voici votre panier";
         $answer['id'] = $orderID;
-        $answer['cart'] = $items;
+        $answer['cart'] = $itemsAndPics;
         return (response()->json($answer));
     }
 }
