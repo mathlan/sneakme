@@ -196,6 +196,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
                                 //feat Produits du catalogue cliquables (affichés dans une nouvelle bulle)
                                 img.onclick= function () {
+                                    // On incrémente le numéro de boutique (pour éviter de mettre à jour la première à chaque fois)
+                                    shopNumber ++;
 
                                     //ID du produit
                                     let idProduct = data.products[i].id;
@@ -222,15 +224,15 @@ document.addEventListener('DOMContentLoaded', function() {
                                         '<p class="addProductTitle">' + data.products[i].name + '</p>' +
                                         '<img class="addProductImg" src="' + img.src + '">' +
                                         '<div class="addProductDiv">' +
-                                        '<p>Couleur </p><select name="color" id="color">' +
+                                        '<p>Couleur </p><select name="color" id="color' + shopNumber + '">' +
                                         colorOptions +
                                         '</select>' +
                                         '</div>' +
                                         '<div class="addProductDiv">' +
-                                        '<p>Taille </p><select name="size" id="size">' +
+                                        '<p>Taille </p><select name="size" id="size' + shopNumber + '">' +
                                         sizeOptions +
                                         '</select>' +
-                                        '<p>Quantité</p><input type="number" id="quantity" name="quantity" min="0" max="10"></br>' +
+                                        '<p>Quantité</p><input type="number" id="quantity' + shopNumber + '" name="quantity" min="0" max="10"></br>' +
                                         '</div>' +
                                         '</div>' +
                                         '</div>'
@@ -246,10 +248,13 @@ document.addEventListener('DOMContentLoaded', function() {
                                     function updateNewItem () {
                                         // Incrémentation de l'ID réponse (pour nouvelle réponse)
                                         answerNumber++;
+                                        let lastSize = "size" +  shopNumber;
+                                        let lastColor = "color" +  shopNumber;
+                                        let lastQuantity = "quantity" +  shopNumber;
 
-                                        size = parseInt(document.getElementById("size").value);
-                                        color = document.getElementById("color").value;
-                                        quantity = parseInt(document.getElementById("quantity").value);
+                                        size = parseInt(document.getElementById(lastSize).value);
+                                        color = document.getElementById(lastColor).value;
+                                        quantity = parseInt(document.getElementById(lastQuantity).value);
                                         newItem = {'size': size, 'color': color, 'quantity': quantity, 'product_id': idProduct};
                                         let xhrNewItem = new XMLHttpRequest();
                                         let method = "POST";
