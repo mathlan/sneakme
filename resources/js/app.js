@@ -63,81 +63,100 @@ function displayCart() {
             // Il va y avoir un nouvel affichage donc on incrémente le compteur de réponses
             answerNumber++;
 
-            document.querySelector("#chat-messages").insertAdjacentHTML('beforeend', '<div class="bot-side"><div class="bot-msg" data-answer="' + answerNumber + '"><p class="addProductTitle" style="text-align: center">Mon panier</p></div></div>')
+            // Nouveau message
+            document.querySelector("#chat-messages").insertAdjacentHTML('beforeend', '<div class="bot-side"><div class="bot-msg" data-answer="' + answerNumber + '" style="min-width: 100%;"><p class="addProductTitle" style="text-align: center">Mon panier</p></div></div>')
             document.querySelector('[data-answer="' + answerNumber + '"]').insertAdjacentHTML('beforeend', '<div id="panier" class="showCart" data-answer="' + answerNumber + '"></div>');
 
-            // On affiche chaque produit
-            for (let i = 0; i < Object.keys(dataCart.cart).length; i++) {
-                let boxCartDiv = document.createElement('div');
-                boxCartDiv.classList.add('boxCart');
+            if (dataCart.cart.length != 0) {
+                // On affiche chaque produit
+                for (let i = 0; i < Object.keys(dataCart.cart).length; i++) {
+                    let boxCartDiv = document.createElement('div');
+                    boxCartDiv.classList.add('boxCart');
 
-                // 1er élément du grid (img)
-                let boxCart1 = document.createElement('div');
-                boxCart1.classList.add('boxCart1');
-                boxCartDiv.appendChild(boxCart1);
+                    // 1er élément du grid (img)
+                    let boxCart1 = document.createElement('div');
+                    boxCart1.classList.add('boxCart1');
+                    boxCartDiv.appendChild(boxCart1);
 
-                // Image du produit
-                // Texte
-                let img = document.createElement('img');
-                img.classList.add('cartImg');
-                img.src = "/storage/product/" + dataCart.cart[i].picture;
-                boxCart1.appendChild(img);
+                    // Image du produit
+                    // Texte
+                    let img = document.createElement('img');
+                    img.classList.add('cartImg');
+                    img.src = "/storage/product/" + dataCart.cart[i].picture;
+                    boxCart1.appendChild(img);
 
-                // 2ème élément du grid (titre)
-                let boxCart2 = document.createElement('div');
-                boxCart2.classList.add('boxCart2');
-                boxCartDiv.appendChild(boxCart2);
+                    // 2ème élément du grid (titre)
+                    let boxCart2 = document.createElement('div');
+                    boxCart2.classList.add('boxCart2');
+                    boxCartDiv.appendChild(boxCart2);
 
-                // Div du nom produit
-                let cartName = document.createElement('div');
-                cartName.classList.add('cartName');
-                boxCart2.appendChild(cartName);
+                    // Div du nom produit
+                    let cartName = document.createElement('div');
+                    cartName.classList.add('cartName');
+                    boxCart2.appendChild(cartName);
 
-                // Texte (nom)
-                let txtName = document.createElement('p');
-                txtName.textContent = dataCart.cart[i].name;
-                cartName.appendChild(txtName);
+                    // Texte (nom)
+                    let txtName = document.createElement('p');
+                    txtName.textContent = dataCart.cart[i].name;
+                    cartName.appendChild(txtName);
 
-                // Div des caractéristiques du produit
-                let cartFeat = document.createElement('div');
-                cartFeat.classList.add('cartFeat');
-                boxCart2.appendChild(cartFeat);
+                    // Div des caractéristiques du produit
+                    let cartFeat = document.createElement('div');
+                    cartFeat.classList.add('cartFeat');
+                    boxCart2.appendChild(cartFeat);
 
-                // Div de la couleur du produit
-                let cartColor = document.createElement('div');
-                cartColor.classList.add('cartColor');
-                cartFeat.appendChild(cartColor);
+                    // Div de la couleur du produit
+                    let cartColor = document.createElement('div');
+                    cartColor.classList.add('cartColor');
+                    cartFeat.appendChild(cartColor);
 
-                // Texte (couleur)
-                let txtColor = document.createElement('p');
-                txtColor.textContent = dataCart.cart[i].color;
-                txtColor.style.color = dataCart.cart[i].color;
-                cartColor.appendChild(txtColor);
+                    // Texte (couleur)
+                    let txtColor = document.createElement('p');
+                    txtColor.textContent = dataCart.cart[i].color;
+                    txtColor.style.color = dataCart.cart[i].color;
+                    cartColor.appendChild(txtColor);
 
-                // Div de la taille du produit
-                let cartSize = document.createElement('div');
-                cartSize.classList.add('cartSize');
-                cartFeat.appendChild(cartSize);
+                    // Div de la taille du produit
+                    let cartSize = document.createElement('div');
+                    cartSize.classList.add('cartSize');
+                    cartFeat.appendChild(cartSize);
 
-                // Texte (taille)
-                let txtSize = document.createElement('p');
-                txtSize.textContent = dataCart.cart[i].size;
-                cartSize.appendChild(txtSize);
+                    // Texte (taille)
+                    let txtSize = document.createElement('p');
+                    txtSize.textContent = dataCart.cart[i].size;
+                    cartSize.appendChild(txtSize);
 
-                // 3ème élément du grid (qté)
-                let boxCart3 = document.createElement('div');
-                boxCart3.classList.add('boxCart3');
-                boxCartDiv.appendChild(boxCart3);
+                    // 3ème élément du grid (qté)
+                    let boxCart3 = document.createElement('div');
+                    boxCart3.classList.add('boxCart3');
+                    boxCartDiv.appendChild(boxCart3);
 
-                // 4ème élément du grid (del)
-                let boxCart4 = document.createElement('div');
-                boxCart4.classList.add('boxCart4');
-                boxCartDiv.appendChild(boxCart4);
+                    // Texte (quantité)
+                    let txtQty = document.createElement('p');
+                    txtQty.textContent = "Qté: " + dataCart.cart[i].quantity;
+                    boxCart3.appendChild(txtQty);
+
+                    // 4ème élément du grid (del)
+                    let boxCart4 = document.createElement('div');
+                    boxCart4.classList.add('boxCart4');
+                    boxCartDiv.appendChild(boxCart4);
+
+                    // Bouton (supprimer)
+                    let deleteCartItem = document.createElement('p');
+                    let xMarkIcon = document.createElement('i');
+                    xMarkIcon.className = "fa-solid fa-xmark";
+                    deleteCartItem.appendChild(xMarkIcon);
+                    boxCart4.appendChild(deleteCartItem);
 
 
-
-                // Incrémente les données sur la dernière div showProduct
-                document.querySelectorAll('.showCart')[document.querySelectorAll('.showCart').length - 1].appendChild(boxCartDiv);
+                    // Incrémente les données sur la dernière div showProduct
+                    document.querySelectorAll('.showCart')[document.querySelectorAll('.showCart').length - 1].appendChild(boxCartDiv);
+                }
+            } else {
+                let txtNoCart = document.createElement('p');
+                txtNoCart.textContent = "Vous n'avez pas d'article";
+                txtNoCart.style.textAlign = "center";
+                document.querySelectorAll('.showCart')[document.querySelectorAll('.showCart').length - 1].appendChild(txtNoCart);
             }
         } else {
             // console.log(xhrNewItem.responseText);
@@ -221,24 +240,24 @@ document.addEventListener('DOMContentLoaded', function() {
                                     productElement.className = 'bot-side';
                                     productElement.innerHTML = `
                                         <div id="chatMsgAdd" class="bot-msg productDiv centered" data-answer="${answerNumber}" data-shop="${shopNumber}">
-                                                <p class="addProductTitle">${data.products[i].name}</p>
-                                                <img class="addProductImg" src="${img.src}">
-                                                <div class="addProductDiv">
-                                                            <p class="productLabel">Couleur </p>
-                                                            <select name="color" id="color${shopNumber}">
-                                                            ${colorOptions}
-                                                            </select>
-                                                            <p class="productLabel">Taille </p>
-                                                            <select name="size" id="size${shopNumber}">
-                                                            ${sizeOptions}
-                                                            </select>
-                                                </div>
-                                                <div class="addProductDiv">
-                                                            <p class="productLabel">Quantité</p>
-                                                            <input type="number" id="quantity${shopNumber}" name="quantity" min="0" max="10">
-                                                            <p class="productLabel">Prix:</p>
-                                                            <p class="priceLabel" id="priceLabel${shopNumber}">${priceQty[shopNumber]}€</p>
-                                                </div>
+                                            <p class="addProductTitle">${data.products[i].name}</p>
+                                            <img class="addProductImg" src="${img.src}">
+                                            <div class="addProductDiv">
+                                                <p class="productLabel">Couleur </p>
+                                                <select name="color" id="color${shopNumber}">
+                                                ${colorOptions}
+                                                </select>
+                                                <p class="productLabel">Taille </p>
+                                                <select name="size" id="size${shopNumber}">
+                                                ${sizeOptions}
+                                                </select>
+                                            </div>
+                                            <div class="addProductDiv">
+                                                <p class="productLabel">Quantité</p>
+                                                <input type="number" id="quantity${shopNumber}" name="quantity" min="0" max="10">
+                                                <p class="productLabel">Prix:</p>
+                                                <p class="priceLabel" id="priceLabel${shopNumber}">${priceQty[shopNumber]}€</p>
+                                            </div>
                                         </div>`;
 
                                     // On ajoute l'élément au conteneur
@@ -299,8 +318,8 @@ document.addEventListener('DOMContentLoaded', function() {
                                         };
                                         let jsonData = JSON.stringify(newItem);
                                         xhrNewItem.send(jsonData);
-                                        //? Affichage du panier dans une nouvelle bulle (voir: fonction)
-                                        displayCart();
+                                        // Affichage du panier dans une nouvelle bulle (voir: fonction)
+                                        // displayCart();
                                         updateChatFeatures()
                                     };
 
@@ -373,8 +392,6 @@ document.addEventListener('DOMContentLoaded', function() {
                             displayCart();
                             updateChatFeatures()
                         }
-
-                        console.log(data);
 
                         updateChatFeatures()
                     }
