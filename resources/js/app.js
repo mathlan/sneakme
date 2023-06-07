@@ -212,26 +212,57 @@ document.addEventListener('DOMContentLoaded', function() {
                                         sizeOptions += '<option value=' + data.sizes[i] + '>' + data.sizes[i] + '</option>';
                                     }
 
-                                    // Affichage du produit dans une nouvelle bulle du bot + Possibilité de l'ajouter au panier
-                                    document.querySelector("#chat-messages").insertAdjacentHTML('beforeend', '' +
-                                        '<div class="bot-side">' +
-                                        '<div id="chatMsgAdd" class="bot-msg productDiv centered" data-answer="' + answerNumber + '" data-shop="' + shopNumber + '">' +
-                                        '<p class="addProductTitle">' + data.products[i].name + '</p>' +
-                                        '<img class="addProductImg" src="' + img.src + '">' +
-                                        '<div class="addProductDiv">' +
-                                        '<p>Couleur </p><select name="color" id="color' + shopNumber + '">' +
-                                        colorOptions +
-                                        '</select>' +
-                                        '</div>' +
-                                        '<div class="addProductDiv">' +
-                                        '<p>Taille </p><select name="size" id="size' + shopNumber + '">' +
-                                        sizeOptions +
-                                        '</select>' +
-                                        '<p>Quantité</p><input type="number" id="quantity' + shopNumber + '" name="quantity" min="0" max="10"></br>' +
-                                        '</div>' +
-                                        '</div>' +
-                                        '</div>'
-                                    );
+                                    //? Actualisation quantité x prix
+                                    let priceQty = [];
+                                    priceQty[shopNumber] = data.products[i].price;
+
+                                    //? Affichage du produit dans une nouvelle bulle du bot + Possibilité de l'ajouter au panier
+                                    const productElement = document.createElement('div');
+                                    productElement.className = 'bot-side';
+                                    productElement.innerHTML = `
+                                        <div id="chatMsgAdd" class="bot-msg productDiv centered" data-answer="${answerNumber}" data-shop="${shopNumber}">
+                                                <p class="addProductTitle">${data.products[i].name}</p>
+                                                <img class="addProductImg" src="${img.src}">
+                                                <div class="addProductDiv">
+                                                            <p class="productLabel">Couleur </p>
+                                                            <select name="color" id="color${shopNumber}">
+                                                            ${colorOptions}
+                                                            </select>
+                                                            <p class="productLabel">Taille </p>
+                                                            <select name="size" id="size${shopNumber}">
+                                                            ${sizeOptions}
+                                                            </select>
+                                                </div>
+                                                <div class="addProductDiv">
+                                                            <p class="productLabel">Quantité</p>
+                                                            <input type="number" id="quantity${shopNumber}" name="quantity" min="0" max="10">
+                                                            <p class="productLabel">Prix:</p>
+                                                            <p class="priceLabel" id="priceLabel${shopNumber}">${priceQty[shopNumber]}€</p>
+                                                </div>
+                                        </div>`;
+
+                                    // On ajoute l'élément au conteneur
+                                    const chatMessagesContainer = document.querySelector("#chat-messages");
+                                    chatMessagesContainer.appendChild(productElement);
+
+                                    // On récupère la quantité
+                                    const quantityInput = document.getElementById(`quantity${shopNumber}`);
+                                    quantityInput.addEventListener('input', () => {
+                                        updatePrice(shopNumber);
+                                    });
+
+                                    function updatePrice(shopNumber) {
+                                        const quantityInput = document.getElementById(`quantity${shopNumber}`);
+                                        const priceLabel = document.getElementById(`priceLabel${shopNumber}`);
+
+                                        const quantity = parseInt(quantityInput.value);
+                                        const price = priceQty[shopNumber];
+
+                                        if (!isNaN(quantity)) {
+                                            const totalPrice = quantity * price;
+                                            priceLabel.textContent = `${totalPrice}€`;
+                                        }
+                                    }
 
                                     //? Ajout de l'article au panier
                                     //* Stockage des items en variable
@@ -366,3 +397,41 @@ document.addEventListener('DOMContentLoaded', function() {
 * --> Il y a un son pour chaque bulle et l'auto-scroll
 * --> Le grid des produits est variable selon le nombre de produits à afficher
 * --> La panier est affichable à volonté avec sa fonction */
+
+/*                                    let priceQty = [];
+                                    priceQty[shopNumber] = data.products[i].price;
+
+                                    // Affichage du produit dans une nouvelle bulle du bot + Possibilité de l'ajouter au panier
+                                    document.querySelector("#chat-messages").insertAdjacentHTML('beforeend', '' +
+                                        '<div class="bot-side">' +
+                                        '<div id="chatMsgAdd" class="bot-msg productDiv centered" data-answer="' + answerNumber + '" data-shop="' + shopNumber + '">' +
+                                        '<p class="addProductTitle">' + data.products[i].name + '</p>' +
+                                        '<img class="addProductImg" src="' + img.src + '">' +
+                                        '<div class="addProductDiv">' +
+                                        '<p class="productLabel">Couleur </p><select name="color" id="color' + shopNumber + '">' +
+                                        colorOptions +
+                                        '</select>' +
+                                        '<p class="productLabel">Taille </p><select name="size" id="size' + shopNumber + '">' +
+                                        sizeOptions +
+                                        '</select>' +
+                                        '</div>' +
+                                        '<div class="addProductDiv">' +
+                                        '<p class="productLabel">Quantité</p><input type="number" id="quantity' + shopNumber + '" name="quantity" onchange="updatePrice(' + shopNumber + ')" min="0" max="10"></br>' +
+                                        '<p class="productLabel">Prix:</p><p class="priceLabel">' + priceQty[shopNumber] + '€</p></br>' +
+                                        '</div>' +
+                                        '</div>' +
+                                        '</div>'
+                                    );
+
+                                    function updatePrice(shopNumber) {
+                                        let quantityInput = document.getElementById('quantity' + shopNumber);
+                                        let priceLabel = document.getElementById('priceLabel' + shopNumber);
+
+                                        let quantity = parseInt(quantityInput.value);
+                                        let price = priceQty[shopNumber];
+
+                                        if (!isNaN(quantity)) {
+                                            let totalPrice = quantity * price;
+                                            priceLabel.textContent = totalPrice + '€';
+                                        }
+                                    }*/

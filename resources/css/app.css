@@ -743,6 +743,17 @@
     padding-top: 0px;
     padding-bottom: 0px;
     border: 1.8px solid #5991c0;
+    max-width: 150px;
+    font-size: 0.8rem;
+}
+
+.productLabel {
+    font-size: 0.8rem;
+}
+
+.priceLabel {
+    background-color: white;
+    padding: 0 20px;
 }
 
 .addProductBtn {
