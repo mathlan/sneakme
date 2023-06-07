@@ -65,7 +65,6 @@ function displayCart() {
 
             document.querySelector("#chat-messages").insertAdjacentHTML('beforeend', '<div class="bot-side"><div class="bot-msg" data-answer="' + answerNumber + '"><p class="addProductTitle" style="text-align: center">Mon panier</p></div></div>')
             document.querySelector('[data-answer="' + answerNumber + '"]').insertAdjacentHTML('beforeend', '<div id="panier" class="showCart" data-answer="' + answerNumber + '"></div>');
-            // document.querySelector('[data-answer="' + answerNumber + '"]').insertAdjacentHTML('beforeend', '<div id="products" class="showProduct"></div>');
 
             // On affiche chaque produit
             for (let i = 0; i < Object.keys(dataCart.cart).length; i++) {
