@@ -63,13 +63,12 @@ function displayCart() {
             // Il va y avoir un nouvel affichage donc on incrémente le compteur de réponses
             answerNumber++;
 
-            document.querySelector("#chat-messages").insertAdjacentHTML('beforeend', '<div class="bot-side"><div class="bot-msg" data-answer="' + answerNumber + '"><p class="bot-answer">app.js displayCart()</p></div></div>')
+            document.querySelector("#chat-messages").insertAdjacentHTML('beforeend', '<div class="bot-side"><div class="bot-msg" data-answer="' + answerNumber + '"><p class="addProductTitle" style="text-align: center">Mon panier</p></div></div>')
             document.querySelector('[data-answer="' + answerNumber + '"]').insertAdjacentHTML('beforeend', '<div id="panier" class="showCart" data-answer="' + answerNumber + '"></div>');
             // document.querySelector('[data-answer="' + answerNumber + '"]').insertAdjacentHTML('beforeend', '<div id="products" class="showProduct"></div>');
 
             // On affiche chaque produit
             for (let i = 0; i < Object.keys(dataCart.cart).length; i++) {
-                console.log(dataCart.cart[i].id);
                 let boxCartDiv = document.createElement('div');
                 boxCartDiv.classList.add('boxCart');
 
@@ -141,7 +140,6 @@ function displayCart() {
                 // Incrémente les données sur la dernière div showProduct
                 document.querySelectorAll('.showCart')[document.querySelectorAll('.showCart').length - 1].appendChild(boxCartDiv);
             }
-            console.log(dataCart);
         } else {
             // console.log(xhrNewItem.responseText);
         }
@@ -159,7 +157,6 @@ document.addEventListener('DOMContentLoaded', function() {
         if (message) {
             // Incrémentation de l'ID réponse (pour nouvelle réponse)
             answerNumber++;
-            /*console.log(answerNumber);*/
             // On retourne la demande de l'utilisateur
             document.querySelector("#chat-messages").insertAdjacentHTML('beforeend', '<div class="user-side"><div class="user-msg"><p>' + message + '</p></div></div>')
             // Envoi au serveur
@@ -186,17 +183,19 @@ document.addEventListener('DOMContentLoaded', function() {
                             for (let i = 0; i < Object.keys(data.products).length; i++) {
                                 let boxProductDiv = document.createElement('div'); // Rajoute une div
                                 boxProductDiv.classList.add('boxProduct'); // Rajoute une classe
-/*                                boxProductDiv.textContent = data.products[i].name;*/
 
                                 // Ajouter une image
                                 let img = document.createElement('img'); // Création de l'image
                                 img.src = "/storage/product/" + data.products[i].image; // Définition de la source de l'image
-                                // img.dataset.img = data.products[i].image; // Nommage de l'élément
+
                                 img.style.cursor = 'pointer'; // Style du curseur
 
+                                //? Nouvelle bulle "produit" avec son propre ID
                                 //feat Produits du catalogue cliquables (affichés dans une nouvelle bulle)
                                 img.onclick= function () {
-                                    // On incrémente le numéro de boutique (pour éviter de mettre à jour la première à chaque fois)
+                                    //* Il va y avoir un nouvel affichage donc on incrémente le compteur de réponses
+                                    answerNumber++;
+                                    //* On incrémente le numéro de produit affiché (pour éviter de mettre à jour le premier à chaque fois)
                                     shopNumber ++;
 
                                     //ID du produit
@@ -214,13 +213,10 @@ document.addEventListener('DOMContentLoaded', function() {
                                         sizeOptions += '<option value=' + data.sizes[i] + '>' + data.sizes[i] + '</option>';
                                     }
 
-                                    // Il va y avoir un nouvel affichage donc on incrémente le compteur de réponses
-                                    answerNumber++;
-
                                     // Affichage du produit dans une nouvelle bulle du bot + Possibilité de l'ajouter au panier
                                     document.querySelector("#chat-messages").insertAdjacentHTML('beforeend', '' +
                                         '<div class="bot-side">' +
-                                        '<div id="chatMsgAdd" class="bot-msg productDiv centered" data-answer="' + answerNumber + '">' +
+                                        '<div id="chatMsgAdd" class="bot-msg productDiv centered" data-answer="' + answerNumber + '" data-shop="' + shopNumber + '">' +
                                         '<p class="addProductTitle">' + data.products[i].name + '</p>' +
                                         '<img class="addProductImg" src="' + img.src + '">' +
                                         '<div class="addProductDiv">' +
@@ -238,19 +234,19 @@ document.addEventListener('DOMContentLoaded', function() {
                                         '</div>'
                                     );
 
-                                    //feat Ajout au panier JS
-
+                                    //? Ajout de l'article au panier
                                     //* Stockage des items en variable
                                     let newItem = {};
                                     let size = 0;
                                     let color = "";
                                     let quantity = 0;
-                                    function updateNewItem () {
-                                        // Incrémentation de l'ID réponse (pour nouvelle réponse)
+                                    function updateNewItem (shopID) {
+                                        //* Incrémentation de l'ID réponse (pour nouvelle réponse)
                                         answerNumber++;
-                                        let lastSize = "size" +  shopNumber;
-                                        let lastColor = "color" +  shopNumber;
-                                        let lastQuantity = "quantity" +  shopNumber;
+
+                                        let lastSize = "size" +  shopID;
+                                        let lastColor = "color" +  shopID;
+                                        let lastQuantity = "quantity" +  shopID;
 
                                         size = parseInt(document.getElementById(lastSize).value);
                                         color = document.getElementById(lastColor).value;
@@ -267,30 +263,32 @@ document.addEventListener('DOMContentLoaded', function() {
                                             if (xhrNewItem.status >= 200 && xhrNewItem.status < 400) {
                                                 let data = JSON.parse(xhrNewItem.responseText);
                                                 document.querySelector("#chat-messages").insertAdjacentHTML('beforeend', '<div class="bot-side"><div class="bot-msg" data-answer="' + answerNumber + '"><p class="bot-answer">' + data.name + '</p></div></div>')
-                                                console.log(data);
                                             } else {
                                                 // console.log(xhrNewItem.responseText);
                                             }
                                         };
                                         let jsonData = JSON.stringify(newItem);
                                         xhrNewItem.send(jsonData);
+                                        //? Affichage du panier dans une nouvelle bulle (voir: fonction)
                                         displayCart();
-                                        console.log(jsonData);
+                                        updateChatFeatures()
                                     };
 
                                     //* Bouton ajout
-                                    /*const chatMsgAdd = document.getElementById("chatMsgAdd");*/
                                     const chatMsgAdd = document.querySelector('[data-answer="'+ answerNumber +'"]')
                                     const addBasketBtn = document.createElement("button");
                                     addBasketBtn.textContent = "Ajouter au panier"; // Contenu de la balise texte
                                     addBasketBtn.classList.add("addProductBtn");
-                                    addBasketBtn.addEventListener('click', updateNewItem);
+                                    addBasketBtn.value = shopNumber.toString();
+                                    // On récupère l'id de la bulle "produit" générée pour que quand l'utilisateur commande cela se fasse bien depuis la bonne div
+                                    addBasketBtn.addEventListener('click', function() {
+                                        updateNewItem(parseInt(this.value)); // Pass the button value as an argument
+                                    });
                                     chatMsgAdd.appendChild(addBasketBtn);
 
                                     //* Son "pop" & auto scroll
                                     updateChatFeatures()
                                 }
-                                // TODO end
 
                                 boxProductDiv.appendChild(img); // Ajout à la div
 
@@ -310,7 +308,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
                             // Adaptation du grid selon le nombre de résultats
                             let showProduct = document.querySelector('.showProduct');
-                            //TODO Taille du grid adaptée au nombre de résultats
+                            //? Taille du grid adaptée au nombre de résultats
                             showProduct.style.gridTemplateRows = 'repeat(' + data.products.length/3 +', 1fr)';
                         }
 
@@ -339,6 +337,15 @@ document.addEventListener('DOMContentLoaded', function() {
                                 document.querySelectorAll('.showProduct')[document.querySelectorAll('.showProduct').length - 1].appendChild(boxProductDiv);
                             }
                         }
+                        //? PANIER
+                        if (data.id == 6) {
+                            //? Affichage du panier dans une nouvelle bulle (voir: fonction)
+                            displayCart();
+                            updateChatFeatures()
+                        }
+
+                        console.log(data);
+
                         updateChatFeatures()
                     }
                 } else {
@@ -353,3 +360,10 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 });
+
+/* FEATURES
+* --> Chaque réponse est incrémentée
+* --> Un client peut commander depuis n'importe quelle bulle "produit"
+* --> Il y a un son pour chaque bulle et l'auto-scroll
+* --> Le grid des produits est variable selon le nombre de produits à afficher
+* --> La panier est affichable à volonté avec sa fonction */

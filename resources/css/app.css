@@ -246,7 +246,6 @@
 .boxCart{
     font-style: normal;
     width: 100%;
-    margin: 2vh 0 0 0;
     display: grid;
     grid-template-columns: 1fr 2fr 1fr 1fr;
     grid-template-rows: auto;
@@ -272,7 +271,7 @@
     grid-area: boxCart2;
     display: flex;
     flex-direction: column;
-    justify-content: space-evenly;
+    justify-content: center;
     align-items: center;
 }
 .cartName {
@@ -283,7 +282,8 @@
 }
 .cartFeat {
     display: grid;
-    grid-template-columns: 2fr 1fr
+    grid-template-columns: 2fr 1fr;
+    width: 100%;
 }
 .cartColor,
 .cartSize {
