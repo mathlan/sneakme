@@ -185,7 +185,7 @@ function deleteItem (itemID) {
     xhrDeletedItem.onload = function() {
         if (xhrDeletedItem.status >= 200 && xhrDeletedItem.status < 400) {
             let data = JSON.parse(xhrDeletedItem.responseText);
-            document.querySelector("#chat-messages").insertAdjacentHTML('beforeend', '<div class="bot-side"><div class="bot-msg" data-answer="' + answerNumber + '"><p class="bot-answer">' + data.name + '</p></div></div>')
+            // document.querySelector("#chat-messages").insertAdjacentHTML('beforeend', '<div class="bot-side"><div class="bot-msg" data-answer="' + answerNumber + '"><p class="bot-answer">' + data.name + '</p></div></div>')
             document.querySelector('[box-id="' + itemID + '"]').style.display = "none";
         } else {
             // console.log(xhrNewItem.responseText);
