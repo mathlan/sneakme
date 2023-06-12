@@ -71,6 +71,7 @@ function displayCart() {
                 // On affiche chaque produit
                 for (let i = 0; i < Object.keys(dataCart.cart).length; i++) {
                     let boxCartDiv = document.createElement('div');
+                    boxCartDiv.setAttribute('box-id', dataCart.cart[i].id.toString());
                     boxCartDiv.classList.add('boxCart');
 
                     // 1er élément du grid (img)
@@ -185,6 +186,7 @@ function deleteItem (itemID) {
         if (xhrDeletedItem.status >= 200 && xhrDeletedItem.status < 400) {
             let data = JSON.parse(xhrDeletedItem.responseText);
             document.querySelector("#chat-messages").insertAdjacentHTML('beforeend', '<div class="bot-side"><div class="bot-msg" data-answer="' + answerNumber + '"><p class="bot-answer">' + data.name + '</p></div></div>')
+            document.querySelector('[box-id="' + itemID + '"]').style.display = "none";
         } else {
             // console.log(xhrNewItem.responseText);
         }
