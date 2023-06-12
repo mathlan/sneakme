@@ -30,6 +30,7 @@ Route::group([
 ], function () {
     Route::post('/chat', \App\Http\Controllers\Api\ChatController::class);
     Route::post('/addNewItem', [ChatController::class, 'addNewItem']);
+    Route::post('/deleteItem', [ChatController::class, 'deleteItem']);
     Route::post('/displayCart', [ChatController::class, 'displayCart']);
     // Route::middleware('auth:sanctum')->post('/addNewItem', [ChatController::class, 'addNewItem']);
 });

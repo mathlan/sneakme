@@ -206,6 +206,41 @@ class ChatController extends Controller
         return (response()->json($answer));
     }
 
+    public function deleteItem(Request $request): \Illuminate\Http\JsonResponse
+    {
+        $id = $request->id;
+
+        //! Valeur à remplacer par Auth::id()
+        $userID = 1;
+
+        //? Fonction de récupération de l'ID de la commande en cours
+        $orderID = null;
+        function getOrderID ($userID) {
+            $orderID = Order::where('user_id', $userID)
+                ->where('status', 'En cours')
+                ->first()->id;
+            return $orderID;
+        }
+
+        // On vérifie si l'utilisateur à déjà une commande en cours
+        $orderExists = Order::where('user_id', $userID)
+            ->where('status', 'En cours')
+            ->exists();
+
+        // S'il en a déjà une on définit juste son ID pour lui supprimer des items par la suite
+        if ($orderExists) {
+            $orderID = getOrderID($userID);
+            OrderItem::where('order_id', $userID)->where('id', $id)->delete();
+        }
+
+        $answer['name'] = "Supprimé du panier";
+        $answer['deletedID'] = $id;
+        $answer['id'] = Auth::id();
+        // $answer['check'] = Auth::check();
+
+        return (response()->json($answer));
+    }
+
     public function displayCart(): \Illuminate\Http\JsonResponse
     {
         //! Valeur à remplacer par Auth::id()

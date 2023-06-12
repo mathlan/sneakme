@@ -145,6 +145,11 @@ function displayCart() {
                     let deleteCartItem = document.createElement('p');
                     let xMarkIcon = document.createElement('i');
                     xMarkIcon.className = "fa-solid fa-xmark";
+                    xMarkIcon.style.cursor = 'pointer';
+                    xMarkIcon.setAttribute('data-value', dataCart.cart[i].id.toString());
+                    xMarkIcon.addEventListener('click', function() {
+                        deleteItem(parseInt(this.getAttribute('data-value'))); // Pass the button value as an argument
+                    });
                     deleteCartItem.appendChild(xMarkIcon);
                     boxCart4.appendChild(deleteCartItem);
 
@@ -164,6 +169,32 @@ function displayCart() {
     };
     xhr.send();
 }
+
+function deleteItem (itemID) {
+
+    let itemToDelete = {'id': itemID};
+
+    let xhrDeletedItem = new XMLHttpRequest();
+    let method = "POST";
+    let url = "api/deleteItem";
+    // let csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+    // xhrNewItem.setRequestHeader('X-CSRF-TOKEN', csrfToken);
+    xhrDeletedItem.open(method, url, true);
+    xhrDeletedItem.setRequestHeader("Content-Type", "application/json");
+    xhrDeletedItem.onload = function() {
+        if (xhrDeletedItem.status >= 200 && xhrDeletedItem.status < 400) {
+            let data = JSON.parse(xhrDeletedItem.responseText);
+            document.querySelector("#chat-messages").insertAdjacentHTML('beforeend', '<div class="bot-side"><div class="bot-msg" data-answer="' + answerNumber + '"><p class="bot-answer">' + data.name + '</p></div></div>')
+        } else {
+            // console.log(xhrNewItem.responseText);
+        }
+    };
+    let jsonData = JSON.stringify(itemToDelete);
+    xhrDeletedItem.send(jsonData);
+    // Affichage du panier dans une nouvelle bulle (voir: fonction)
+    // displayCart();
+    updateChatFeatures()
+};
 document.addEventListener('DOMContentLoaded', function() {
     // Gestionnaire d'évènements du form
     document.querySelector('#chat-form').addEventListener('submit', function(event) {
@@ -187,6 +218,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     // Si un message a été trouvé
                     if (Object.keys(data).length != 0) {
                         if (data) {
+                            console.log(data);
                             document.querySelector("#chat-messages").insertAdjacentHTML('beforeend', '<div class="bot-side"><div class="bot-msg" data-answer="' + answerNumber + '"><p class="bot-answer">' + data.name + '</p></div></div>')
                         } else {
                             //Si aucun message n'a été trouvé
@@ -386,7 +418,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                 document.querySelectorAll('.showProduct')[document.querySelectorAll('.showProduct').length - 1].appendChild(boxProductDiv);
                             }
                         }
-                        //? PANIER
+                        //? PANIER (6 = "Voici votre panier")
                         if (data.id == 6) {
                             //? Affichage du panier dans une nouvelle bulle (voir: fonction)
                             displayCart();
@@ -414,41 +446,3 @@ document.addEventListener('DOMContentLoaded', function() {
 * --> Il y a un son pour chaque bulle et l'auto-scroll
 * --> Le grid des produits est variable selon le nombre de produits à afficher
 * --> La panier est affichable à volonté avec sa fonction */
-
-/*                                    let priceQty = [];
-                                    priceQty[shopNumber] = data.products[i].price;
-
-                                    // Affichage du produit dans une nouvelle bulle du bot + Possibilité de l'ajouter au panier
-                                    document.querySelector("#chat-messages").insertAdjacentHTML('beforeend', '' +
-                                        '<div class="bot-side">' +
-                                        '<div id="chatMsgAdd" class="bot-msg productDiv centered" data-answer="' + answerNumber + '" data-shop="' + shopNumber + '">' +
-                                        '<p class="addProductTitle">' + data.products[i].name + '</p>' +
-                                        '<img class="addProductImg" src="' + img.src + '">' +
-                                        '<div class="addProductDiv">' +
-                                        '<p class="productLabel">Couleur </p><select name="color" id="color' + shopNumber + '">' +
-                                        colorOptions +
-                                        '</select>' +
-                                        '<p class="productLabel">Taille </p><select name="size" id="size' + shopNumber + '">' +
-                                        sizeOptions +
-                                        '</select>' +
-                                        '</div>' +
-                                        '<div class="addProductDiv">' +
-                                        '<p class="productLabel">Quantité</p><input type="number" id="quantity' + shopNumber + '" name="quantity" onchange="updatePrice(' + shopNumber + ')" min="0" max="10"></br>' +
-                                        '<p class="productLabel">Prix:</p><p class="priceLabel">' + priceQty[shopNumber] + '€</p></br>' +
-                                        '</div>' +
-                                        '</div>' +
-                                        '</div>'
-                                    );
-
-                                    function updatePrice(shopNumber) {
-                                        let quantityInput = document.getElementById('quantity' + shopNumber);
-                                        let priceLabel = document.getElementById('priceLabel' + shopNumber);
-
-                                        let quantity = parseInt(quantityInput.value);
-                                        let price = priceQty[shopNumber];
-
-                                        if (!isNaN(quantity)) {
-                                            let totalPrice = quantity * price;
-                                            priceLabel.textContent = totalPrice + '€';
-                                        }
-                                    }*/
