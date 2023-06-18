@@ -152,6 +152,7 @@ class ChatController extends Controller
 
     }
 
+    // Ajouter un article au panier
     public function addNewItem(Request $request): \Illuminate\Http\JsonResponse
     {
         $newItem = $request;
@@ -181,6 +182,7 @@ class ChatController extends Controller
         }
         // S'il n'en a pas déjà une on la crée selon le modèle et on récupère son ID
         if (!$orderExists) {
+            // Nouvelle entrée selon le modèle
             $order = new Order();
             $order->status = "En cours";
             $order->total = 0;
@@ -191,6 +193,7 @@ class ChatController extends Controller
         }
         // Il faut impérativement respecter le modèle et donc avoir un numéro de commande pour ajouter un item
         // S'il a une commande en cours, on lui ajoute le/les produit(s)
+        if ($newItem->quantity > 0) {
         $orderItem = new OrderItem();
         $orderItem->quantity = $newItem->quantity;
         $orderItem->size = $newItem->size;
@@ -202,10 +205,14 @@ class ChatController extends Controller
         $answer['name'] = "Hop! Ajouté au panier!";
         $answer['id'] = Auth::id();
         // $answer['check'] = Auth::check();
+        } else {
+            $answer['name'] = "Merci d'ajouter au moins 1 article.";
+        }
 
         return (response()->json($answer));
     }
 
+    // Supprimer un article du panier
     public function deleteItem(Request $request): \Illuminate\Http\JsonResponse
     {
         $id = $request->id;
@@ -241,6 +248,7 @@ class ChatController extends Controller
         return (response()->json($answer));
     }
 
+    // Afficher le panier
     public function displayCart(): \Illuminate\Http\JsonResponse
     {
         //! Valeur à remplacer par Auth::id()
