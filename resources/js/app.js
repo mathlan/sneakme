@@ -44,6 +44,9 @@ window.addEventListener('DOMContentLoaded', function() {
 let answerNumber = 0;
 let shopNumber =0;
 
+
+let accessToken = localStorage.getItem('userToken');
+
 //! CONNEXION
 // Message de connexion au clic sur l'icône
 const userIcon = document.querySelector('.fa-user');
@@ -70,7 +73,7 @@ userIcon.onclick= function () {
 
     //* Bouton ajout
     const connectBtn = document.createElement("button");
-    connectBtn.textContent = "Ajouter au panier"; // Contenu de la balise texte
+    connectBtn.textContent = "Valider"; // Contenu de la balise texte
     connectBtn.classList.add("addProductBtn");
     // On récupère l'id de la bulle "produit" générée pour que quand l'utilisateur commande cela se fasse bien depuis la bonne div
     connectBtn.addEventListener('click', function() {
@@ -94,12 +97,15 @@ function connectUser() {
 
     let method = "POST";
     let url = "api/connectUser";
-    // let csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-    // headers['X-CSRF-TOKEN'] = csrfToken;
+
+/*    let jsonToken = localStorage.getItem('userToken');
+    let userToken = JSON.parse(jsonToken);
+    let accessToken = userToken.token;*/
 
     fetch(url, {
         method: method,
         headers: {
+            "Authorization": "Bearer " + accessToken,
             "Content-Type": "application/json"
         },
         body: JSON.stringify(newCo)
@@ -112,7 +118,10 @@ function connectUser() {
             }
         })
         .then(data => {
-            document.querySelector("#chat-messages").insertAdjacentHTML('beforeend', '<div class="bot-side"><div class="bot-msg" data-answer="' + answerNumber + '"><p class="bot-answer">' + data.email + '</p></div></div>');
+            document.querySelector("#chat-messages").insertAdjacentHTML('beforeend', '<div class="bot-side"><div class="bot-msg" data-answer="' + answerNumber + '"><p class="bot-answer">' + data.answer + '</p></div></div>');
+            if (data.auth == true) {
+                localStorage.setItem('userToken', data.api_token);
+            }
         })
         .catch(error => {
             console.log(error);
@@ -139,6 +148,7 @@ function displayCart() {
     fetch(url, {
         method: method,
         headers: {
+            "Authorization": "Bearer " + accessToken,
             "Content-Type": "application/json"
         }
     })
@@ -269,6 +279,7 @@ function deleteItem(itemID) {
     fetch(url, {
         method: method,
         headers: {
+            "Authorization": "Bearer " + accessToken,
             "Content-Type": "application/json"
         },
         body: JSON.stringify(itemToDelete)
@@ -308,6 +319,7 @@ document.addEventListener('DOMContentLoaded', function() {
             fetch('api/chat', {
                 method: 'POST',
                 headers: {
+                    "Authorization": "Bearer " + accessToken,
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({ keyword: message })
@@ -447,6 +459,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                         fetch(url, {
                                             method: method,
                                             headers: {
+                                                "Authorization": "Bearer " + accessToken,
                                                 "Content-Type": "application/json"
                                             },
                                             body: JSON.stringify(newItem)

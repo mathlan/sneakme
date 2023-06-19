@@ -293,7 +293,7 @@ class ChatController extends Controller
         });
 
         $answer['name'] = "Voici votre panier";
-        $answer['id'] = $orderID;
+        $answer['idToken'] = Auth::id();
         $answer['cart'] = $itemsAndPics;
         return (response()->json($answer));
     }
@@ -310,8 +310,12 @@ class ChatController extends Controller
         // dd(Auth::attempt(['email' => $userInput->email, 'password' => $userInput->password] ), Auth::user());
         if (Auth::attempt(['email' => $userInput->email, 'password' => $userInput->password]) == true) {
             $userData = Auth::user();
+            $userData['answer'] = "Vous êtes bien connecté";
+            $userData['auth'] = true;
         } else {
             $userData = "Failed to connect";
+            $userData['answer'] = "Echec de connexion";
+            $userData['auth'] = false;
         }
 
         return (response()->json($userData));
