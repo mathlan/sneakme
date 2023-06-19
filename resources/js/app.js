@@ -93,8 +93,6 @@ function connectUser() {
     let password = document.getElementById("password").value;
     let newCo = { 'email': email, 'password': password };
 
-    console.log(email);
-
     let method = "POST";
     let url = "api/connectUser";
 
@@ -141,6 +139,7 @@ function updateChatFeatures() { //? Fonctionnalités à appliquer à chaque rép
     chatContainer.scrollTop = chatContainer.scrollHeight;
 }
 
+//? AFFICHAGE PANIER
 function displayCart() {
     let method = "POST";
     let url = "api/displayCart";
@@ -162,6 +161,8 @@ function displayCart() {
         .then(dataCart => {
             // Il va y avoir un nouvel affichage donc on incrémente le compteur de réponses
             answerNumber++;
+
+            console.log(dataCart);
 
             // Nouveau message
             document.querySelector("#chat-messages").insertAdjacentHTML('beforeend', '<div class="bot-side"><div class="bot-msg" data-answer="' + answerNumber + '" style="min-width: 100%;"><p class="addProductTitle" style="text-align: center">Mon panier</p></div></div>')
@@ -267,7 +268,36 @@ function displayCart() {
             console.log(error);
         });
 }
+//? COMMANDE
+function orderCart(choice) {
+    let method = "POST";
+    let url = "api/orderCart";
+    let choiceObj = { 'choice': choice };
 
+    fetch(url, {
+        method: method,
+        headers: {
+            "Authorization": "Bearer " + accessToken,
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(choiceObj)
+    })
+        .then(response => {
+            if (response.ok) {
+                return response.json();
+            } else {
+                throw new Error('Error: ' + response.status);
+            }
+        })
+        .then(data => {
+            document.querySelector("#chat-messages").insertAdjacentHTML('beforeend', '<div class="bot-side"><div class="bot-msg" data-answer="' + answerNumber + '" style="min-width: 100%;"><p style=" margin: 15px;">' + data.name + '</p></div></div>')
+        })
+        .catch(error => {
+            console.log(error);
+        });
+}
+
+//? SUPPRESSION D'ARTICLE
 function deleteItem(itemID) {
     let itemToDelete = { 'id': itemID };
 
@@ -302,6 +332,8 @@ function deleteItem(itemID) {
     // displayCart();
     updateChatFeatures();
 }
+
+//? RÉPONSE CHATBOT
 document.addEventListener('DOMContentLoaded', function() {
     // Gestionnaire d'évènements du form
     document.querySelector('#chat-form').addEventListener('submit', function(event) {
@@ -553,6 +585,47 @@ document.addEventListener('DOMContentLoaded', function() {
                             updateChatFeatures()
                         }
 
+                        //? COMMANDE (10 = "Souhaitez vous finaliser votre commande ?")
+                        if (data.id == 10) {
+                            // Il va y avoir un nouvel affichage donc on incrémente le compteur de réponses
+                            answerNumber++;
+
+                            // Nouveau message
+                            document.querySelector("#chat-messages").insertAdjacentHTML('beforeend', '<div class="bot-side"><div class="bot-msg" data-answer="' + answerNumber + '" style="min-width: 100%;"></div></div>')
+                            document.querySelector('[data-answer="' + answerNumber + '"]').insertAdjacentHTML('beforeend', '<div id="orderCart" class="orderCart" data-answer="' + answerNumber + '"></div>');
+
+                            /*            let boxCartDiv = document.createElement('div');
+                                        boxCartDiv.setAttribute('box-id', dataCart.cart[i].id.toString());
+                                        boxCartDiv.classList.add('boxCart');*/
+
+                            // Nouvelle div
+                            let orderChoice = document.createElement('div');
+                            orderChoice.classList.add('orderChoice');
+
+                            // Bouton (yes)
+                            let checkIcon = document.createElement('i');
+                            checkIcon.className = "fa-solid fa-check fa-order fa-order-check";
+                            checkIcon.style.cursor = 'pointer';
+                            checkIcon.setAttribute('data-value', "true");
+                            checkIcon.addEventListener('click', function () {
+                                orderCart("yes");
+                            });
+
+                            // Bouton (no)
+                            let cancelIcon = document.createElement('i');
+                            cancelIcon.className = "fa-solid fa-xmark fa-order fa-order-cancel";
+                            cancelIcon.style.cursor = 'pointer';
+                            cancelIcon.setAttribute('data-value', "true");
+                            cancelIcon.addEventListener('click', function () {
+                                orderCart("no");
+                            });
+
+                            orderChoice.appendChild(checkIcon);
+                            orderChoice.appendChild(cancelIcon);
+
+                            // Incrémente les données sur la dernière div showProduct
+                            document.querySelectorAll('.orderCart')[document.querySelectorAll('.orderCart').length - 1].appendChild(orderChoice);
+                        }
                         updateChatFeatures()
                     }
                 })
