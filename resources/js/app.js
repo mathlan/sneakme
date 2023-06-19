@@ -590,13 +590,10 @@ document.addEventListener('DOMContentLoaded', function() {
                             // Il va y avoir un nouvel affichage donc on incrémente le compteur de réponses
                             answerNumber++;
 
-                            // Nouveau message
-                            document.querySelector("#chat-messages").insertAdjacentHTML('beforeend', '<div class="bot-side"><div class="bot-msg" data-answer="' + answerNumber + '" style="min-width: 100%;"></div></div>')
-                            document.querySelector('[data-answer="' + answerNumber + '"]').insertAdjacentHTML('beforeend', '<div id="orderCart" class="orderCart" data-answer="' + answerNumber + '"></div>');
+                            // A dé-quote pour créer un nouveau message avec les icônes de choix (oui/non)
+                            // document.querySelector("#chat-messages").insertAdjacentHTML('beforeend', '<div class="bot-side"><div class="bot-msg" data-answer="' + answerNumber + '" style="min-width: 100%;"></div></div>')
+                            // document.querySelector('[data-answer="' + answerNumber + '"]').insertAdjacentHTML('beforeend', '<div id="orderCart" class="orderCart" data-answer="' + answerNumber + '"></div>');
 
-                            /*            let boxCartDiv = document.createElement('div');
-                                        boxCartDiv.setAttribute('box-id', dataCart.cart[i].id.toString());
-                                        boxCartDiv.classList.add('boxCart');*/
 
                             // Nouvelle div
                             let orderChoice = document.createElement('div');
@@ -609,6 +606,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             checkIcon.setAttribute('data-value', "true");
                             checkIcon.addEventListener('click', function () {
                                 orderCart("yes");
+                                document.querySelectorAll('.bot-msg')[document.querySelectorAll('.bot-msg').length - 1].style.display = "none";
                             });
 
                             // Bouton (no)
@@ -618,13 +616,14 @@ document.addEventListener('DOMContentLoaded', function() {
                             cancelIcon.setAttribute('data-value', "true");
                             cancelIcon.addEventListener('click', function () {
                                 orderCart("no");
+                                document.querySelectorAll('.bot-msg')[document.querySelectorAll('.bot-msg').length - 1].style.display = "none";
                             });
 
                             orderChoice.appendChild(checkIcon);
                             orderChoice.appendChild(cancelIcon);
 
                             // Incrémente les données sur la dernière div showProduct
-                            document.querySelectorAll('.orderCart')[document.querySelectorAll('.orderCart').length - 1].appendChild(orderChoice);
+                            document.querySelectorAll('.bot-msg')[document.querySelectorAll('.bot-msg').length - 1].appendChild(orderChoice);
                         }
                         updateChatFeatures()
                     }
