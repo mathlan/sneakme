@@ -242,7 +242,7 @@ class ChatController extends Controller
 
         $answer['name'] = "Supprimé du panier";
         $answer['deletedID'] = $id;
-        $answer['id'] = Auth::id();
+        // $answer['id'] = Auth::id();
         // $answer['check'] = Auth::check();
 
         return (response()->json($answer));
