@@ -32,6 +32,7 @@ Route::group([
     Route::post('/addNewItem', [ChatController::class, 'addNewItem']);
     Route::post('/deleteItem', [ChatController::class, 'deleteItem']);
     Route::post('/displayCart', [ChatController::class, 'displayCart']);
+    Route::post('/connectUser', [ChatController::class, 'connectUser']);
     // Route::middleware('auth:sanctum')->post('/addNewItem', [ChatController::class, 'addNewItem']);
 });
 

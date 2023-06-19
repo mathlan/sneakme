@@ -12,6 +12,7 @@ use App\Models\Product;
 use App\Models\Color;
 use App\Models\Size;
 use App\Models\OrderItem;
+use App\Models\User;
 use App\Service\ColorSelected;
 use App\Service\SizeSelected;
 use Illuminate\Http\Request;
@@ -294,6 +295,31 @@ class ChatController extends Controller
         $answer['name'] = "Voici votre panier";
         $answer['id'] = $orderID;
         $answer['cart'] = $itemsAndPics;
+        return (response()->json($answer));
+    }
+
+    public function connectUser(Request $request): \Illuminate\Http\JsonResponse
+    {
+        $userInput = $request;
+
+        // Si le mot de passe correspond à l'user
+
+        // On récupère les infos de l'utilisateur
+        $res = User::where('email', $request->email)->get();
+/*
+        // S'il en a déjà une on définit juste son ID pour lui supprimer des items par la suite
+        if ($orderExists) {
+            $orderID = getOrderID($userID);
+            OrderItem::where('order_id', $userID)->where('id', $id)->delete();
+        }
+*/
+        $answer['token'] = $res->api_token;
+        //! $answer['req'] = $userInput;
+        //! $answer['res'] = $res;
+        // $answer['deletedID'] = $id;
+        // $answer['id'] = Auth::id();
+        // $answer['check'] = Auth::check();
+
         return (response()->json($answer));
     }
 }

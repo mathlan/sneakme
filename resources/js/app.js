@@ -37,11 +37,93 @@ window.addEventListener('DOMContentLoaded', function() {
 
 
 
+
+
 /* API CHATBOT */
 // ID de la réponse
 let answerNumber = 0;
 let shopNumber =0;
 
+//! CONNEXION
+// Message de connexion au clic sur l'icône
+const userIcon = document.querySelector('.fa-user');
+userIcon.onclick= function () {
+    //* Incrémentation de l'ID réponse (pour nouvelle réponse)
+    answerNumber++;
+
+    const connectElement = document.createElement('div');
+    connectElement.className = 'bot-side';
+    connectElement.innerHTML = `
+         <div id="chatMsgConnect" class="bot-msg productDiv centered" data-answer="${answerNumber}" style="min-width: 100%;">
+             <p class="addProductTitle">Connexion</p></br>
+             <div class="connectDiv">
+                 <p class="productLabel">Email: </p>
+                 <input type="email" id="email" name="email"></br>
+                 <p class="productLabel">Mot de passe: </p>
+                 <input type="password" id="password" name="password"></br>
+             </div>
+         </div>`;
+
+    // On ajoute l'élément au conteneur
+    const chatMessagesContainer = document.querySelector("#chat-messages");
+    chatMessagesContainer.appendChild(connectElement);
+
+    //* Bouton ajout
+    const connectBtn = document.createElement("button");
+    connectBtn.textContent = "Ajouter au panier"; // Contenu de la balise texte
+    connectBtn.classList.add("addProductBtn");
+    // On récupère l'id de la bulle "produit" générée pour que quand l'utilisateur commande cela se fasse bien depuis la bonne div
+    connectBtn.addEventListener('click', function() {
+        connectUser();
+    });
+    chatMsgConnect.appendChild(connectBtn);
+
+    //* Son "pop" & auto scroll
+    updateChatFeatures()
+}
+
+function connectUser() {
+    //* Incrémentation de l'ID réponse (pour nouvelle réponse)
+    answerNumber++;
+
+    let email = document.getElementById("email").value;
+    let password = document.getElementById("password").value;
+    let newCo = { 'email': email, 'password': password };
+
+    console.log(email);
+
+    let method = "POST";
+    let url = "api/connectUser";
+    // let csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+    // headers['X-CSRF-TOKEN'] = csrfToken;
+
+    fetch(url, {
+        method: method,
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(newCo)
+    })
+        .then(response => {
+            if (response.ok) {
+                return response.json();
+            } else {
+                throw new Error('Error: ' + response.status);
+            }
+        })
+        .then(data => {
+            document.querySelector("#chat-messages").insertAdjacentHTML('beforeend', '<div class="bot-side"><div class="bot-msg" data-answer="' + answerNumber + '"><p class="bot-answer">' + data.email + '</p></div></div>');
+        })
+        .catch(error => {
+            console.log(error);
+        });
+
+    // Affichage du panier dans une nouvelle bulle (voir: fonction)
+    // displayCart();
+    updateChatFeatures();
+}
+
+//! CHATBOT
 function updateChatFeatures() { //? Fonctionnalités à appliquer à chaque réponse du bot
     // Joue un petit son à chaque réponse
     myAudio.play();

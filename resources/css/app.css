@@ -800,6 +800,24 @@
     }
 }
 
+.connectDiv {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+    justify-content: space-evenly;
+    margin-bottom: 5px;
+}
+
+.connectDiv input {
+    height: 30px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    border: 1.8px solid #5991c0;
+    max-width: 150px;
+    font-size: 0.8rem;
+}
+
 #carousel {
     width: 500px;
     height: 300px;
