@@ -14,6 +14,9 @@
     </head>
     <body>
     <section>
+{{--        <?php
+        var_dump(\Illuminate\Support\Facades\Auth::id());
+        ?>--}}
         <div class="chatbot-reduced">
             <i class="fa-solid fa-message"></i>
         </div>

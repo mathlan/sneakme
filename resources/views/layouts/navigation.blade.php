@@ -1,6 +1,7 @@
 <div class="dashboard-menu">
     <h1 class="dash-site-name">Sneack Me</h1>
     <h2 class="dash-main-title"><a href="/dashboard">Dashboard</a></h2>
+    <p>Bonjour <?php echo Auth::user()->firstname; ?></p>
     <div class="menu-box first-menu-box">
         <h3 class="menu-box-title"><i class="fa-solid fa-inbox"></i>Produits</h3>
         <ul>
@@ -9,10 +10,10 @@
         </ul>
     </div>
     <div class="menu-box">
-        <h3 class="menu-box-title"><i class="fa-solid fa-tags"></i>Catergories</h3>
+        <h3 class="menu-box-title"><i class="fa-solid fa-tags"></i>Catégories</h3>
         <ul>
-            <li><a href="{{ route('categories.index') }}">Voir toutes les catérgories</a></li>
-            <li><a href="{{ route('categories.create') }}">Ajouter une catérgorie</a></li>
+            <li><a href="{{ route('categories.index') }}">Voir toutes les catégories</a></li>
+            <li><a href="{{ route('categories.create') }}">Ajouter une catégorie</a></li>
         </ul>
     </div>
     <div class="menu-box">
@@ -35,4 +36,8 @@
             <li><a href="{{ route('users.index') }}">Voir tous les utilisateurs</a></li>
         </ul>
     </div>
+    <a style="color: red;" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Se déconnecter</a>
+    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+        @csrf
+    </form>
 </div>
