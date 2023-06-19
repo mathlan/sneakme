@@ -51,15 +51,23 @@ function updateChatFeatures() { //? Fonctionnalités à appliquer à chaque rép
 }
 
 function displayCart() {
-    let xhr = new XMLHttpRequest();
     let method = "POST";
     let url = "api/displayCart";
-    xhr.open(method, url, true);
-    xhr.setRequestHeader("Content-Type", "application/json");
-    xhr.onload = function() {
-        if (xhr.status >= 200 && xhr.status < 400) {
-            let dataCart = JSON.parse(xhr.responseText);
 
+    fetch(url, {
+        method: method,
+        headers: {
+            "Content-Type": "application/json"
+        }
+    })
+        .then(response => {
+            if (response.ok) {
+                return response.json();
+            } else {
+                throw new Error('Error: ' + response.status);
+            }
+        })
+        .then(dataCart => {
             // Il va y avoir un nouvel affichage donc on incrémente le compteur de réponses
             answerNumber++;
 
@@ -130,7 +138,6 @@ function displayCart() {
                     // 3ème élément du grid (qté)
                     let boxCart3 = document.createElement('div');
                     boxCart3.classList.add('boxCart3');
-                    boxCartDiv.appendChild(boxCart3);
 
                     // Texte (quantité)
                     let txtQty = document.createElement('p');
@@ -148,12 +155,11 @@ function displayCart() {
                     xMarkIcon.className = "fa-solid fa-xmark";
                     xMarkIcon.style.cursor = 'pointer';
                     xMarkIcon.setAttribute('data-value', dataCart.cart[i].id.toString());
-                    xMarkIcon.addEventListener('click', function() {
+                    xMarkIcon.addEventListener('click', function () {
                         deleteItem(parseInt(this.getAttribute('data-value'))); // Pass the button value as an argument
                     });
                     deleteCartItem.appendChild(xMarkIcon);
                     boxCart4.appendChild(deleteCartItem);
-
 
                     // Incrémente les données sur la dernière div showProduct
                     document.querySelectorAll('.showCart')[document.querySelectorAll('.showCart').length - 1].appendChild(boxCartDiv);
@@ -164,39 +170,45 @@ function displayCart() {
                 txtNoCart.style.textAlign = "center";
                 document.querySelectorAll('.showCart')[document.querySelectorAll('.showCart').length - 1].appendChild(txtNoCart);
             }
-        } else {
-            // console.log(xhrNewItem.responseText);
-        }
-    };
-    xhr.send();
+        })
+        .catch(error => {
+            console.log(error);
+        });
 }
 
-function deleteItem (itemID) {
+function deleteItem(itemID) {
+    let itemToDelete = { 'id': itemID };
 
-    let itemToDelete = {'id': itemID};
-
-    let xhrDeletedItem = new XMLHttpRequest();
     let method = "POST";
     let url = "api/deleteItem";
     // let csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-    // xhrNewItem.setRequestHeader('X-CSRF-TOKEN', csrfToken);
-    xhrDeletedItem.open(method, url, true);
-    xhrDeletedItem.setRequestHeader("Content-Type", "application/json");
-    xhrDeletedItem.onload = function() {
-        if (xhrDeletedItem.status >= 200 && xhrDeletedItem.status < 400) {
-            let data = JSON.parse(xhrDeletedItem.responseText);
-            // document.querySelector("#chat-messages").insertAdjacentHTML('beforeend', '<div class="bot-side"><div class="bot-msg" data-answer="' + answerNumber + '"><p class="bot-answer">' + data.name + '</p></div></div>')
+    // headers['X-CSRF-TOKEN'] = csrfToken;
+
+    fetch(url, {
+        method: method,
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(itemToDelete)
+    })
+        .then(response => {
+            if (response.ok) {
+                return response.json();
+            } else {
+                throw new Error('Error: ' + response.status);
+            }
+        })
+        .then(data => {
             document.querySelector('[box-id="' + itemID + '"]').style.display = "none";
-        } else {
-            // console.log(xhrNewItem.responseText);
-        }
-    };
-    let jsonData = JSON.stringify(itemToDelete);
-    xhrDeletedItem.send(jsonData);
+        })
+        .catch(error => {
+            console.log(error);
+        });
+
     // Affichage du panier dans une nouvelle bulle (voir: fonction)
     // displayCart();
-    updateChatFeatures()
-};
+    updateChatFeatures();
+}
 document.addEventListener('DOMContentLoaded', function() {
     // Gestionnaire d'évènements du form
     document.querySelector('#chat-form').addEventListener('submit', function(event) {
@@ -209,22 +221,31 @@ document.addEventListener('DOMContentLoaded', function() {
             // Incrémentation de l'ID réponse (pour nouvelle réponse)
             answerNumber++;
             // On retourne la demande de l'utilisateur
-            document.querySelector("#chat-messages").insertAdjacentHTML('beforeend', '<div class="user-side"><div class="user-msg"><p>' + message + '</p></div></div>')
+            document.querySelector("#chat-messages").insertAdjacentHTML('beforeend', '<div class="user-side"><div class="user-msg"><p>' + message + '</p></div></div>');
             // Envoi au serveur
-            let xhr = new XMLHttpRequest();
-            xhr.open('POST', 'api/chat');
-            xhr.setRequestHeader('Content-Type', 'application/json');
-            xhr.onload = function() {
-                if (xhr.status === 200) {
-                    let data = JSON.parse(xhr.responseText);
+            fetch('api/chat', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ keyword: message })
+            })
+                .then(response => {
+                    if (response.status === 200) {
+                        return response.json();
+                    } else {
+                        throw new Error('Request failed. Error: ' + response.status);
+                    }
+                })
+                .then(data => {
                     // Si un message a été trouvé
-                    if (Object.keys(data).length != 0) {
+                    if (Object.keys(data).length !== 0) {
                         if (data) {
                             console.log(data);
-                            document.querySelector("#chat-messages").insertAdjacentHTML('beforeend', '<div class="bot-side"><div class="bot-msg" data-answer="' + answerNumber + '"><p class="bot-answer">' + data.name + '</p></div></div>')
+                            document.querySelector("#chat-messages").insertAdjacentHTML('beforeend', '<div class="bot-side"><div class="bot-msg" data-answer="' + answerNumber + '"><p class="bot-answer">' + data.name + '</p></div></div>');
                         } else {
-                            //Si aucun message n'a été trouvé
-                            document.querySelector("#chat-messages").insertAdjacentHTML('beforeend', '<div class="bot-side"><div class="bot-msg"' + answerNumber + '"><p class="bot-answer">Merci de reformuler votre demande.</p></div></div>');
+                            // Si aucun message n'a été trouvé
+                            document.querySelector("#chat-messages").insertAdjacentHTML('beforeend', '<div class="bot-side"><div class="bot-msg" data-answer="' + answerNumber + '"><p class="bot-answer">Merci de reformuler votre demande.</p></div></div>');
                         }
 
                         //? PRODUITS
@@ -323,39 +344,49 @@ document.addEventListener('DOMContentLoaded', function() {
                                     let size = 0;
                                     let color = "";
                                     let quantity = 0;
-                                    function updateNewItem (shopID) {
+                                    function updateNewItem(shopID) {
                                         //* Incrémentation de l'ID réponse (pour nouvelle réponse)
                                         answerNumber++;
 
-                                        let lastSize = "size" +  shopID;
-                                        let lastColor = "color" +  shopID;
-                                        let lastQuantity = "quantity" +  shopID;
+                                        let lastSize = "size" + shopID;
+                                        let lastColor = "color" + shopID;
+                                        let lastQuantity = "quantity" + shopID;
 
                                         size = parseInt(document.getElementById(lastSize).value);
                                         color = document.getElementById(lastColor).value;
                                         quantity = parseInt(document.getElementById(lastQuantity).value);
-                                        newItem = {'size': size, 'color': color, 'quantity': quantity, 'product_id': idProduct};
-                                        let xhrNewItem = new XMLHttpRequest();
+                                        newItem = { 'size': size, 'color': color, 'quantity': quantity, 'product_id': idProduct };
+
                                         let method = "POST";
                                         let url = "api/addNewItem";
                                         // let csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-                                        // xhrNewItem.setRequestHeader('X-CSRF-TOKEN', csrfToken);
-                                        xhrNewItem.open(method, url, true);
-                                        xhrNewItem.setRequestHeader("Content-Type", "application/json");
-                                        xhrNewItem.onload = function() {
-                                            if (xhrNewItem.status >= 200 && xhrNewItem.status < 400) {
-                                                let data = JSON.parse(xhrNewItem.responseText);
-                                                document.querySelector("#chat-messages").insertAdjacentHTML('beforeend', '<div class="bot-side"><div class="bot-msg" data-answer="' + answerNumber + '"><p class="bot-answer">' + data.name + '</p></div></div>')
-                                            } else {
-                                                // console.log(xhrNewItem.responseText);
-                                            }
-                                        };
-                                        let jsonData = JSON.stringify(newItem);
-                                        xhrNewItem.send(jsonData);
+                                        // headers['X-CSRF-TOKEN'] = csrfToken;
+
+                                        fetch(url, {
+                                            method: method,
+                                            headers: {
+                                                "Content-Type": "application/json"
+                                            },
+                                            body: JSON.stringify(newItem)
+                                        })
+                                            .then(response => {
+                                                if (response.ok) {
+                                                    return response.json();
+                                                } else {
+                                                    throw new Error('Error: ' + response.status);
+                                                }
+                                            })
+                                            .then(data => {
+                                                document.querySelector("#chat-messages").insertAdjacentHTML('beforeend', '<div class="bot-side"><div class="bot-msg" data-answer="' + answerNumber + '"><p class="bot-answer">' + data.name + '</p></div></div>');
+                                            })
+                                            .catch(error => {
+                                                console.log(error);
+                                            });
+
                                         // Affichage du panier dans une nouvelle bulle (voir: fonction)
                                         // displayCart();
-                                        updateChatFeatures()
-                                    };
+                                        updateChatFeatures();
+                                    }
 
                                     //* Bouton ajout
                                     const chatMsgAdd = document.querySelector('[data-answer="'+ answerNumber +'"]')
@@ -429,13 +460,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
                         updateChatFeatures()
                     }
-                } else {
-                    console.error('Request failed. Error: ' + xhr.status);
-                }
-            };
-            // Il faut bien envoyer les data formatées en json {keyword: data}
-            let jsonMessage = JSON.stringify({ keyword: message });
-            xhr.send(jsonMessage);
+                })
+                .catch(error => {
+                    console.error('Request failed. Error: ' + error);
+                });
             // On vide l'input pour la prochaine requête
             document.querySelector('#chat-message').value = '';
         }
