@@ -158,11 +158,10 @@ class ChatController extends Controller
     {
         $newItem = $request;
 
-        //! Valeur à remplacer par Auth::id()
-        //$userID = 1;
-                //$userAuth = Auth::guard('api')->user();
-               // $userAuthID = $userAuth->id;
+        // ID de l'utilisateur
         $userID = Auth::id();
+
+        if(Auth::check()) {
 
         //? Fonction de récupération de l'ID de la commande en cours
         $orderID = null;
@@ -204,10 +203,11 @@ class ChatController extends Controller
         $orderItem->save();
 
         $answer['name'] = "Hop! Ajouté au panier!";
-        $answer['id'] = Auth::id();
-        // $answer['check'] = Auth::check();
         } else {
             $answer['name'] = "Merci d'ajouter au moins 1 article.";
+        }
+        } else {
+            $answer['name'] = "Merci de vous connecter.";
         }
 
         return (response()->json($answer));
@@ -219,7 +219,7 @@ class ChatController extends Controller
         $id = $request->id;
 
         //! Valeur à remplacer par Auth::id()
-        $userID = 1;
+        $userID = Auth::id();
 
         //? Fonction de récupération de l'ID de la commande en cours
         $orderID = null;
@@ -253,7 +253,7 @@ class ChatController extends Controller
     public function displayCart(): \Illuminate\Http\JsonResponse
     {
         //! Valeur à remplacer par Auth::id()
-        $userID = 1;
+        $userID = Auth::id();
 
         //? Fonction de récupération de l'ID de la commande en cours
         $orderID = null;
@@ -295,6 +295,41 @@ class ChatController extends Controller
         $answer['name'] = "Voici votre panier";
         $answer['idToken'] = Auth::id();
         $answer['cart'] = $itemsAndPics;
+        // Il faut passer les données dans le cart
+        // $answer['cart']['idToken'] = Auth::id();
+        return (response()->json($answer));
+    }
+
+    // Afficher le panier
+    public function orderCart(Request $request): \Illuminate\Http\JsonResponse
+    {
+        $choice = $request->choice;
+        //! Valeur à remplacer par Auth::id()
+        $userID = Auth::id();
+
+        //? Fonction de récupération de l'ID de la commande en cours
+        $orderID = null;
+        function getOrderID ($userID) {
+            $orderID = Order::where('user_id', $userID)
+                ->where('status', 'En cours')
+                ->first()->id;
+            return $orderID;
+        }
+
+        // On vérifie si l'utilisateur à déjà une commande en cours
+        $orderExists = Order::where('user_id', $userID)
+            ->where('status', 'En cours')
+            ->exists();
+        // S'il en a déjà une on définit juste son ID pour lui rajouter des items par la suite
+        if ($orderExists && $choice == "yes") {
+            Order::where('user_id', $userID)
+                ->where('status', "En cours")
+                ->update(['status' => 'En attente']);
+            $answer['name'] = "Votre commande est désormais en attente de paiement. Merci d'adresser votre paiement à [adresse]. Merci pour votre achat !";
+        } else {
+            $answer['name'] = "Vous pouvez continuer vos achats.";
+        }
+
         return (response()->json($answer));
     }
 

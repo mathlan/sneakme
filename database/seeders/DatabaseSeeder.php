@@ -73,7 +73,7 @@ class DatabaseSeeder extends Seeder
 
         \App\Models\Answer::factory()->create([
             'id' => '7',
-            'name' => 'Inscrivez-vous',
+            'name' => 'Inscrivez-vous ici',
         ]);
 
         \App\Models\Answer::factory()->create([
@@ -88,7 +88,7 @@ class DatabaseSeeder extends Seeder
 
         \App\Models\Answer::factory()->create([
             'id' => '10',
-            'name' => 'Comment souhaitez-vous regler ?',
+            'name' => 'Souhaitez vous finaliser votre commande ?',
         ]);
 
         \App\Models\Answer::factory()->create([
@@ -210,6 +210,12 @@ class DatabaseSeeder extends Seeder
         \App\Models\Keyword::factory()->create([
             'name' => 'valider',
             'answer_id' => "15",
+            'type' => 'panier',
+        ]);
+
+        \App\Models\Keyword::factory()->create([
+            'name' => 'payer',
+            'answer_id' => "10",
             'type' => 'panier',
         ]);
 

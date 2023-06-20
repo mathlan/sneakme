@@ -36,19 +36,16 @@ window.addEventListener('DOMContentLoaded', function() {
 });
 
 
-
-
-
 /* API CHATBOT */
 // ID de la réponse
 let answerNumber = 0;
 let shopNumber =0;
 
-
-let accessToken = localStorage.getItem('userToken');
+// let accessToken = localStorage.getItem('userToken');
 
 //! CONNEXION
-// Message de connexion au clic sur l'icône
+
+//? Message de connexion au clic sur l'icône
 const userIcon = document.querySelector('.fa-user');
 userIcon.onclick= function () {
     //* Incrémentation de l'ID réponse (pour nouvelle réponse)
@@ -85,6 +82,7 @@ userIcon.onclick= function () {
     updateChatFeatures()
 }
 
+//? Connexion (fonction)
 function connectUser() {
     //* Incrémentation de l'ID réponse (pour nouvelle réponse)
     answerNumber++;
@@ -93,19 +91,13 @@ function connectUser() {
     let password = document.getElementById("password").value;
     let newCo = { 'email': email, 'password': password };
 
-    console.log(email);
-
     let method = "POST";
     let url = "api/connectUser";
-
-/*    let jsonToken = localStorage.getItem('userToken');
-    let userToken = JSON.parse(jsonToken);
-    let accessToken = userToken.token;*/
 
     fetch(url, {
         method: method,
         headers: {
-            "Authorization": "Bearer " + accessToken,
+            "Authorization": "Bearer " + localStorage.getItem('userToken'),
             "Content-Type": "application/json"
         },
         body: JSON.stringify(newCo)
@@ -127,8 +119,6 @@ function connectUser() {
             console.log(error);
         });
 
-    // Affichage du panier dans une nouvelle bulle (voir: fonction)
-    // displayCart();
     updateChatFeatures();
 }
 
@@ -141,6 +131,7 @@ function updateChatFeatures() { //? Fonctionnalités à appliquer à chaque rép
     chatContainer.scrollTop = chatContainer.scrollHeight;
 }
 
+//? AFFICHAGE PANIER
 function displayCart() {
     let method = "POST";
     let url = "api/displayCart";
@@ -148,7 +139,7 @@ function displayCart() {
     fetch(url, {
         method: method,
         headers: {
-            "Authorization": "Bearer " + accessToken,
+            "Authorization": "Bearer " + localStorage.getItem('userToken'),
             "Content-Type": "application/json"
         }
     })
@@ -162,6 +153,8 @@ function displayCart() {
         .then(dataCart => {
             // Il va y avoir un nouvel affichage donc on incrémente le compteur de réponses
             answerNumber++;
+
+            console.log(dataCart);
 
             // Nouveau message
             document.querySelector("#chat-messages").insertAdjacentHTML('beforeend', '<div class="bot-side"><div class="bot-msg" data-answer="' + answerNumber + '" style="min-width: 100%;"><p class="addProductTitle" style="text-align: center">Mon panier</p></div></div>')
@@ -267,19 +260,46 @@ function displayCart() {
             console.log(error);
         });
 }
+//? COMMANDE
+function orderCart(choice) {
+    let method = "POST";
+    let url = "api/orderCart";
+    let choiceObj = { 'choice': choice };
 
+    fetch(url, {
+        method: method,
+        headers: {
+            "Authorization": "Bearer " + localStorage.getItem('userToken'),
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(choiceObj)
+    })
+        .then(response => {
+            if (response.ok) {
+                return response.json();
+            } else {
+                throw new Error('Error: ' + response.status);
+            }
+        })
+        .then(data => {
+            document.querySelector("#chat-messages").insertAdjacentHTML('beforeend', '<div class="bot-side"><div class="bot-msg" data-answer="' + answerNumber + '" style="min-width: 100%;"><p style=" margin: 15px;">' + data.name + '</p></div></div>')
+        })
+        .catch(error => {
+            console.log(error);
+        });
+}
+
+//? SUPPRESSION D'ARTICLE
 function deleteItem(itemID) {
     let itemToDelete = { 'id': itemID };
 
     let method = "POST";
     let url = "api/deleteItem";
-    // let csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-    // headers['X-CSRF-TOKEN'] = csrfToken;
 
     fetch(url, {
         method: method,
         headers: {
-            "Authorization": "Bearer " + accessToken,
+            "Authorization": "Bearer " + localStorage.getItem('userToken'),
             "Content-Type": "application/json"
         },
         body: JSON.stringify(itemToDelete)
@@ -302,6 +322,8 @@ function deleteItem(itemID) {
     // displayCart();
     updateChatFeatures();
 }
+
+//? RÉPONSE CHATBOT
 document.addEventListener('DOMContentLoaded', function() {
     // Gestionnaire d'évènements du form
     document.querySelector('#chat-form').addEventListener('submit', function(event) {
@@ -319,7 +341,7 @@ document.addEventListener('DOMContentLoaded', function() {
             fetch('api/chat', {
                 method: 'POST',
                 headers: {
-                    "Authorization": "Bearer " + accessToken,
+                    "Authorization": "Bearer " + localStorage.getItem('userToken'),
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({ keyword: message })
@@ -453,13 +475,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
                                         let method = "POST";
                                         let url = "api/addNewItem";
-                                        // let csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-                                        // headers['X-CSRF-TOKEN'] = csrfToken;
 
                                         fetch(url, {
                                             method: method,
                                             headers: {
-                                                "Authorization": "Bearer " + accessToken,
+                                                "Authorization": "Bearer " + localStorage.getItem('userToken'),
                                                 "Content-Type": "application/json"
                                             },
                                             body: JSON.stringify(newItem)
@@ -473,6 +493,9 @@ document.addEventListener('DOMContentLoaded', function() {
                                             })
                                             .then(data => {
                                                 document.querySelector("#chat-messages").insertAdjacentHTML('beforeend', '<div class="bot-side"><div class="bot-msg" data-answer="' + answerNumber + '"><p class="bot-answer">' + data.name + '</p></div></div>');
+                                                if(data.name == "Merci de vous connecter.") {
+                                                    document.querySelector("#chat-messages").insertAdjacentHTML('beforeend', '<div class="bot-side"><div class="bot-msg" data-answer="' + answerNumber + '"><p class="bot-answer">Pour vous connecter cliquez sur l\'icone  <i class="fa-solid fa-user"></i></p></div></div>');
+                                                }
                                             })
                                             .catch(error => {
                                                 console.log(error);
@@ -553,6 +576,45 @@ document.addEventListener('DOMContentLoaded', function() {
                             updateChatFeatures()
                         }
 
+                        //? COMMANDE (10 = "Souhaitez vous finaliser votre commande ?")
+                        if (data.id == 10) {
+                            // Il va y avoir un nouvel affichage donc on incrémente le compteur de réponses
+                            answerNumber++;
+
+                            // A dé-quote pour créer un nouveau message avec les icônes de choix (oui/non)
+                            // document.querySelector("#chat-messages").insertAdjacentHTML('beforeend', '<div class="bot-side"><div class="bot-msg" data-answer="' + answerNumber + '" style="min-width: 100%;"></div></div>')
+                            // document.querySelector('[data-answer="' + answerNumber + '"]').insertAdjacentHTML('beforeend', '<div id="orderCart" class="orderCart" data-answer="' + answerNumber + '"></div>');
+
+                            // Nouvelle div
+                            let orderChoice = document.createElement('div');
+                            orderChoice.classList.add('orderChoice');
+
+                            // Bouton (yes)
+                            let checkIcon = document.createElement('i');
+                            checkIcon.className = "fa-solid fa-check fa-order fa-order-check";
+                            checkIcon.style.cursor = 'pointer';
+                            checkIcon.setAttribute('data-value', "true");
+                            checkIcon.addEventListener('click', function () {
+                                orderCart("yes");
+                                document.querySelectorAll('.bot-msg')[document.querySelectorAll('.bot-msg').length - 1].style.display = "none";
+                            });
+
+                            // Bouton (no)
+                            let cancelIcon = document.createElement('i');
+                            cancelIcon.className = "fa-solid fa-xmark fa-order fa-order-cancel";
+                            cancelIcon.style.cursor = 'pointer';
+                            cancelIcon.setAttribute('data-value', "true");
+                            cancelIcon.addEventListener('click', function () {
+                                orderCart("no");
+                                document.querySelectorAll('.bot-msg')[document.querySelectorAll('.bot-msg').length - 1].style.display = "none";
+                            });
+
+                            orderChoice.appendChild(checkIcon);
+                            orderChoice.appendChild(cancelIcon);
+
+                            // Incrémente les données sur la dernière div showProduct
+                            document.querySelectorAll('.bot-msg')[document.querySelectorAll('.bot-msg').length - 1].appendChild(orderChoice);
+                        }
                         updateChatFeatures()
                     }
                 })
