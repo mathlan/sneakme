@@ -36,19 +36,16 @@ window.addEventListener('DOMContentLoaded', function() {
 });
 
 
-
-
-
 /* API CHATBOT */
 // ID de la réponse
 let answerNumber = 0;
 let shopNumber =0;
 
-
-let accessToken = localStorage.getItem('userToken');
+// let accessToken = localStorage.getItem('userToken');
 
 //! CONNEXION
-// Message de connexion au clic sur l'icône
+
+//? Message de connexion au clic sur l'icône
 const userIcon = document.querySelector('.fa-user');
 userIcon.onclick= function () {
     //* Incrémentation de l'ID réponse (pour nouvelle réponse)
@@ -85,6 +82,7 @@ userIcon.onclick= function () {
     updateChatFeatures()
 }
 
+//? Connexion (fonction)
 function connectUser() {
     //* Incrémentation de l'ID réponse (pour nouvelle réponse)
     answerNumber++;
@@ -96,14 +94,10 @@ function connectUser() {
     let method = "POST";
     let url = "api/connectUser";
 
-/*    let jsonToken = localStorage.getItem('userToken');
-    let userToken = JSON.parse(jsonToken);
-    let accessToken = userToken.token;*/
-
     fetch(url, {
         method: method,
         headers: {
-            "Authorization": "Bearer " + accessToken,
+            "Authorization": "Bearer " + localStorage.getItem('userToken'),
             "Content-Type": "application/json"
         },
         body: JSON.stringify(newCo)
@@ -125,8 +119,6 @@ function connectUser() {
             console.log(error);
         });
 
-    // Affichage du panier dans une nouvelle bulle (voir: fonction)
-    // displayCart();
     updateChatFeatures();
 }
 
@@ -147,7 +139,7 @@ function displayCart() {
     fetch(url, {
         method: method,
         headers: {
-            "Authorization": "Bearer " + accessToken,
+            "Authorization": "Bearer " + localStorage.getItem('userToken'),
             "Content-Type": "application/json"
         }
     })
@@ -277,7 +269,7 @@ function orderCart(choice) {
     fetch(url, {
         method: method,
         headers: {
-            "Authorization": "Bearer " + accessToken,
+            "Authorization": "Bearer " + localStorage.getItem('userToken'),
             "Content-Type": "application/json"
         },
         body: JSON.stringify(choiceObj)
@@ -303,13 +295,11 @@ function deleteItem(itemID) {
 
     let method = "POST";
     let url = "api/deleteItem";
-    // let csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-    // headers['X-CSRF-TOKEN'] = csrfToken;
 
     fetch(url, {
         method: method,
         headers: {
-            "Authorization": "Bearer " + accessToken,
+            "Authorization": "Bearer " + localStorage.getItem('userToken'),
             "Content-Type": "application/json"
         },
         body: JSON.stringify(itemToDelete)
@@ -351,7 +341,7 @@ document.addEventListener('DOMContentLoaded', function() {
             fetch('api/chat', {
                 method: 'POST',
                 headers: {
-                    "Authorization": "Bearer " + accessToken,
+                    "Authorization": "Bearer " + localStorage.getItem('userToken'),
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({ keyword: message })
@@ -485,13 +475,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
                                         let method = "POST";
                                         let url = "api/addNewItem";
-                                        // let csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-                                        // headers['X-CSRF-TOKEN'] = csrfToken;
 
                                         fetch(url, {
                                             method: method,
                                             headers: {
-                                                "Authorization": "Bearer " + accessToken,
+                                                "Authorization": "Bearer " + localStorage.getItem('userToken'),
                                                 "Content-Type": "application/json"
                                             },
                                             body: JSON.stringify(newItem)

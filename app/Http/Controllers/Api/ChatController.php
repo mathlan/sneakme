@@ -158,11 +158,8 @@ class ChatController extends Controller
     {
         $newItem = $request;
 
-        //! Valeur à remplacer par Auth::id()
-        $userID = 1;
-        /*        $userAuth = Auth::guard('api')->user();
-                $userAuthID = $userAuth->id;*/
-        // $userID = Auth::id();
+        // ID de l'utilisateur
+        $userID = Auth::id();
 
         //? Fonction de récupération de l'ID de la commande en cours
         $orderID = null;
@@ -219,7 +216,7 @@ class ChatController extends Controller
         $id = $request->id;
 
         //! Valeur à remplacer par Auth::id()
-        $userID = 1;
+        $userID = Auth::id();
 
         //? Fonction de récupération de l'ID de la commande en cours
         $orderID = null;
@@ -253,7 +250,7 @@ class ChatController extends Controller
     public function displayCart(): \Illuminate\Http\JsonResponse
     {
         //! Valeur à remplacer par Auth::id()
-        $userID = 1;
+        $userID = Auth::id();
 
         //? Fonction de récupération de l'ID de la commande en cours
         $orderID = null;
@@ -295,6 +292,8 @@ class ChatController extends Controller
         $answer['name'] = "Voici votre panier";
         $answer['idToken'] = Auth::id();
         $answer['cart'] = $itemsAndPics;
+        // Il faut passer les données dans le cart
+        // $answer['cart']['idToken'] = Auth::id();
         return (response()->json($answer));
     }
 
@@ -303,7 +302,7 @@ class ChatController extends Controller
     {
         $choice = $request->choice;
         //! Valeur à remplacer par Auth::id()
-        $userID = 1;
+        $userID = Auth::id();
 
         //? Fonction de récupération de l'ID de la commande en cours
         $orderID = null;
