@@ -97,7 +97,6 @@ function connectUser() {
     fetch(url, {
         method: method,
         headers: {
-            "Authorization": "Bearer " + localStorage.getItem('userToken'),
             "Content-Type": "application/json"
         },
         body: JSON.stringify(newCo)
@@ -113,6 +112,7 @@ function connectUser() {
             document.querySelector("#chat-messages").insertAdjacentHTML('beforeend', '<div class="bot-side"><div class="bot-msg" data-answer="' + answerNumber + '"><p class="bot-answer">' + data.answer + '</p></div></div>');
             if (data.auth == true) {
                 localStorage.setItem('userToken', data.api_token);
+                document.querySelector('#chatMsgConnect').style.display = "none";
             }
         })
         .catch(error => {

@@ -25,26 +25,28 @@ class ChatController extends Controller
      */
     public function __invoke(Request $request): \Illuminate\Http\JsonResponse
     {
+        // Récupère les arguments dans le body de la request JS
         $search = $request->input('keyword');
+        // Séparation des mots clés dans un array
         $words = explode(" ", $search);
+        // Stockage pour récupérer des mots clés importants
         $keywordType = "";
         $category = null;
+        // Array qui va être incrémenté au fur et à mesure pour la réponse de l'API
         $answer = [];
         $answer['name'] = "";
         $answer['products'] = [];
+        // Arrays pour les SELECT du front
         $answer['colors'] = Color::pluck('color')->all();
         $answer['sizes'] = Size::pluck('size')->all();
+        // Mots clés de type "CRUD" & Connexion
         $crudValues = ["ajouter", "modifier", "supprimer", "connecter", "connexion"];
         $lastAnswer = [];
 
-/*        if (Auth::check()) {
-            if($search == "test") {
-                $answer['name'] = "Connecté";
-            }
-        }*/
 
         // FILTRAGE DES MOTS CLES
         foreach ($words as $word) {
+            // Mots à supprimer
             $wordsToRemove = [];
             // MOTS COURTS // On filtre d'abord les mots inférieurs à trois caractères et qui ne sont pas des INT pour épurer la recherche // Il faudrait éventuellement une liste d'exceptions
             if (strlen($word) < 3 && !is_numeric($word)) {
@@ -142,14 +144,6 @@ class ChatController extends Controller
 
         $lastAnswer = $answer;
         return response()->json($answer);
-
-/*        if (Auth::check()) {
-            // Connecté
-        } else {
-            // Pas connecté return response()->json(["message" => "Il faut être connecté"]);
-        }*/
-
-        // up
 
     }
 
@@ -342,13 +336,11 @@ class ChatController extends Controller
         // On récupère les infos de l'utilisateur
         // $userData = User::where('email', $userInput->email)->first();
 
-        // dd(Auth::attempt(['email' => $userInput->email, 'password' => $userInput->password] ), Auth::user());
-        if (Auth::attempt(['email' => $userInput->email, 'password' => $userInput->password]) == true) {
+        if (Auth::attempt(['email' => $userInput->email, 'password' => $userInput->password])) {
             $userData = Auth::user();
             $userData['answer'] = "Vous êtes bien connecté";
             $userData['auth'] = true;
         } else {
-            $userData = "Failed to connect";
             $userData['answer'] = "Echec de connexion";
             $userData['auth'] = false;
         }
