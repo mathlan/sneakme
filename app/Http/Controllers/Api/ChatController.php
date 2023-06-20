@@ -223,7 +223,8 @@ class ChatController extends Controller
 
         //? Fonction de récupération de l'ID de la commande en cours
         $orderID = null;
-        function getOrderID ($userID) {
+        function getOrderID($userID)
+        {
             $orderID = Order::where('user_id', $userID)
                 ->where('status', 'En cours')
                 ->first()->id;
@@ -348,7 +349,7 @@ class ChatController extends Controller
             $userData['answer'] = "Vous êtes bien connecté";
             $userData['auth'] = true;
         } else {
-            $userData = "Failed to connect";
+            // $userData = "Failed to connect";
             $userData['answer'] = "Echec de connexion";
             $userData['auth'] = false;
         }

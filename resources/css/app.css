@@ -749,6 +749,24 @@
     color: var(--nightblue);
     width: 100%;
 }
+/* -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_- ORDER VIEW -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_- */
+.order-view{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.order-view img{
+    height: 50px;
+    width: 50px;
+    border-radius: 50px;
+    margin: 0 25px;
+    object-fit: cover;
+}
+
+.order-form{
+    width: 100%;
+}
 
 /* -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_- CHATBOT MSG -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_- */
 

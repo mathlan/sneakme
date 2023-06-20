@@ -14,12 +14,12 @@
             <ul class="list-all" id="paginated-list" data-current-page="1">
                 @foreach ($orders as $order)
                     <hr>
-                    <li class="list-item-product" value="{{ $order-> id }}"><a class="name-list-item" href="{{ route('users.show', $user) }}">{{ $user-> lastname }} {{ $user-> firstname }}</a>
-                        <p class="user-email">{{ $user-> email }}</p>
+                    <li class="list-item-product" value="{{ $order-> id }}"><a class="name-list-item" href="{{ route('users.show', $order) }}">Numéro de commande : {{ $order-> id }}</a>
+                        <p class="user-email">{{ $order-> status }}</p>
                         <div class="product-crud">
-                            <a href="{{ route('users.show', $user) }}">Voir</a>
-                            <a class="btn-update" href="{{ route('users.edit', $user) }}"><span>Modifier <i class="fa-solid fa-wrench"></i></span></a>
-                            <form action="{{ route('users.destroy', $user) }}" method="post" class="d-inline">
+                            <a href="{{ route('orders.show', $order) }}">Voir</a>
+                            <a class="btn-update" href="{{ route('orders.edit', $order) }}"><span>Modifier <i class="fa-solid fa-wrench"></i></span></a>
+                            <form action="{{ route('orders.destroy', $order) }}" method="post" class="d-inline">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-danger"><span>Supprimer<i class="fa-solid fa-trash"></i></span></button>

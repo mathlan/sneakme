@@ -22,4 +22,23 @@ class OrderController extends Controller
             'order' => $order
         ]);
     }
+
+    public function edit(Order $order)
+    {
+       // $orders = Order::all();
+        return view('order.edit',compact('order'));
+    }
+
+    public function update(Request $request, Order $order)
+    {
+        $validatedData = $request->validate([
+            'status' => 'required|min:3|max:255',
+        ]);
+
+        //dd($validatedData);
+
+        $order->update($validatedData);
+
+        return redirect()->route('orders.index');
+    }
 }

@@ -27,7 +27,7 @@
                 <i class="fa-solid fa-bag-shopping"></i>
                 <i class="fa-solid fa-xmark"></i>
             </div>
-            <div class="chatbot-login-form off">
+           {{-- <div class="chatbot-login-form off">
                 <form id="login-form">
                     <div>
                         <label for="email">Email</label>
@@ -39,10 +39,7 @@
                     </div>
                     <input type="submit">
                 </form>
-            </div>
-            <div class="chatbot-register-form off">
-                @include('auth/register')
-            </div>
+            </div> --}}
             <section id="chat-container" class="chat-container-page">
                 <div id="chat-messages"></div>
             </section>
