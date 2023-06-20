@@ -293,7 +293,7 @@ class ChatController extends Controller
         });
 
         $answer['name'] = "Voici votre panier";
-        $answer['id'] = $orderID;
+        $answer['idToken'] = Auth::id();
         $answer['cart'] = $itemsAndPics;
         return (response()->json($answer));
     }
@@ -305,21 +305,19 @@ class ChatController extends Controller
         // Si le mot de passe correspond à l'user
 
         // On récupère les infos de l'utilisateur
-        $res = User::where('email', $request->email)->get();
-/*
-        // S'il en a déjà une on définit juste son ID pour lui supprimer des items par la suite
-        if ($orderExists) {
-            $orderID = getOrderID($userID);
-            OrderItem::where('order_id', $userID)->where('id', $id)->delete();
-        }
-*/
-        $answer['token'] = $res->api_token;
-        //! $answer['req'] = $userInput;
-        //! $answer['res'] = $res;
-        // $answer['deletedID'] = $id;
-        // $answer['id'] = Auth::id();
-        // $answer['check'] = Auth::check();
+        // $userData = User::where('email', $userInput->email)->first();
 
-        return (response()->json($answer));
+        // dd(Auth::attempt(['email' => $userInput->email, 'password' => $userInput->password] ), Auth::user());
+        if (Auth::attempt(['email' => $userInput->email, 'password' => $userInput->password]) == true) {
+            $userData = Auth::user();
+            $userData['answer'] = "Vous êtes bien connecté";
+            $userData['auth'] = true;
+        } else {
+            $userData = "Failed to connect";
+            $userData['answer'] = "Echec de connexion";
+            $userData['auth'] = false;
+        }
+
+        return (response()->json($userData));
     }
 }
