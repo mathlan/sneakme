@@ -204,6 +204,12 @@ class DatabaseSeeder extends Seeder
             'type' => 'panier',
         ]);
 
+        \App\Models\Keyword::factory()->create([
+            'name' => 'payer',
+            'answer_id' => "10",
+            'type' => 'panier',
+        ]);
+
         \App\Models\Product::factory()->create([
             'id' => '1',
             'name' => 'Dunk High Panda',

@@ -493,6 +493,9 @@ document.addEventListener('DOMContentLoaded', function() {
                                             })
                                             .then(data => {
                                                 document.querySelector("#chat-messages").insertAdjacentHTML('beforeend', '<div class="bot-side"><div class="bot-msg" data-answer="' + answerNumber + '"><p class="bot-answer">' + data.name + '</p></div></div>');
+                                                if(data.name == "Merci de vous connecter.") {
+                                                    document.querySelector("#chat-messages").insertAdjacentHTML('beforeend', '<div class="bot-side"><div class="bot-msg" data-answer="' + answerNumber + '"><p class="bot-answer">Pour vous connecter cliquez sur l\'icone  <i class="fa-solid fa-user"></i></p></div></div>');
+                                                }
                                             })
                                             .catch(error => {
                                                 console.log(error);
@@ -581,7 +584,6 @@ document.addEventListener('DOMContentLoaded', function() {
                             // A dé-quote pour créer un nouveau message avec les icônes de choix (oui/non)
                             // document.querySelector("#chat-messages").insertAdjacentHTML('beforeend', '<div class="bot-side"><div class="bot-msg" data-answer="' + answerNumber + '" style="min-width: 100%;"></div></div>')
                             // document.querySelector('[data-answer="' + answerNumber + '"]').insertAdjacentHTML('beforeend', '<div id="orderCart" class="orderCart" data-answer="' + answerNumber + '"></div>');
-
 
                             // Nouvelle div
                             let orderChoice = document.createElement('div');

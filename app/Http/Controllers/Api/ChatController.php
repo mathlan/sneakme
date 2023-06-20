@@ -161,6 +161,8 @@ class ChatController extends Controller
         // ID de l'utilisateur
         $userID = Auth::id();
 
+        if(Auth::check()) {
+
         //? Fonction de récupération de l'ID de la commande en cours
         $orderID = null;
         function getOrderID ($userID) {
@@ -201,10 +203,11 @@ class ChatController extends Controller
         $orderItem->save();
 
         $answer['name'] = "Hop! Ajouté au panier!";
-        $answer['id'] = Auth::id();
-        // $answer['check'] = Auth::check();
         } else {
             $answer['name'] = "Merci d'ajouter au moins 1 article.";
+        }
+        } else {
+            $answer['name'] = "Merci de vous connecter.";
         }
 
         return (response()->json($answer));
