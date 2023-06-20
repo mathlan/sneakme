@@ -1,21 +1,20 @@
 <x-app-layout>
     <section class="child-dash-menu">
-        <h2>Liste des utilisateurs</h2>
+        <h2>Liste des commandes</h2>
         <div class="update">
             <div class="update-box">
                 <div class="all-box">
-                    <p>Nombre des utilisateurs :</p>
+                    <p>Nombre des commandes :</p>
                     <?php
-                    $all = count($users);
+                    $all = count($orders);
                     echo '<p class="nbr-all">' . $all . '</p>';
                     ?>
                 </div>
             </div>
-            SDFLvjbIUvqIudkvjbUOBDvnSv
             <ul class="list-all" id="paginated-list" data-current-page="1">
-                @foreach ($users as $user)
+                @foreach ($orders as $order)
                     <hr>
-                    <li class="list-item-product" value="{{ $user-> id }}"><a class="name-list-item" href="{{ route('users.show', $user) }}">{{ $user-> lastname }} {{ $user-> firstname }}</a>
+                    <li class="list-item-product" value="{{ $order-> id }}"><a class="name-list-item" href="{{ route('users.show', $user) }}">{{ $user-> lastname }} {{ $user-> firstname }}</a>
                         <p class="user-email">{{ $user-> email }}</p>
                         <div class="product-crud">
                             <a href="{{ route('users.show', $user) }}">Voir</a>

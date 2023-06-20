@@ -1,4 +1,5 @@
-@import "@fortawesome/fontawesome-free/css/all.css";
+/*@import "./fonts/fontawesome-free-6.2.1-web/css/all.css";*/
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css');
 @import url('https://fonts.googleapis.com/css2?family=PT+Sans+Narrow&family=Yellowtail&display=swap');
 
 @tailwind base;
@@ -77,6 +78,29 @@
     box-shadow: rgba(0, 18, 46, 0.16) 0px 2vw 36px 1vw;
 }
 
+/* Login form */
+.chatbot-login-form{
+    position: absolute;
+    height: 75%;
+    top: 70px;
+}
+
+.login-chat-bot-container{
+    height: 100%;
+}
+
+.login-chat-box-view{
+    height: 118%;
+    position: relative;
+    z-index: 9;
+}
+.chatbot-login-form.off, .chatbot-register-form.off{
+    display: none;
+}
+
+.chatbot-login-form.open, .chatbot-register-form.open{
+    display: block;
+}
 /* Header */
 .chat-header{
     display: flex;
@@ -499,11 +523,15 @@
 
 .child-dash-menu .update .all-box{
     display: flex;
-    width: 12%;
+    width: auto; /* 12% */
     justify-content: space-between;
-    margin-top: -30px;
+    margin-top: 0px; /* -30px */
     opacity: 0.5;
     color: var(--nightblue);
+}
+
+.child-dash-menu .update .all-box .nbr-all{
+    margin-left: 10px;
 }
 
 .child-dash-menu .update .list-all{

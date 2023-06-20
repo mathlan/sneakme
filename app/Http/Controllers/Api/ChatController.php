@@ -159,10 +159,10 @@ class ChatController extends Controller
         $newItem = $request;
 
         //! Valeur à remplacer par Auth::id()
-        $userID = 1;
-        /*        $userAuth = Auth::guard('api')->user();
-                $userAuthID = $userAuth->id;*/
-        // $userID = Auth::id();
+        //$userID = 1;
+                //$userAuth = Auth::guard('api')->user();
+               // $userAuthID = $userAuth->id;
+        $userID = Auth::id();
 
         //? Fonction de récupération de l'ID de la commande en cours
         $orderID = null;

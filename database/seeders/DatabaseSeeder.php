@@ -267,5 +267,12 @@ class DatabaseSeeder extends Seeder
             'category_id' => '1',
         ]);
 
+
+
+
+        // \App\Models\User::factory()->create([
+        //     'name' => 'Test User',
+        //     'email' => 'test@example.com',
+        // ]);
     }
 }

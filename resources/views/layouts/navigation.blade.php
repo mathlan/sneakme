@@ -34,6 +34,7 @@
         <h3 class="menu-box-title"><i class="fa-solid fa-user"></i>Utilisateurs</h3>
         <ul>
             <li><a href="{{ route('users.index') }}">Voir tous les utilisateurs</a></li>
+            <li><a href="{{ route('orders.index') }}">Voir toutes les commandes</a></li>
         </ul>
     </div>
     <a style="color: red;" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Se déconnecter</a>
