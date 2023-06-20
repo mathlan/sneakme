@@ -23,7 +23,6 @@ class DatabaseSeeder extends Seeder
             'firstname' => 'Admin',
             'email' => 'superadmin@example.com',
             'role' => 'admin',
-
         ]);
 
         \App\Models\User::factory(10)->create();
