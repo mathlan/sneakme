@@ -1,6 +1,5 @@
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://github.com/mathlan/sneakme/assets/79312930/875e162c-8dbb-4ed6-8f10-cfe14cde5238"/></a></p>
-</br>
-<p align="center"><b></b>Chatbot de vente intégrable sur des sites parternaires.</b></p>
+<p align="center"><b>Chatbot de vente intégrable sur des sites parternaires.</b></p>
 </br>
 <p align="center">
 <a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
