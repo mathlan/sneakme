@@ -27,7 +27,7 @@
 - Portable sur des sites existants
 - Algorythme (API) de traitement des mots-clés
 - Dashboard administrateur (stocks, commandes, produits, utilisateurs ...)
-- Connexion utilisateur sécurisée (fonctions de Breeze)
+- Connexion utilisateur sécurisée (Breeze)
 - Catalogues de marques et de produits consultables et cliquables
 - Réponses à ID unique (pas de risque de doublon)
 - Processus complet de commande disponible
