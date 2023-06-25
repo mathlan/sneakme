@@ -333,9 +333,6 @@ class ChatController extends Controller
 
         // Si le mot de passe correspond à l'user
 
-        // On récupère les infos de l'utilisateur
-        // $userData = User::where('email', $userInput->email)->first();
-
         if (Auth::attempt(['email' => $userInput->email, 'password' => $userInput->password])) {
             $userData = Auth::user();
             $userData['answer'] = "Vous êtes bien connecté";
