@@ -17,11 +17,20 @@
 <img src="https://github.com/mathlan/sneakme/assets/79312930/6c972c60-0235-4475-8aee-52d89b17da3e" width="33%"/>
 <img src="https://github.com/mathlan/sneakme/assets/79312930/447f5024-b564-4eed-9ca8-66ca74461dc8" width="33%"/>
 
-## Caractéristiques
+## Framework
 
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
 ## Fonctionnalités
 
-- Catalogues de marques et de produits
-- Disparition des bulles de choix après décision de l'utilisateur.
+- Portable sur des sites existants
+- Algorythme (API) de traitement des mots-clés
+- Dashboard administrateur (stocks, commandes, produits, utilisateurs ...)
+- Connexion utilisateur sécurisée (fonctions de Breeze)
+- Catalogues de marques et de produits consultables et cliquables
+- Réponses à ID unique (pas de risque de doublon)
+- Processus complet de commande disponible
+- Choix de la marque, du modèle, de la taille, de la couleur et de la quantité du produit
+- Disparition des bulles de choix après décision de l'utilisateur
+- Panier consultable à tout moment
+- Son et scroll automatique vers le bas à chaque réponse
