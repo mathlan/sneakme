@@ -1,13 +1,13 @@
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://github.com/mathlan/sneakme/assets/79312930/875e162c-8dbb-4ed6-8f10-cfe14cde5238"/></a></p>
 </br>
+<p align="center"><b></b>Chatbot de vente intégrable sur des sites parternaires.</b></p>
+</br>
 <p align="center">
 <a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
-<div>## Caractéristiques
-</div>
 </br>
 <img src="https://github.com/mathlan/sneakme/assets/79312930/2964b25f-bdec-45e2-922b-6633bd2e045e" width="33%"/>
 <img src="https://github.com/mathlan/sneakme/assets/79312930/57020c3c-fe80-4eea-ba74-5113d9ae9e38" width="33%"/>
