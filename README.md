@@ -1,5 +1,6 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
-
+<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://github.com/mathlan/sneakme/assets/79312930/875e162c-8dbb-4ed6-8f10-cfe14cde5238"/></a></p>
+<p align="center"><b>Chatbot de vente intégrable sur des sites parternaires.</b></p>
+</br>
 <p align="center">
 <a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
@@ -7,60 +8,29 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
-## About Laravel
+## Captures d'écran
 
-Laravel is full toto a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+<img src="https://github.com/mathlan/sneakme/assets/79312930/2964b25f-bdec-45e2-922b-6633bd2e045e" width="33%"/>
+<img src="https://github.com/mathlan/sneakme/assets/79312930/57020c3c-fe80-4eea-ba74-5113d9ae9e38" width="33%"/>
+<img src="https://github.com/mathlan/sneakme/assets/79312930/aacdb6c6-a6d2-4e1f-825d-2c52a8afca1e" width="33%"/>
+<img src="https://github.com/mathlan/sneakme/assets/79312930/59cb7b8c-e516-423a-a162-a384efa0fc9e" width="33%"/>
+<img src="https://github.com/mathlan/sneakme/assets/79312930/6c972c60-0235-4475-8aee-52d89b17da3e" width="33%"/>
+<img src="https://github.com/mathlan/sneakme/assets/79312930/447f5024-b564-4eed-9ca8-66ca74461dc8" width="33%"/>
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Framework
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
-## Learning Laravel
+## Fonctionnalités
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
-
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
-
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
-
-## Laravel Sponsors
-
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
-
-### Premium Partners
-
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+- Portable sur des sites existants
+- Algorythme (API) de traitement des mots-clés
+- Dashboard administrateur (stocks, commandes, produits, utilisateurs ...)
+- Connexion utilisateur sécurisée (fonctions de Breeze)
+- Catalogues de marques et de produits consultables et cliquables
+- Réponses à ID unique (pas de risque de doublon)
+- Processus complet de commande disponible
+- Choix de la marque, du modèle, de la taille, de la couleur et de la quantité du produit
+- Disparition des bulles de choix après décision de l'utilisateur
+- Panier consultable à tout moment
+- Son et scroll automatique vers le bas à chaque réponse
